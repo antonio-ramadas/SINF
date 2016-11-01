@@ -9,16 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var ClientComponent = (function () {
-    function ClientComponent() {
+    function ClientComponent(route) {
+        this.route = route;
     }
+    ClientComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.forEach(function (params) {
+            _this.clientId = +params['id'];
+        });
+    };
     ClientComponent = __decorate([
         core_1.Component({
             selector: 'client',
             styleUrls: ['app/client/style.css'],
             templateUrl: 'app/client/index.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute])
     ], ClientComponent);
     return ClientComponent;
 }());

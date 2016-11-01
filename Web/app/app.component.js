@@ -9,18 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var SalesRepComponent = (function () {
-    function SalesRepComponent() {
+var AppComponent = (function () {
+    function AppComponent() {
     }
-    SalesRepComponent = __decorate([
+    AppComponent = __decorate([
         core_1.Component({
-            selector: 'sales-rep',
-            styleUrls: ['app/dashboard/sales-rep/style.css'],
-            templateUrl: 'app/dashboard/sales-rep/index.html'
+            selector: 'app',
+            template: '<router-outlet></router-outlet>'
         }), 
         __metadata('design:paramtypes', [])
-    ], SalesRepComponent);
-    return SalesRepComponent;
+    ], AppComponent);
+    return AppComponent;
 }());
-exports.SalesRepComponent = SalesRepComponent;
-//# sourceMappingURL=component.js.map
+exports.AppComponent = AppComponent;
+//# sourceMappingURL=app.component.js.map
