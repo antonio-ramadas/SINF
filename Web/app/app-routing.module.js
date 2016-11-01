@@ -21,7 +21,8 @@ var routes = [
     { path: 'dashboard/manager', component: component_2.ManagerComponent },
     { path: 'dashboard/sales-rep', component: component_3.SalesRepComponent },
     { path: 'login', component: component_4.LoginComponent },
-    { path: 'product', component: component_5.ProductComponent }
+    { path: 'product', component: component_5.ProductComponent },
+    { path: '**', redirectTo: '/login' }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
