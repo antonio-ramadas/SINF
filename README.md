@@ -12,6 +12,7 @@ Angular2 requires [Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.
 #### 2.2 Installation
 Using npm from the command line on the web folder directory, install the packages with the command:
 > npm install
+
 #### 2.3 Deployment
 Again, using npm from the command line on the web folder directory, run the command:
 > npm start
