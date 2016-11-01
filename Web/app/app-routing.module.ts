@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'dashboard/manager', component: ManagerComponent },
   { path: 'dashboard/sales-rep', component: SalesRepComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'product', component: ProductComponent }
+  { path: 'product', component: ProductComponent },
+  { path: '**', redirectTo: '/login'}
 ];
 
 @NgModule({
