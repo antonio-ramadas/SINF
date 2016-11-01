@@ -9,6 +9,7 @@ import { ManagerComponent }     from './dashboard/manager/component';
 import { SalesRepComponent }    from './dashboard/sales-rep/component';
 import { LoginComponent }       from './login/component';
 import { ProductComponent }     from './product/component';
+import { NavbarComponent }     from './navbar/component';
 
 @NgModule({
   imports:      [
@@ -21,7 +22,8 @@ import { ProductComponent }     from './product/component';
                   ClientComponent,
                   ManagerComponent,
                   SalesRepComponent,
-                  ProductComponent
+                  ProductComponent,
+                  NavbarComponent
                 ],
   bootstrap:    [ AppComponent ]
 })

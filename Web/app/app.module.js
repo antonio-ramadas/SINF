@@ -17,6 +17,7 @@ var component_2 = require('./dashboard/manager/component');
 var component_3 = require('./dashboard/sales-rep/component');
 var component_4 = require('./login/component');
 var component_5 = require('./product/component');
+var component_6 = require('./navbar/component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -32,7 +33,8 @@ var AppModule = (function () {
                 component_1.ClientComponent,
                 component_2.ManagerComponent,
                 component_3.SalesRepComponent,
-                component_5.ProductComponent
+                component_5.ProductComponent,
+                component_6.NavbarComponent
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 
