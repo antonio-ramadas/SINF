@@ -9,20 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var component_1 = require('./login/component');
-var AppModule = (function () {
-    function AppModule() {
+var SalesRepComponent = (function () {
+    function SalesRepComponent() {
     }
-    AppModule = __decorate([
-        core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
-            declarations: [component_1.LoginComponent],
-            bootstrap: [component_1.LoginComponent]
+    SalesRepComponent = __decorate([
+        core_1.Component({
+            selector: 'sales-rep',
+            styleUrls: ['app/dashboard/sales-rep/style.css'],
+            templateUrl: 'app/dashboard/sales-rep/index.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], SalesRepComponent);
+    return SalesRepComponent;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.SalesRepComponent = SalesRepComponent;
+//# sourceMappingURL=component.js.map

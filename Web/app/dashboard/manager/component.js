@@ -9,20 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var component_1 = require('./login/component');
-var AppModule = (function () {
-    function AppModule() {
+var ManagerComponent = (function () {
+    function ManagerComponent() {
     }
-    AppModule = __decorate([
-        core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
-            declarations: [component_1.LoginComponent],
-            bootstrap: [component_1.LoginComponent]
+    ManagerComponent = __decorate([
+        core_1.Component({
+            selector: 'manager',
+            styleUrls: ['app/dashboard/manager/style.css'],
+            templateUrl: 'app/dashboard/manager/index.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], ManagerComponent);
+    return ManagerComponent;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.ManagerComponent = ManagerComponent;
+//# sourceMappingURL=component.js.map

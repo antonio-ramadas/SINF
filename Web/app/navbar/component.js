@@ -9,20 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var component_1 = require('./login/component');
-var AppModule = (function () {
-    function AppModule() {
+var NavbarComponent = (function () {
+    function NavbarComponent() {
     }
-    AppModule = __decorate([
-        core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
-            declarations: [component_1.LoginComponent],
-            bootstrap: [component_1.LoginComponent]
+    NavbarComponent = __decorate([
+        core_1.Component({
+            selector: 'navbar',
+            styleUrls: ['app/navbar/style.css'],
+            templateUrl: 'app/navbar/index.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], NavbarComponent);
+    return NavbarComponent;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.NavbarComponent = NavbarComponent;
+//# sourceMappingURL=component.js.map

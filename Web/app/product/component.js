@@ -9,20 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
-var component_1 = require('./login/component');
-var AppModule = (function () {
-    function AppModule() {
+var ProductComponent = (function () {
+    function ProductComponent() {
     }
-    AppModule = __decorate([
-        core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
-            declarations: [component_1.LoginComponent],
-            bootstrap: [component_1.LoginComponent]
+    ProductComponent = __decorate([
+        core_1.Component({
+            selector: 'product',
+            styleUrls: ['app/product/style.css'],
+            templateUrl: 'app/product/index.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], ProductComponent);
+    return ProductComponent;
 }());
-exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+exports.ProductComponent = ProductComponent;
+//# sourceMappingURL=component.js.map
