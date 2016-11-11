@@ -10,6 +10,7 @@ import { SalesRepComponent }    from './dashboard/sales-rep/component';
 import { LoginComponent }       from './login/component';
 import { ProductComponent }     from './product/component';
 import { NavbarComponent }     from './navbar/component';
+import { TreeViewComponent } from './product/tree-view';
 
 @NgModule({
   imports:      [
@@ -23,6 +24,7 @@ import { NavbarComponent }     from './navbar/component';
                   ManagerComponent,
                   SalesRepComponent,
                   ProductComponent,
+                  TreeViewComponent,
                   NavbarComponent
                 ],
   bootstrap:    [ AppComponent ]
