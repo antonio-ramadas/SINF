@@ -7,9 +7,9 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Description;
-using FirstREST.Areas.HelpPage.Models;
+using SFA_REST.Areas.HelpPage.Models;
 
-namespace FirstREST.Areas.HelpPage
+namespace SFA_REST.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

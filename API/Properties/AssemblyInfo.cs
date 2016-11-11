@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FirstREST")]
+[assembly: AssemblyTitle("SFA_REST")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsft ")]
-[assembly: AssemblyProduct("FirstREST")]
+[assembly: AssemblyProduct("SFA_REST")]
 [assembly: AssemblyCopyright("Copyright © Microsoft  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

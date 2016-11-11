@@ -1,4 +1,4 @@
-namespace FirstREST.Areas.HelpPage
+namespace SFA_REST.Areas.HelpPage
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

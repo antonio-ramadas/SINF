@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Net.Http.Formatting;
 
-namespace FirstREST
+namespace SFA_REST
 {
     public static class WebApiConfig
     {

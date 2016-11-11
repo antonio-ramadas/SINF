@@ -6,10 +6,10 @@ using System.Web.Mvc;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using FirstREST.Lib_Primavera.Model;
+using SFA_REST.Lib_Primavera.Model;
 
 
-namespace FirstREST.Controllers
+namespace SFA_REST.Controllers
 {
     public class ArtigosController : ApiController
     {

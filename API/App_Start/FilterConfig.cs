@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace FirstREST
+namespace SFA_REST
 {
     public class FilterConfig
     {

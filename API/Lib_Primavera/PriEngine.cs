@@ -8,7 +8,7 @@ using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using ADODB;
 
-namespace FirstREST.Lib_Primavera
+namespace SFA_REST.Lib_Primavera
 {
     public class PriEngine
     {
