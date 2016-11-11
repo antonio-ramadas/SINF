@@ -20,7 +20,8 @@ var TreeViewComponent = (function () {
     TreeViewComponent = __decorate([
         core_1.Component({
             selector: 'tree-view',
-            template: "\n  <ul class=\"catalogue-list\">\n    <li *ngFor=\"let item of root.children\">\n      {{item.name}}\n      <span *ngIf=\"item.children.length != 0\">\n        <tree-view [root]=\"item\"> </tree-view>\n      </span>\n    </li>\n  </ul>\n  "
+            template: "\n  <ul class=\"catalogue-list\">\n    <li *ngFor=\"let item of root.children\">\n      <a> {{item.name}} </a>\n      <span *ngIf=\"item.children.length != 0\">\n        <tree-view [root]=\"item\"> </tree-view>\n      </span>\n    </li>\n  </ul>\n  ",
+            styles: ["\n  .catalogue-list{\n    list-style: none;\n    padding: 1rem;\n  }\n  "]
         }), 
         __metadata('design:paramtypes', [])
     ], TreeViewComponent);

@@ -13,10 +13,22 @@ export class ProductComponent {
   productId = '12345678';
   price = "100€";
   category = 'Computers';
+  description = `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+  mollit anim id est laborum.`;
+
+  images = ["https://www.google.com","image2","image3","image4"];
+
+  features = ["Feature #1","Feature #2","Feature #3","Feature #4"];
+
   orderHistoryList: { client: number, info: string }[] = [
-    { "client": 0, "info": "Available" },
-    { "client": 1, "info": "Ready" },
-    { "client": 2, "info": "Started" }
+    { "client": 1214, "info": "Pedro Romano Barbosa" },
+    { "client": 424242, "info": "António Ramadas" },
+    { "client": 123, "info": "Duarte Pinto" }
   ];
   item0 = new Item("item0");
   item1 = new Item("item1");

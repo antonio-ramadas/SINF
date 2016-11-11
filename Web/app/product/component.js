@@ -16,10 +16,13 @@ var ProductComponent = (function () {
         this.productId = '12345678';
         this.price = "100€";
         this.category = 'Computers';
+        this.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim\n  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea\n  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate\n  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint\n  occaecat cupidatat non proident, sunt in culpa qui officia deserunt\n  mollit anim id est laborum.";
+        this.images = ["https://www.google.com", "image2", "image3", "image4"];
+        this.features = ["Feature #1", "Feature #2", "Feature #3", "Feature #4"];
         this.orderHistoryList = [
-            { "client": 0, "info": "Available" },
-            { "client": 1, "info": "Ready" },
-            { "client": 2, "info": "Started" }
+            { "client": 1214, "info": "Pedro Romano Barbosa" },
+            { "client": 424242, "info": "António Ramadas" },
+            { "client": 123, "info": "Duarte Pinto" }
         ];
         this.item0 = new Item_1.Item("item0");
         this.item1 = new Item_1.Item("item1");

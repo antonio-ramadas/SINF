@@ -8,13 +8,16 @@ ul{
   padding: 0;
 }
 
-.catalogue-list{
-  list-style: circle;
-  padding: 1rem;
-}
-
 .title{
   font-size: 200%;
+  margin: 1rem;
+}
+
+#tree{
+  font-size: 2rem;
+}
+
+#product{
   margin: 1rem;
 }
 
