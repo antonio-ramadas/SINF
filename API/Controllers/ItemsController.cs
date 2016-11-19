@@ -11,30 +11,23 @@ using SFA_REST.Lib_Primavera.Model;
 
 namespace SFA_REST.Controllers
 {
-    public class ArtigosController : ApiController
+    public class ItemsController : ApiController
     {
-        //
-        // GET: /Artigos/
-
-        public IEnumerable<Lib_Primavera.Model.Artigo> Get()
-        {
+        /** 
+         *  GET method for all the items of the ERP
+         */
+        public IEnumerable<Lib_Primavera.Model.Artigo> Get(){
             return Lib_Primavera.PriIntegration.ListaArtigos();
         }
 
-
-        // GET api/artigo/5    
-        public Artigo Get(string id)
-        {
+        /** 
+        *  GET method for an item of the ERP, with a given id represented as a String
+        */
+        public Artigo Get(string id){
             Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(id);
             if (artigo == null)
-            {
-                throw new HttpResponseException(
-                  Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-            else
-            {
-                return artigo;
-            }
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            else return artigo;
         }
 
     }

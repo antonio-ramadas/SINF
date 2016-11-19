@@ -48,7 +48,7 @@ namespace SFA_REST.Controllers
             {
                 var response = Request.CreateResponse(
                    HttpStatusCode.Created, dv.id);
-                string uri = Url.Link("DefaultApi", new {DocId = dv.id });
+                string uri = Url.Link("SFA_API", new {DocId = dv.id });
                 response.Headers.Location = new Uri(uri);
                 return response;
             }
@@ -61,14 +61,14 @@ namespace SFA_REST.Controllers
         }
 
 
-        public HttpResponseMessage Put(int id, Lib_Primavera.Model.Cliente cliente)
+        public HttpResponseMessage Put(string id, Lib_Primavera.Model.Customer cliente)
         {
 
             Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
 
             try
             {
-                erro = Lib_Primavera.PriIntegration.UpdCliente(cliente);
+                erro = Lib_Primavera.PriIntegration.UpdateCustomer(id, cliente);
                 if (erro.Erro == 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
@@ -83,38 +83,6 @@ namespace SFA_REST.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
             }
-        }
-
-
-
-        public HttpResponseMessage Delete(string id)
-        {
-
-
-            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
-
-            try
-            {
-
-                erro = Lib_Primavera.PriIntegration.DelCliente(id);
-
-                if (erro.Erro == 0)
-                {
-                    return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, erro.Descricao);
-                }
-
-            }
-
-            catch (Exception exc)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
-
-            }
-
         }
     }
 }

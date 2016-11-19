@@ -13,103 +13,103 @@ namespace SFA_REST.Lib_Primavera
     public class PriIntegration
     {
 
-        #region Cliente
+        #region Costumer
 
-        public static List<Model.Cliente> ListaClientes()
+        public static List<Model.Customer> ListCustomers()
         {
             
             StdBELista objList;
 
-            List<Model.Cliente> listClientes = new List<Model.Cliente>();
+            List<Model.Customer> listCustomers = new List<Model.Customer>();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
-            {
+            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true) {
 
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
 
-                objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Moeda, NumContrib as NumContribuinte, Fac_Mor AS campo_exemplo FROM  CLIENTES");
+                objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM  CLIENTES");
 
-                
-                while (!objList.NoFim())
-                {
-                    listClientes.Add(new Model.Cliente
+                while (!objList.NoFim()) {
+                    listCustomers.Add(new Model.Customer 
                     {
-                        CodCliente = objList.Valor("Cliente"),
-                        NomeCliente = objList.Valor("Nome"),
-                        Moeda = objList.Valor("Moeda"),
-                        NumContribuinte = objList.Valor("NumContribuinte"),
-                        Morada = objList.Valor("campo_exemplo")
+                        id = objList.Valor("Cliente"),
+                        name = objList.Valor("Nome"),
+                        address = objList.Valor("Morada"),
+                        email = objList.Valor("Mail"),
+                        customerGroups = objList.Valor("GruposDeClientes"),
+                        gender = objList.Valor("Genero"),
+                        nationality = objList.Valor("Nacionalidade"),
+                        dateOfBirth = objList.Valor("DataDeNascimento").ToString(),
+                        nif = objList.Valor("NIF")
+ 
                     });
                     objList.Seguinte();
 
                 }
 
-                return listClientes;
+                return listCustomers;
             }
             else
                 return null;
         }
 
-        public static Lib_Primavera.Model.Cliente GetCliente(string codCliente)
+        public static Lib_Primavera.Model.Customer GetCustomer(string id)
         {
-            
-
-            GcpBECliente objCli = new GcpBECliente();
-
-
-            Model.Cliente myCli = new Model.Cliente();
-
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
+                if (PriEngine.Engine.Comercial.Clientes.Existe(id))
+                {
+                    string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    StdBELista objCli = PriEngine.Engine.Consulta(query);
 
-                if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == true)
-                {
-                    objCli = PriEngine.Engine.Comercial.Clientes.Edita(codCliente);
-                    myCli.CodCliente = objCli.get_Cliente();
-                    myCli.NomeCliente = objCli.get_Nome();
-                    myCli.Moeda = objCli.get_Moeda();
-                    myCli.NumContribuinte = objCli.get_NumContribuinte();
-                    myCli.Morada = objCli.get_Morada();
-                    return myCli;
-                }
-                else
-                {
+                    if (!objCli.Vazia())
+                    {
+                        Model.Customer myCli;
+                        myCli = new Model.Customer
+                        {
+                            id = objCli.Valor("Cliente"),
+                            name = objCli.Valor("Nome"),
+                            address = objCli.Valor("Morada"),
+                            email = objCli.Valor("Mail"),
+                            customerGroups = objCli.Valor("GruposDeClientes"),
+                            gender = objCli.Valor("Genero"),
+                            nationality = objCli.Valor("Nacionalidade"),
+                            dateOfBirth = objCli.Valor("DataDeNascimento").ToString(),
+                            nif = objCli.Valor("NIF")
+                        };
+                        return myCli;
+                    }
                     return null;
                 }
-            }
-            else
                 return null;
+            }
+            return null;
         }
 
-        public static Lib_Primavera.Model.RespostaErro UpdCliente(Lib_Primavera.Model.Cliente cliente)
+        public static Lib_Primavera.Model.RespostaErro UpdateCustomer(String id, Lib_Primavera.Model.Customer customer)
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-           
-
             GcpBECliente objCli = new GcpBECliente();
 
-            try
-            {
-
+            try {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-
-                    if (PriEngine.Engine.Comercial.Clientes.Existe(cliente.CodCliente) == false)
-                    {
+                    if (!PriEngine.Engine.Comercial.Clientes.Existe(id)) {
                         erro.Erro = 1;
                         erro.Descricao = "O cliente não existe";
                         return erro;
                     }
-                    else
-                    {
-
-                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(cliente.CodCliente);
+                    else {
+                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(id);
                         objCli.set_EmModoEdicao(true);
 
-                        objCli.set_Nome(cliente.NomeCliente);
-                        objCli.set_NumContribuinte(cliente.NumContribuinte);
-                        objCli.set_Moeda(cliente.Moeda);
-                        objCli.set_Morada(cliente.Morada);
+                        objCli.set_Nome(customer.name);
+                        objCli.set_Morada(customer.address);
+                        objCli.set_B2BEnderecoMail(customer.email);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "GruposDeClientes", customer.customerGroups);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Genero", customer.gender);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Nacionalidade", customer.nationality);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "DataDeNascimento", customer.dateOfBirth);
+                        objCli.set_NumContribuinte(customer.nif);
 
                         PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
 
@@ -137,75 +137,39 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-
-        public static Lib_Primavera.Model.RespostaErro DelCliente(string codCliente)
+        public static Lib_Primavera.Model.RespostaErro CreateCustomer(Model.Customer customer)
         {
-
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-            GcpBECliente objCli = new GcpBECliente();
-
-
-            try
-            {
-
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
-                {
-                    if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == false)
-                    {
-                        erro.Erro = 1;
-                        erro.Descricao = "O cliente não existe";
-                        return erro;
-                    }
-                    else
-                    {
-
-                        PriEngine.Engine.Comercial.Clientes.Remove(codCliente);
-                        erro.Erro = 0;
-                        erro.Descricao = "Sucesso";
-                        return erro;
-                    }
-                }
-
-                else
-                {
-                    erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir a empresa";
-                    return erro;
-                }
-            }
-
-            catch (Exception ex)
-            {
-                erro.Erro = 1;
-                erro.Descricao = ex.Message;
-                return erro;
-            }
-
-        }
-
-
-
-        public static Lib_Primavera.Model.RespostaErro InsereClienteObj(Model.Cliente cli)
-        {
-
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-            
 
             GcpBECliente myCli = new GcpBECliente();
 
-            try
-            {
+            try {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-
-                    myCli.set_Cliente(cli.CodCliente);
-                    myCli.set_Nome(cli.NomeCliente);
-                    myCli.set_NumContribuinte(cli.NumContribuinte);
-                    myCli.set_Moeda(cli.Moeda);
-                    myCli.set_Morada(cli.Morada);
-
+                    myCli.set_EmModoEdicao(true);
+                    myCli.set_Cliente(customer.id);
+                    myCli.set_Nome(customer.name);
+                    myCli.set_Morada(customer.address);
+                    myCli.set_B2BEnderecoMail(customer.email);
+                    myCli.set_NumContribuinte(customer.nif);
+                    myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "GruposDeClientes", customer.customerGroups);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Genero", customer.gender);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Nacionalidade", customer.nationality);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "DataDeNascimento", customer.dateOfBirth);
+                    PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
+
+                    System.Diagnostics.Debug.WriteLine(myCli.get_Cliente());
+                    /*
+                    myCli = PriEngine.Engine.Comercial.Clientes.Edita(customer.id);
+                    myCli.set_EmModoEdicao(true);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "GruposDeClientes", customer.customerGroups);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Genero", customer.gender);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Nacionalidade", customer.nationality);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "DataDeNascimento", customer.dateOfBirth);
+                    PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);*/
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -213,15 +177,14 @@ namespace SFA_REST.Lib_Primavera
                 else
                 {
                     erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir empresa";
+                    erro.Descricao = "Error Accessing the Company";
                     return erro;
                 }
             }
-
             catch (Exception ex)
             {
                 erro.Erro = 1;
-                erro.Descricao = ex.Message;
+                erro.Descricao = "Missing or Incorrect field";
                 return erro;
             }
 
@@ -552,8 +515,6 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                
-
                 string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and NumDoc='" + numdoc + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
                 dv = new Model.DocVenda();
