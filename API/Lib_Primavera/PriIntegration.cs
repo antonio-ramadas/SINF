@@ -146,7 +146,6 @@ namespace SFA_REST.Lib_Primavera
             try {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-                    myCli.set_EmModoEdicao(true);
                     myCli.set_Cliente(customer.id);
                     myCli.set_Nome(customer.name);
                     myCli.set_Morada(customer.address);
@@ -159,17 +158,7 @@ namespace SFA_REST.Lib_Primavera
                     PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Genero", customer.gender);
                     PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Nacionalidade", customer.nationality);
                     PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "DataDeNascimento", customer.dateOfBirth);
-                    PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
-                    System.Diagnostics.Debug.WriteLine(myCli.get_Cliente());
-                    /*
-                    myCli = PriEngine.Engine.Comercial.Clientes.Edita(customer.id);
-                    myCli.set_EmModoEdicao(true);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "GruposDeClientes", customer.customerGroups);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Genero", customer.gender);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Nacionalidade", customer.nationality);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "DataDeNascimento", customer.dateOfBirth);
-                    PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);*/
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;

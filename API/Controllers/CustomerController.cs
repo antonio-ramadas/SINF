@@ -43,8 +43,8 @@ namespace SFA_REST.Controllers
 
             if (erro.Erro == 0) {
                 var response = Request.CreateResponse(HttpStatusCode.Created, customer);
-                /*string uri = Url.Link("SFA_API", new { id = customer.id });
-                response.Headers.Location = new Uri(uri);*/
+                string uri = Url.Link("SFA_API", new { id = customer.id });
+                response.Headers.Location = new Uri(uri);
                 return response;
             }
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
