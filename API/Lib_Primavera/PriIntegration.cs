@@ -211,7 +211,6 @@ namespace SFA_REST.Lib_Primavera
                     myProd.brand = objArtigo.get_Marca();
                     myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
                     myProd.quantity = int.Parse(objArtigo.get_UnidadeVenda());
-                    myProd.price = objArtigo.
 
                     return myProd;
                 }
@@ -240,8 +239,8 @@ namespace SFA_REST.Lib_Primavera
                 while (!objList.NoFim())
                 {
                     art = new Model.Product();
-                    art.CodArtigo = objList.Valor("artigo");
-                    art.DescArtigo = objList.Valor("descricao");
+                    //art.CodArtigo = objList.Valor("artigo");
+                    //art.DescArtigo = objList.Valor("descricao");
 
                     listArts.Add(art);
                     objList.Seguinte();
