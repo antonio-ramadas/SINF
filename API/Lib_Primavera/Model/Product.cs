@@ -56,7 +56,7 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
-        public string[] wharehouses
+        /*public string[] wharehouses
         {
             get;
             set;
@@ -66,7 +66,7 @@ namespace SFA_REST.Lib_Primavera.Model
         {
             get;
             set;
-        }
+        }*/
 
         public string brand
         {

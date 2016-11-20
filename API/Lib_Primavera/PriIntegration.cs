@@ -203,16 +203,29 @@ namespace SFA_REST.Lib_Primavera
                 }
                 else
                 {
-                    objArtigo = PriEngine.Engine.Comercial.Artigos.Edita(productId);
-                    myProd.id = objArtigo.get_Artigo();
-                    myProd.description = objArtigo.get_Descricao();
-                    //myArt.productCode = objArtigo.get_CodBarras(); //Rever se aqui é mesmo o código de barras
-                    myProd.model = objArtigo.get_Modelo();
-                    myProd.brand = objArtigo.get_Marca();
-                    myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
-                    myProd.quantity = int.Parse(objArtigo.get_UnidadeVenda());
+                    string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    StdBELista objProd = PriEngine.Engine.Consulta(query);
 
-                    return myProd;
+                    if (!objProd.Vazia())
+                    {
+                        Model.Customer myCli;
+                        myProd = new Model.Product
+                        {
+                            id = objProd.Valor("Artigo"),
+                            //productCode = objProd.Valor("ProductCode"); //uma vez que o id é uma string já não faz sentido ter isto
+                            name = objProd.Valor("Nome"),
+                            model = objProd.Valor("Modelo"),
+                            price = objProd.Valor("Preco"),
+                            vat = objProd.Valor("Iva"),
+                            categoryId = objProd.Valor("SubFamilia"),
+                            quantity = objProd.Valor("UnidadeVenda"),
+                            brand = objProd.Valor("Marca")
+                            //todo Falta o wharehouses
+                        };
+                        return myProd;
+                    }
+                    return null;
+                    
                 }
                 
             }
