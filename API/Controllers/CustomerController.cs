@@ -38,7 +38,7 @@ namespace SFA_REST.Controllers
         // api/customer
         public HttpResponseMessage Post(Lib_Primavera.Model.Customer customer)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.CreateCustomer(customer);
 
             if (erro.Erro == 0) {
@@ -56,7 +56,7 @@ namespace SFA_REST.Controllers
          */
         // api/customer/{id}
         public HttpResponseMessage Put(string id, Lib_Primavera.Model.Customer cliente) {
-            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
 
             try {
                 erro = Lib_Primavera.PriIntegration.UpdateCustomer(id, cliente);

@@ -203,7 +203,7 @@ namespace SFA_REST.Lib_Primavera
                 }
                 else
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + productId + "'";
                     StdBELista objProd = PriEngine.Engine.Consulta(query);
 
                     if (!objProd.Vazia())

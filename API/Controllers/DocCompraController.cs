@@ -40,7 +40,7 @@ namespace SFA_REST.Controllers
 
         public HttpResponseMessage Post(Lib_Primavera.Model.DocCompra dc)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.VGR_New(dc);
 
             if (erro.Erro == 0)

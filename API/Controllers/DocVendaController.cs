@@ -41,7 +41,7 @@ namespace SFA_REST.Controllers
 
         public HttpResponseMessage Post(Lib_Primavera.Model.DocVenda dv)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.Encomendas_New(dv);
 
             if (erro.Erro == 0)
@@ -64,7 +64,7 @@ namespace SFA_REST.Controllers
         public HttpResponseMessage Put(string id, Lib_Primavera.Model.Customer cliente)
         {
 
-            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
 
             try
             {
