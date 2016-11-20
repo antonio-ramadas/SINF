@@ -6,6 +6,7 @@ using Interop.ErpBS900;
 using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using Interop.GcpBE900;
+using Interop.RhpBE900;
 using ADODB;
 using System.Globalization;
 
@@ -17,8 +18,7 @@ namespace SFA_REST.Lib_Primavera
         #region Costumer
 
         public static List<Model.Customer> ListCustomers()
-        {
-            
+        { 
             StdBELista objList;
 
             List<Model.Customer> listCustomers = new List<Model.Customer>();
@@ -26,8 +26,8 @@ namespace SFA_REST.Lib_Primavera
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true) {
 
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
-
-                objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM  CLIENTES");
+                string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM  CLIENTES";
+                objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim()) {
                     listCustomers.Add(new Model.Customer 
@@ -86,9 +86,9 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static Lib_Primavera.Model.RespostaErro UpdateCustomer(String id, Lib_Primavera.Model.Customer customer)
+        public static Lib_Primavera.Model.ErrorResponse UpdateCustomer(String id, Lib_Primavera.Model.Customer customer)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
             GcpBECliente objCli = new GcpBECliente();
 
             try {
@@ -109,7 +109,7 @@ namespace SFA_REST.Lib_Primavera
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "GruposDeClientes", customer.customerGroups);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Genero", customer.gender);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Nacionalidade", customer.nationality);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "DataDeNascimento", customer.dateOfBirth);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "DataDeNascimento", Convert.ToDateTime(customer.dateOfBirth));
                         objCli.set_NumContribuinte(customer.nif);
 
                         PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
@@ -138,9 +138,9 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        public static Lib_Primavera.Model.RespostaErro CreateCustomer(Model.Customer customer)
+        public static Lib_Primavera.Model.ErrorResponse CreateCustomer(Model.Customer customer)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
             GcpBECliente myCli = new GcpBECliente();
 
@@ -259,9 +259,140 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion Artigo
 
-   
+
+        #region SalesRepresentative
+
+        public static List<Model.SalesRepresentative> listSalesRepresentatives()
+        {
+            StdBELista obj;
+
+            List<Model.SalesRepresentative> listSalesRepresentative = new List<Model.SalesRepresentative>();
+
+            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBi, NumContr, Sexo FROM FUNCIONARIOS";
+                obj = PriEngine.Engine.Consulta(query);
+
+                while (!obj.NoFim())
+                {
+                    listSalesRepresentative.Add(new Model.SalesRepresentative
+                    {
+                        id = obj.Valor("Codigo"),
+                        email = obj.Valor("Email"),
+                        name = obj.Valor("Nome"),
+                        dateOfBirth = obj.Valor("DataDeNascimento").ToString(),
+                        address = obj.Valor("Morada"),
+                        country = obj.Valor("Pais"),
+                        nationality = obj.Valor("Nacionalidade"),
+                        phoneNumber = obj.Valor("Telemovel"),
+                        maritalStatus = obj.Valor("EstadoCivil"),
+                        civilID = obj.Valor("NumBI"),
+                        nif = obj.Valor("NumContr"),
+                        gender = obj.Valor("Sexo")
+                    });
+                    obj.Seguinte();
+
+                }
+
+                return listSalesRepresentative;
+            }
+            else
+                return null;
+        }
+
+        public static Lib_Primavera.Model.SalesRepresentative GetSalesRepresentative(string id)
+        {
+            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                if (PriEngine.Engine.Comercial.Clientes.Existe(id))
+                {
+                    string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBi, NumContr, Sexo FROM FUNCIONARIOS WHERE Codigo = '" + id + "'";
+                    StdBELista obj = PriEngine.Engine.Consulta(query);
+
+                    if (!obj.Vazia())
+                    {
+                        Model.SalesRepresentative mySalesRep;
+                        mySalesRep = new Model.SalesRepresentative
+                        {
+                            id = obj.Valor("Codigo"),
+                            email = obj.Valor("Email"),
+                            name = obj.Valor("Nome"),
+                            dateOfBirth = obj.Valor("DataDeNascimento").ToString(),
+                            address = obj.Valor("Morada"),
+                            country = obj.Valor("Pais"),
+                            nationality = obj.Valor("Nacionalidade"),
+                            phoneNumber = obj.Valor("Telemovel"),
+                            maritalStatus = obj.Valor("EstadoCivil"),
+                            civilID = obj.Valor("NumBI"),
+                            nif = obj.Valor("NumContr"),
+                            gender = obj.Valor("Sexo")
+                        };
+                        return mySalesRep;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            return null;
+        }
+
+        public static Lib_Primavera.Model.ErrorResponse CreateSalesRepresentative(Model.SalesRepresentative salesRepresentative)
+        {
+            System.Diagnostics.Debug.WriteLine("entrou na funcao de criaçao");
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+
+            RhpBEFuncionario mySalesRep = new RhpBEFuncionario();
+
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+                    System.Diagnostics.Debug.WriteLine("Entrou na criaçao");
+
+                    mySalesRep.set_Funcionario(salesRepresentative.id);
+                    /*mySalesRep.set_Email(salesRepresentative.email);
+                    mySalesRep.set_Nome(salesRepresentative.name);
+                    mySalesRep.set_DataNascimento(Convert.ToDateTime(salesRepresentative.dateOfBirth));
+                    mySalesRep.set_Morada(salesRepresentative.address);
+                    mySalesRep.set_Pais(salesRepresentative.country);
+                    mySalesRep.set_Nacionalidade(salesRepresentative.nationality);
+                    mySalesRep.set_Telemovel(salesRepresentative.phoneNumber);
+                    mySalesRep.set_EstadoCivil(salesRepresentative.maritalStatus);
+                    mySalesRep.set_NumeroBI(salesRepresentative.civilID);
+                    mySalesRep.set_NumContribuinte(salesRepresentative.nif);
+                    mySalesRep.set_Sexo(salesRepresentative.gender);*/
+                    mySalesRep.set_Moeda("EUR");
+
+                    System.Diagnostics.Debug.WriteLine("Definiu tudo");
+                    PriEngine.Engine.RecursosHumanos.Funcionarios.Actualiza(mySalesRep);
+                    
+                    System.Diagnostics.Debug.WriteLine("Inseriu tudo");
+
+                    erro.Erro = 0;
+                    erro.Descricao = "Sucesso";
+                    return erro;
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Error Accessing the Company";
+                    return erro;
+                }
+            }
+            catch (Exception ex)
+            {
+                erro.Erro = 1;
+                erro.Descricao = "Missing or Incorrect field";
+                return erro;
+            }
+
+
+        }
+
+        #endregion SalesRepresentative
+
         #region DocCompra
-        
+
 
         public static List<Model.DocCompra> VGR_List()
         {
@@ -318,9 +449,9 @@ namespace SFA_REST.Lib_Primavera
         }
 
                 
-        public static Model.RespostaErro VGR_New(Model.DocCompra dc)
+        public static Model.ErrorResponse VGR_New(Model.DocCompra dc)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
             
 
             GcpBEDocumentoCompra myGR = new GcpBEDocumentoCompra();
@@ -382,9 +513,9 @@ namespace SFA_REST.Lib_Primavera
 
         #region DocsVenda
 
-        public static Model.RespostaErro Encomendas_New(Model.DocVenda dv)
+        public static Model.ErrorResponse Encomendas_New(Model.DocVenda dv)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
             GcpBEDocumentoVenda myEnc = new GcpBEDocumentoVenda();
              
             GcpBELinhaDocumentoVenda myLin = new GcpBELinhaDocumentoVenda();
