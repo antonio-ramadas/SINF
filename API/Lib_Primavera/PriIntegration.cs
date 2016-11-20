@@ -293,7 +293,7 @@ namespace SFA_REST.Lib_Primavera
                         id = obj.Valor("Codigo"),
                         email = obj.Valor("Email"),
                         name = obj.Valor("Nome"),
-                        dateOfBirth = obj.Valor("DataDeNascimento").ToString(),
+                        dateOfBirth = obj.Valor("DataNascimento").ToString(),
                         address = obj.Valor("Morada"),
                         country = obj.Valor("Pais"),
                         nationality = obj.Valor("Nacionalidade"),
