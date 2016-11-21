@@ -26,10 +26,7 @@ namespace SFA_REST.Controllers
         // api/customer/{id}
         public Customer Get(string id)
         {
-            Lib_Primavera.Model.Customer customer = Lib_Primavera.PriIntegration.GetCustomer(id);
-            if (customer != null)
-                return customer;
-            else throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            return Lib_Primavera.PriIntegration.GetCustomer(id);
         }
 
         /** 

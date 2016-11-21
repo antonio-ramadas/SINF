@@ -12,7 +12,9 @@ namespace SFA_REST.Controllers
     public class SalesRepController : ApiController
     {
         /** 
-        *  GET method for the all the sales representative of the ERP
+         *  GET method for the all the sales representative of the ERP
+         *  
+         *  RETURN: Array with JSON's containing the sales representatives information
         */
         // api/salesRep
         public IEnumerable<Lib_Primavera.Model.SalesRepresentative> Get()
@@ -23,14 +25,13 @@ namespace SFA_REST.Controllers
 
         /** 
          *  GET method for a sales representative of the ERP, with a given id represented as a String
+         *  
+         *  RETURN: JSON with sales representative information or null, in case the sales representative with the given id doesn't exist
          */
         // api/saleRep/{id}
         public SalesRepresentative Get(string id)
         {
-            Lib_Primavera.Model.SalesRepresentative customer = Lib_Primavera.PriIntegration.GetSalesRepresentative(id);
-            if (customer != null)
-                return customer;
-            else throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            return Lib_Primavera.PriIntegration.GetSalesRepresentative(id);
         }
 
         /** 

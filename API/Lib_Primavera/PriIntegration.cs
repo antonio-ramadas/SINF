@@ -315,40 +315,49 @@ namespace SFA_REST.Lib_Primavera
 
         public static Lib_Primavera.Model.SalesRepresentative GetSalesRepresentative(string id)
         {
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            try
             {
-                if (PriEngine.Engine.Comercial.Clientes.Existe(id))
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-                    string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBi, NumContr, Sexo FROM FUNCIONARIOS WHERE Codigo = '" + id + "'";
-                    StdBELista obj = PriEngine.Engine.Consulta(query);
-
-                    if (!obj.Vazia())
+                    if (PriEngine.Engine.RecursosHumanos.Funcionarios.Existe(id))
                     {
-                        Model.SalesRepresentative mySalesRep;
-                        mySalesRep = new Model.SalesRepresentative
+                        string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBI, NumContr, Sexo FROM FUNCIONARIOS WHERE Codigo = '" + id + "'";
+                        StdBELista obj = PriEngine.Engine.Consulta(query);
+
+                        if (!obj.Vazia())
                         {
-                            id = obj.Valor("Codigo"),
-                            email = obj.Valor("Email"),
-                            name = obj.Valor("Nome"),
-                            dateOfBirth = obj.Valor("DataDeNascimento").ToString(),
-                            address = obj.Valor("Morada"),
-                            country = obj.Valor("Pais"),
-                            nationality = obj.Valor("Nacionalidade"),
-                            phoneNumber = obj.Valor("Telemovel"),
-                            maritalStatus = obj.Valor("EstadoCivil"),
-                            civilID = obj.Valor("NumBI"),
-                            nif = obj.Valor("NumContr"),
-                            gender = obj.Valor("Sexo")
-                        };
-                        return mySalesRep;
+                            Model.SalesRepresentative mySalesRep;
+                            mySalesRep = new Model.SalesRepresentative
+                            {
+                                id = obj.Valor("Codigo"),
+                                email = obj.Valor("Email"),
+                                name = obj.Valor("Nome"),
+                                dateOfBirth = obj.Valor("DataNascimento").ToString(),
+                                address = obj.Valor("Morada"),
+                                country = obj.Valor("Pais"),
+                                nationality = obj.Valor("Nacionalidade"),
+                                phoneNumber = obj.Valor("Telemovel"),
+                                maritalStatus = obj.Valor("EstadoCivil"),
+                                civilID = obj.Valor("NumBI"),
+                                nif = obj.Valor("NumContr"),
+                                gender = obj.Valor("Sexo")
+                            };
+                            return mySalesRep;
+                        }
+                        return null;
                     }
                     return null;
                 }
                 return null;
             }
-            return null;
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
+        // NOT FUNCTIONAL
         public static Lib_Primavera.Model.ErrorResponse CreateSalesRepresentative(Model.SalesRepresentative salesRepresentative)
         {
             System.Diagnostics.Debug.WriteLine("entrou na funcao de criaçao");
@@ -360,24 +369,45 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-                    System.Diagnostics.Debug.WriteLine("Entrou na criaçao");
+                    try
+                    {
+                        System.Diagnostics.Debug.WriteLine("Entrou na criaçao");
 
-                    mySalesRep.set_Funcionario(salesRepresentative.id);
-                    /*mySalesRep.set_Email(salesRepresentative.email);
-                    mySalesRep.set_Nome(salesRepresentative.name);
-                    mySalesRep.set_DataNascimento(Convert.ToDateTime(salesRepresentative.dateOfBirth));
-                    mySalesRep.set_Morada(salesRepresentative.address);
-                    mySalesRep.set_Pais(salesRepresentative.country);
-                    mySalesRep.set_Nacionalidade(salesRepresentative.nationality);
-                    mySalesRep.set_Telemovel(salesRepresentative.phoneNumber);
-                    mySalesRep.set_EstadoCivil(salesRepresentative.maritalStatus);
-                    mySalesRep.set_NumeroBI(salesRepresentative.civilID);
-                    mySalesRep.set_NumContribuinte(salesRepresentative.nif);
-                    mySalesRep.set_Sexo(salesRepresentative.gender);*/
-                    mySalesRep.set_Moeda("EUR");
+                        mySalesRep.set_Funcionario(salesRepresentative.id);
+                        mySalesRep.set_Email(salesRepresentative.email);
+                        mySalesRep.set_Nome(salesRepresentative.name);
+                        mySalesRep.set_TipoRendimento("A"); //Trabalho Dependente
+                        mySalesRep.set_DataAdmissao(DateTime.Now);
+                        mySalesRep.set_SegurancaSocial("001");
+                        mySalesRep.set_Situacao("001"); //Efetivo
+                        mySalesRep.set_Instrumento("001"); //Instrumento de Regulamentação do Trabalho
+                        mySalesRep.set_Periodo("P01"); //Mensal
+                        mySalesRep.set_Estabelecimento("001"); //Sede
+                        mySalesRep.set_FormaPagSF("001"); //Tranche Completa-Mês Subsídio
+                        mySalesRep.set_FormaPagSN("001"); //Tranche Completa-Mês Subsídio
+                        /*mySalesRep.set_DataNascimento(Convert.ToDateTime(salesRepresentative.dateOfBirth));
+                        mySalesRep.set_Morada(salesRepresentative.address);
+                        mySalesRep.set_Pais(salesRepresentative.country);
+                        mySalesRep.set_Nacionalidade(salesRepresentative.nationality);
+                        mySalesRep.set_Telemovel(salesRepresentative.phoneNumber);
+                        mySalesRep.set_EstadoCivil(salesRepresentative.maritalStatus);
+                        mySalesRep.set_NumeroBI(salesRepresentative.civilID);
+                        mySalesRep.set_NumContribuinte(salesRepresentative.nif);
+                        mySalesRep.set_Sexo(salesRepresentative.gender);*/
+                    //    mySalesRep.set_Moeda("EUR");
 
-                    System.Diagnostics.Debug.WriteLine("Definiu tudo");
-                    PriEngine.Engine.RecursosHumanos.Funcionarios.Actualiza(mySalesRep);
+                        System.Diagnostics.Debug.WriteLine("Definiu tudo");
+                    
+                        PriEngine.Engine.RecursosHumanos.Funcionarios.Actualiza(mySalesRep);
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.Message);
+                        System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                        erro.Erro = 1;
+                        erro.Descricao = "Erro";
+                        return erro;
+                    }
                     
                     System.Diagnostics.Debug.WriteLine("Inseriu tudo");
 
