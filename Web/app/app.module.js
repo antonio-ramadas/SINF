@@ -18,6 +18,7 @@ var component_3 = require('./dashboard/sales-rep/component');
 var component_4 = require('./login/component');
 var component_5 = require('./product/component');
 var component_6 = require('./navbar/component');
+var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -25,7 +26,8 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                app_routing_module_1.AppRoutingModule
+                app_routing_module_1.AppRoutingModule,
+                ng2_bootstrap_1.DropdownModule
             ],
             declarations: [
                 app_component_1.AppComponent,

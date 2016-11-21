@@ -9,12 +9,14 @@ import { ManagerComponent }     from './dashboard/manager/component';
 import { SalesRepComponent }    from './dashboard/sales-rep/component';
 import { LoginComponent }       from './login/component';
 import { ProductComponent }     from './product/component';
-import { NavbarComponent }     from './navbar/component';
+import { NavbarComponent }      from  './navbar/component';
+import { DropdownModule }       from  'ng2-bootstrap/ng2-bootstrap';
 
 @NgModule({
   imports:      [
                   BrowserModule,
-                  AppRoutingModule
+                  AppRoutingModule,
+                  DropdownModule
                 ],
   declarations: [
                   AppComponent,
