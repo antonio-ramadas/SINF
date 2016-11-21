@@ -26,7 +26,7 @@ namespace SFA_REST.Lib_Primavera
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true) {
 
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
-                string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM  CLIENTES";
+                string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM  CLIENTES";
                 objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim()) {
@@ -34,6 +34,7 @@ namespace SFA_REST.Lib_Primavera
                     {
                         id = objList.Valor("Cliente"),
                         name = objList.Valor("Nome"),
+                        phoneNumber = objList.Valor("Fac_Tel"),
                         address = objList.Valor("Morada"),
                         email = objList.Valor("Mail"),
                         customerGroups = objList.Valor("GruposDeClientes"),
@@ -59,7 +60,7 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id))
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + id + "'";
                     StdBELista objCli = PriEngine.Engine.Consulta(query);
 
                     if (!objCli.Vazia())
@@ -69,6 +70,7 @@ namespace SFA_REST.Lib_Primavera
                         {
                             id = objCli.Valor("Cliente"),
                             name = objCli.Valor("Nome"),
+                            phoneNumber = objCli.Valor("Fac_Tel"),
                             address = objCli.Valor("Morada"),
                             email = objCli.Valor("Mail"),
                             customerGroups = objCli.Valor("GruposDeClientes"),
@@ -106,6 +108,7 @@ namespace SFA_REST.Lib_Primavera
                         objCli.set_Nome(customer.name);
                         objCli.set_Morada(customer.address);
                         objCli.set_B2BEnderecoMail(customer.email);
+                        objCli.set_Telefone(customer.phoneNumber);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "GruposDeClientes", customer.customerGroups);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Genero", customer.gender);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Nacionalidade", customer.nationality);
@@ -150,6 +153,7 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_Cliente(customer.id);
                     myCli.set_Nome(customer.name);
                     myCli.set_Morada(customer.address);
+                    myCli.set_Telefone(customer.phoneNumber);
                     myCli.set_B2BEnderecoMail(customer.email);
                     myCli.set_NumContribuinte(customer.nif);
                     myCli.set_Moeda("EUR");
