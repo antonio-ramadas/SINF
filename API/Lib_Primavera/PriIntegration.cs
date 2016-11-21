@@ -432,6 +432,53 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
+
+        public static Lib_Primavera.Model.ErrorResponse DeactivateSalesRepresentative(string id)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            RhpBEFuncionario obj = new RhpBEFuncionario();
+
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+                    if (!PriEngine.Engine.RecursosHumanos.Funcionarios.Existe(id))
+                    {
+                        erro.Erro = 1;
+                        erro.Descricao = "O funcionario não existe";
+                        return erro;
+                    }
+                    else
+                    {
+                        obj = PriEngine.Engine.RecursosHumanos.Funcionarios.Edita(id);
+                        obj.set_EmModoEdicao(true);
+
+                        PriEngine.Engine.RecursosHumanos.Funcionarios.ActualizaValorAtributo(id, "Ativo", 0);
+
+                        PriEngine.Engine.RecursosHumanos.Funcionarios.Actualiza(obj);
+
+                        erro.Erro = 0;
+                        erro.Descricao = "Sucesso";
+                        return erro;
+                    }
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Erro ao abrir a empresa";
+                    return erro;
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                erro.Erro = 1;
+                erro.Descricao = ex.Message;
+                return erro;
+            }
+        }
+
         #endregion SalesRepresentative
 
         #region DocCompra

@@ -26,7 +26,5 @@ namespace SFA_REST.Lib_Primavera.Model
         public string dateOfBirth { get; set; }
 
         public string nif { get; set; }
-
-        public string civilID { get; set; }
     }
 }

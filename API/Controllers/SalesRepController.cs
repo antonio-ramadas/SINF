@@ -57,13 +57,13 @@ namespace SFA_REST.Controllers
         /** 
          *  PUT method for disabling a sales representative activity.
          */
-        public HttpResponseMessage Put(string id, Lib_Primavera.Model.Customer cliente)
+        public HttpResponseMessage Put(string id, Lib_Primavera.Model.SalesRepresentative salesRep)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
 
             try
             {
-                erro = Lib_Primavera.PriIntegration.UpdateCustomer(id, cliente);
+                //erro = Lib_Primavera.PriIntegration.DeactivateSalesRepresentative(id, salesRep);
 
                 if (erro.Erro == 0)
                     return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
@@ -75,29 +75,5 @@ namespace SFA_REST.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
             }
         }
-
-        /** 
-         *  PUT method for the edition of a customer's info.
-         */
-        // api/customer/{id}
-        /*public HttpResponseMessage Put(string id, Lib_Primavera.Model.Customer cliente)
-        {
-            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-
-            try
-            {
-                erro = Lib_Primavera.PriIntegration.UpdateCustomer(id, cliente);
-
-                if (erro.Erro == 0)
-                    return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
-                else
-                    return Request.CreateResponse(HttpStatusCode.NotFound, erro.Descricao);
-            }
-            catch (Exception exc)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
-            }
-        }*/
-
     }
 }
