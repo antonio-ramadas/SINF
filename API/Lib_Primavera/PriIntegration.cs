@@ -236,8 +236,9 @@ namespace SFA_REST.Lib_Primavera
                     }
 
                     myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
+                    
+                    //Get warehouse's list
                     myProd.warehouses = new List<string>();
-
                     warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
                     foreach (GcpBEArtigoArmazem warehouse in warehouses)
                     {
@@ -255,14 +256,13 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        public static List<Model.Product> ListaArtigos()
+        public static List<string> ListaArtigos()
         {
                         
             StdBELista objList;
 
-            Model.Product art = new Model.Product();
-            List<Model.Product> listArts = new List<Model.Product>();
-
+            List<string> listArts = new List<string>();
+            string id;
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
@@ -270,11 +270,8 @@ namespace SFA_REST.Lib_Primavera
 
                 while (!objList.NoFim())
                 {
-                    art = new Model.Product();
-                    //art.CodArtigo = objList.Valor("artigo");
-                    //art.DescArtigo = objList.Valor("descricao");
-
-                    listArts.Add(art);
+                    id = objList.Valor("Artigo");
+                    listArts.Add(id);
                     objList.Seguinte();
                 }
 
