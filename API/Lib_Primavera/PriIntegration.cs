@@ -125,7 +125,6 @@ namespace SFA_REST.Lib_Primavera
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_Nacionalidade", customer.nationality);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_DataNascimento", Convert.ToDateTime(customer.dateOfBirth));
 
-
                         erro.Erro = 0;
                         erro.Descricao = "Sucesso";
                         return erro;
@@ -194,9 +193,7 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-       
-
-        #endregion Cliente;   // -----------------------------  END   CLIENTE    -----------------------
+        #endregion Customer;   // -----------------------------  END   CLIENTE    -----------------------
 
 
         #region Artigo
