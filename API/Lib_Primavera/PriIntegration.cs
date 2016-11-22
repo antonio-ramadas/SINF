@@ -205,14 +205,17 @@ namespace SFA_REST.Lib_Primavera
         {
             string CURRENCY = "EUR";
             string UNIT = "UN";
+
+            GcpBEArtigoArmazens warehouses;
+            
             GcpBEArtigo objArtigo = new GcpBEArtigo();
             GcpBEArtigoMoeda objArtigoMoeda = new GcpBEArtigoMoeda();
             Model.Product myProd = new Model.Product();
-            StdBELista warehouses;
 
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
+                
                 if (PriEngine.Engine.Comercial.Artigos.Existe(productId) == false)
                 {
                     return null;
@@ -236,18 +239,14 @@ namespace SFA_REST.Lib_Primavera
                     }
 
                     myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
-                    /*
-                    //GcpBEArtigoArmazens warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
-                    //PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim());
-                    
-                    warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaInventarioArtigo(productId);
-                    Console.Write(warehouses.Query);
-                    warehouses.Inicio();
-                    while(!warehouses.NoFim()){
-                        myProd.warehouses.Add(warehouses.Valor("Armazem"));
-                        warehouses.Seguinte();
-                    }  
-                    */
+                    myProd.warehouses = new List<string>();
+
+                    warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
+                    foreach (GcpBEArtigoArmazem warehouse in warehouses)
+                    {
+                        myProd.warehouses.Add(warehouse.get_Armazem());
+                    }
+
                     return myProd;
                 }
                 
