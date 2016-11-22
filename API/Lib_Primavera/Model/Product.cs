@@ -14,19 +14,13 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
-        public string name
-        {
-            get;
-            set;
-        }
-
         public string model
         {
             get;
             set;
         }
 
-        public float price
+        public double price
         {
             get;
             set;
@@ -50,23 +44,18 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
-        public int quantity
+        public double quantity
         {
             get;
             set;
         }
 
-        /*public string[] wharehouses
+        public List<string> warehouses
         {
             get;
             set;
         }
 
-        public string productCode
-        {
-            get;
-            set;
-        }*/
 
         public string brand
         {

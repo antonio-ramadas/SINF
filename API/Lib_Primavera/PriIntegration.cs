@@ -199,13 +199,16 @@ namespace SFA_REST.Lib_Primavera
         #endregion Cliente;   // -----------------------------  END   CLIENTE    -----------------------
 
 
-        #region Artigo
+        #region Product
 
         public static Lib_Primavera.Model.Product GetProduct(string productId)
         {
-            
+            string CURRENCY = "EUR";
+            string UNIT = "UN";
             GcpBEArtigo objArtigo = new GcpBEArtigo();
+            GcpBEArtigoMoeda objArtigoMoeda = new GcpBEArtigoMoeda();
             Model.Product myProd = new Model.Product();
+            StdBELista warehouses;
 
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
@@ -216,29 +219,36 @@ namespace SFA_REST.Lib_Primavera
                 }
                 else
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + productId + "'";
-                    StdBELista objProd = PriEngine.Engine.Consulta(query);
-
-                    if (!objProd.Vazia())
-                    {
-                        Model.Customer myCli;
-                        myProd = new Model.Product
-                        {
-                            id = objProd.Valor("Artigo"),
-                            //productCode = objProd.Valor("ProductCode"); //uma vez que o id é uma string já não faz sentido ter isto
-                            name = objProd.Valor("Nome"),
-                            model = objProd.Valor("Modelo"),
-                            price = objProd.Valor("Preco"),
-                            vat = objProd.Valor("Iva"),
-                            categoryId = objProd.Valor("SubFamilia"),
-                            quantity = objProd.Valor("UnidadeVenda"),
-                            brand = objProd.Valor("Marca")
-                            //todo Falta o wharehouses
-                        };
-                        return myProd;
-                    }
-                    return null;
+                    objArtigo = PriEngine.Engine.Comercial.Artigos.Edita(productId);
+                    myProd.id = objArtigo.get_Artigo();
+                    myProd.description = objArtigo.get_Descricao();
+                    myProd.model = objArtigo.get_Modelo();
+                    myProd.brand = objArtigo.get_Marca();
+                    myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
                     
+                    //GET PRODUCT PRICE
+                    if (PriEngine.Engine.Comercial.ArtigosPrecos.Existe(productId, CURRENCY, UNIT)==false)
+                    {
+                        myProd.price = float.MaxValue;
+                    }else{
+                        objArtigoMoeda = PriEngine.Engine.Comercial.ArtigosPrecos.Edita(productId, CURRENCY, UNIT);
+                        myProd.price = objArtigoMoeda.get_PVP1();
+                    }
+
+                    myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
+                    /*
+                    //GcpBEArtigoArmazens warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
+                    //PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim());
+                    
+                    warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaInventarioArtigo(productId);
+                    Console.Write(warehouses.Query);
+                    warehouses.Inicio();
+                    while(!warehouses.NoFim()){
+                        myProd.warehouses.Add(warehouses.Valor("Armazem"));
+                        warehouses.Seguinte();
+                    }  
+                    */
+                    return myProd;
                 }
                 
             }
