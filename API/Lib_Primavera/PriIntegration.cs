@@ -22,35 +22,44 @@ namespace SFA_REST.Lib_Primavera
             StdBELista objList;
 
             List<Model.Customer> listCustomers = new List<Model.Customer>();
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true) {
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM  CLIENTES";
+                    objList = PriEngine.Engine.Consulta(query);
 
-                //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
-                string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, DataNascimento, NumContrib as NIF FROM  CLIENTES";
-                objList = PriEngine.Engine.Consulta(query);
-
-                while (!objList.NoFim()) {
-                    listCustomers.Add(new Model.Customer 
+                    while (!objList.NoFim())
                     {
-                        id = objList.Valor("Cliente"),
-                        name = objList.Valor("Nome"),
-                        phoneNumber = objList.Valor("Fac_Tel"),
-                        address = objList.Valor("Morada"),
-                        email = objList.Valor("Mail"),
-                        //customerGroups = objList.Valor("GruposDeClientes"),
-                        //gender = objList.Valor("Genero"),
-                        //nationality = objList.Valor("Nacionalidade"),
-                        dateOfBirth = objList.Valor("DataDeNascimento").ToString(),
-                        nif = objList.Valor("NIF") 
-                    });
-                    objList.Seguinte();
+                        listCustomers.Add(new Model.Customer
+                        {
+                            id = objList.Valor("Cliente"),
+                            name = objList.Valor("Nome"),
+                            phoneNumber = objList.Valor("Fac_Tel"),
+                            address = objList.Valor("Morada"),
+                            email = objList.Valor("Mail"),
+                            customerGroups = objList.Valor("CDU_GruposDeClientes"),
+                            gender = objList.Valor("CDU_Sexo"),
+                            dateOfBirth = objList.Valor("CDU_DataNascimento").ToString(),
+                            nationality = objList.Valor("CDU_Nacionalidade"),
+                            nif = objList.Valor("NIF")
+                        });
+                        objList.Seguinte();
 
+                    }
+
+                    return listCustomers;
                 }
-
-                return listCustomers;
+                else
+                    return null;
             }
-            else
+            catch (Exception e)
+            { 
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 return null;
+            }
+           
         }
 
         public static Lib_Primavera.Model.Customer GetCustomer(string id)
@@ -59,7 +68,7 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id))
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM CLIENTES WHERE Cliente = '" + id + "'";
                     StdBELista objCli = PriEngine.Engine.Consulta(query);
 
                     if (!objCli.Vazia())
@@ -72,10 +81,10 @@ namespace SFA_REST.Lib_Primavera
                             phoneNumber = objCli.Valor("Fac_Tel"),
                             address = objCli.Valor("Morada"),
                             email = objCli.Valor("Mail"),
-                            customerGroups = objCli.Valor("GruposDeClientes"),
-                            gender = objCli.Valor("Genero"),
-                            nationality = objCli.Valor("Nacionalidade"),
-                            dateOfBirth = objCli.Valor("DataDeNascimento").ToString(),
+                            customerGroups = objCli.Valor("CDU_GruposDeClientes"),
+                            gender = objCli.Valor("CDU_Sexo"),
+                            nationality = objCli.Valor("CDU_Nacionalidade"),
+                            dateOfBirth = objCli.Valor("CDU_DataNascimento").ToString(),
                             nif = objCli.Valor("NIF")
                         };
                         return myCli;
@@ -108,13 +117,14 @@ namespace SFA_REST.Lib_Primavera
                         objCli.set_Morada(customer.address);
                         objCli.set_B2BEnderecoMail(customer.email);
                         objCli.set_Telefone(customer.phoneNumber);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "GruposDeClientes", customer.customerGroups);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Genero", customer.gender);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "Nacionalidade", customer.nationality);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "DataDeNascimento", Convert.ToDateTime(customer.dateOfBirth));
+                        PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
+
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_GruposDeClientes", customer.customerGroups);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_Sexo", customer.gender);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_Nacionalidade", customer.nationality);
+                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_DataNascimento", Convert.ToDateTime(customer.dateOfBirth));
                         objCli.set_NumContribuinte(customer.nif);
 
-                        PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
 
                         erro.Erro = 0;
                         erro.Descricao = "Sucesso";
@@ -158,10 +168,10 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "GruposDeClientes", customer.customerGroups);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Genero", customer.gender);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "Nacionalidade", customer.nationality);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "DataDeNascimento", customer.dateOfBirth);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_GruposDeClientes", customer.customerGroups);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_Sexo", customer.gender);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_Nacionalidade", customer.nationality);
+                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_DataNascimento", customer.dateOfBirth);
 
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
