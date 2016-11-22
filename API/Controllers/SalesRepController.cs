@@ -63,7 +63,7 @@ namespace SFA_REST.Controllers
 
             try
             {
-                //erro = Lib_Primavera.PriIntegration.DeactivateSalesRepresentative(id, salesRep);
+                erro = Lib_Primavera.PriIntegration.DeactivateSalesRepresentative(id);
 
                 if (erro.Erro == 0)
                     return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);

@@ -31,5 +31,6 @@ namespace SFA_REST.Lib_Primavera.Model
 
         public string gender { get; set; }
 
+        public string active { get; set; }
     }
 }

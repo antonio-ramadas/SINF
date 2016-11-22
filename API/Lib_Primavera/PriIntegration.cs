@@ -26,7 +26,7 @@ namespace SFA_REST.Lib_Primavera
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true) {
 
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
-                string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM  CLIENTES";
+                string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, DataNascimento, NumContrib as NIF FROM  CLIENTES";
                 objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim()) {
@@ -37,12 +37,11 @@ namespace SFA_REST.Lib_Primavera
                         phoneNumber = objList.Valor("Fac_Tel"),
                         address = objList.Valor("Morada"),
                         email = objList.Valor("Mail"),
-                        customerGroups = objList.Valor("GruposDeClientes"),
-                        gender = objList.Valor("Genero"),
-                        nationality = objList.Valor("Nacionalidade"),
+                        //customerGroups = objList.Valor("GruposDeClientes"),
+                        //gender = objList.Valor("Genero"),
+                        //nationality = objList.Valor("Nacionalidade"),
                         dateOfBirth = objList.Valor("DataDeNascimento").ToString(),
-                        nif = objList.Valor("NIF")
- 
+                        nif = objList.Valor("NIF") 
                     });
                     objList.Seguinte();
 
@@ -287,7 +286,7 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBi, NumContr, Sexo FROM FUNCIONARIOS";
+                string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBI, NumContr, Sexo, CDU_Ativo FROM FUNCIONARIOS";
                 obj = PriEngine.Engine.Consulta(query);
 
                 while (!obj.NoFim())
@@ -305,7 +304,8 @@ namespace SFA_REST.Lib_Primavera
                         maritalStatus = obj.Valor("EstadoCivil"),
                         civilID = obj.Valor("NumBI"),
                         nif = obj.Valor("NumContr"),
-                        gender = obj.Valor("Sexo")
+                        gender = obj.Valor("Sexo"),
+                        active = obj.Valor("CDU_Ativo").ToString()
                     });
                     obj.Seguinte();
 
@@ -325,7 +325,7 @@ namespace SFA_REST.Lib_Primavera
                 {
                     if (PriEngine.Engine.RecursosHumanos.Funcionarios.Existe(id))
                     {
-                        string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBI, NumContr, Sexo FROM FUNCIONARIOS WHERE Codigo = '" + id + "'";
+                        string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBI, NumContr, Sexo, CDU_Ativo FROM FUNCIONARIOS WHERE Codigo = '" + id + "'";
                         StdBELista obj = PriEngine.Engine.Consulta(query);
 
                         if (!obj.Vazia())
@@ -344,7 +344,8 @@ namespace SFA_REST.Lib_Primavera
                                 maritalStatus = obj.Valor("EstadoCivil"),
                                 civilID = obj.Valor("NumBI"),
                                 nif = obj.Valor("NumContr"),
-                                gender = obj.Valor("Sexo")
+                                gender = obj.Valor("Sexo"),
+                                active = obj.Valor("CDU_Ativo").ToString()
                             };
                             return mySalesRep;
                         }
@@ -436,7 +437,6 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-
         public static Lib_Primavera.Model.ErrorResponse DeactivateSalesRepresentative(string id)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
@@ -449,27 +449,22 @@ namespace SFA_REST.Lib_Primavera
                     if (!PriEngine.Engine.RecursosHumanos.Funcionarios.Existe(id))
                     {
                         erro.Erro = 1;
-                        erro.Descricao = "O funcionario não existe";
+                        erro.Descricao = "The Sales Representative doesn't exist";
                         return erro;
                     }
                     else
                     {
-                        obj = PriEngine.Engine.RecursosHumanos.Funcionarios.Edita(id);
-                        obj.set_EmModoEdicao(true);
-
-                        PriEngine.Engine.RecursosHumanos.Funcionarios.ActualizaValorAtributo(id, "Ativo", 0);
-
-                        PriEngine.Engine.RecursosHumanos.Funcionarios.Actualiza(obj);
+                        PriEngine.Engine.RecursosHumanos.Funcionarios.ActualizaValorAtributo(id, "CDU_Ativo", 0);
 
                         erro.Erro = 0;
-                        erro.Descricao = "Sucesso";
+                        erro.Descricao = "Success";
                         return erro;
                     }
                 }
                 else
                 {
                     erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir a empresa";
+                    erro.Descricao = "Error opening the commpany";
                     return erro;
 
                 }
@@ -484,6 +479,7 @@ namespace SFA_REST.Lib_Primavera
         }
 
         #endregion SalesRepresentative
+
 
         #region DocCompra
 
