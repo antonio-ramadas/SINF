@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var Item_1 = require("./Item");
+var core_1 = require('@angular/core');
+var Item_1 = require('./Item');
 var ProductComponent = (function () {
     function ProductComponent() {
         this.productName = 'Product #1';
@@ -36,16 +36,16 @@ var ProductComponent = (function () {
         this.item1.addItem(this.item4);
         this.item3.addItem(this.item5);
     }
+    ProductComponent = __decorate([
+        core_1.Component({
+            selector: 'product',
+            moduleId: module.id,
+            templateUrl: 'index.html',
+            styleUrls: ['style.css']
+        }), 
+        __metadata('design:paramtypes', [])
+    ], ProductComponent);
     return ProductComponent;
 }());
-ProductComponent = __decorate([
-    core_1.Component({
-        selector: 'product',
-        moduleId: module.id,
-        templateUrl: 'index.html',
-        styleUrls: ['style.css']
-    }),
-    __metadata("design:paramtypes", [])
-], ProductComponent);
 exports.ProductComponent = ProductComponent;
 //# sourceMappingURL=component.js.map
