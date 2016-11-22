@@ -14,7 +14,6 @@ namespace SFA_REST.Lib_Primavera
 {
     public class PriIntegration
     {
-
         #region Costumer
 
         public static List<Model.Customer> ListCustomers()
@@ -486,6 +485,13 @@ namespace SFA_REST.Lib_Primavera
         }
 
         #endregion SalesRepresentative
+
+
+        #region CustomerVisits
+
+        
+
+        #endregion CustomerVisits
 
 
         #region DocCompra
