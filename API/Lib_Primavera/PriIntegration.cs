@@ -195,46 +195,56 @@ namespace SFA_REST.Lib_Primavera
         #endregion Customer;   // -----------------------------  END   CLIENTE    -----------------------
 
 
-        #region Artigo
+        #region Product
 
         public static Lib_Primavera.Model.Product GetProduct(string productId)
         {
+            string CURRENCY = "EUR";
+            string UNIT = "UN";
+
+            GcpBEArtigoArmazens warehouses;
             
             GcpBEArtigo objArtigo = new GcpBEArtigo();
+            GcpBEArtigoMoeda objArtigoMoeda = new GcpBEArtigoMoeda();
             Model.Product myProd = new Model.Product();
 
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
+                
                 if (PriEngine.Engine.Comercial.Artigos.Existe(productId) == false)
                 {
                     return null;
                 }
                 else
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Mor as Morada, B2BEnderecoMail as Mail, GruposDeClientes, Genero, Nacionalidade, DataDeNascimento, NumContrib as NIF FROM CLIENTES WHERE Cliente = '" + productId + "'";
-                    StdBELista objProd = PriEngine.Engine.Consulta(query);
-
-                    if (!objProd.Vazia())
-                    {
-                        Model.Customer myCli;
-                        myProd = new Model.Product
-                        {
-                            id = objProd.Valor("Artigo"),
-                            //productCode = objProd.Valor("ProductCode"); //uma vez que o id é uma string já não faz sentido ter isto
-                            name = objProd.Valor("Nome"),
-                            model = objProd.Valor("Modelo"),
-                            price = objProd.Valor("Preco"),
-                            vat = objProd.Valor("Iva"),
-                            categoryId = objProd.Valor("SubFamilia"),
-                            quantity = objProd.Valor("UnidadeVenda"),
-                            brand = objProd.Valor("Marca")
-                            //todo Falta o wharehouses
-                        };
-                        return myProd;
-                    }
-                    return null;
+                    objArtigo = PriEngine.Engine.Comercial.Artigos.Edita(productId);
+                    myProd.id = objArtigo.get_Artigo();
+                    myProd.description = objArtigo.get_Descricao();
+                    myProd.model = objArtigo.get_Modelo();
+                    myProd.brand = objArtigo.get_Marca();
+                    myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
                     
+                    //GET PRODUCT PRICE
+                    if (PriEngine.Engine.Comercial.ArtigosPrecos.Existe(productId, CURRENCY, UNIT)==false)
+                    {
+                        myProd.price = float.MaxValue;
+                    }else{
+                        objArtigoMoeda = PriEngine.Engine.Comercial.ArtigosPrecos.Edita(productId, CURRENCY, UNIT);
+                        myProd.price = objArtigoMoeda.get_PVP1();
+                    }
+
+                    myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
+                    
+                    //Get warehouse's list
+                    myProd.warehouses = new List<string>();
+                    warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
+                    foreach (GcpBEArtigoArmazem warehouse in warehouses)
+                    {
+                        myProd.warehouses.Add(warehouse.get_Armazem());
+                    }
+
+                    return myProd;
                 }
                 
             }
@@ -245,14 +255,13 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        public static List<Model.Product> ListaArtigos()
+        public static List<string> ListaArtigos()
         {
                         
             StdBELista objList;
 
-            Model.Product art = new Model.Product();
-            List<Model.Product> listArts = new List<Model.Product>();
-
+            List<string> listArts = new List<string>();
+            string id;
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
@@ -260,11 +269,8 @@ namespace SFA_REST.Lib_Primavera
 
                 while (!objList.NoFim())
                 {
-                    art = new Model.Product();
-                    //art.CodArtigo = objList.Valor("artigo");
-                    //art.DescArtigo = objList.Valor("descricao");
-
-                    listArts.Add(art);
+                    id = objList.Valor("Artigo");
+                    listArts.Add(id);
                     objList.Seguinte();
                 }
 
