@@ -117,13 +117,13 @@ namespace SFA_REST.Lib_Primavera
                         objCli.set_Morada(customer.address);
                         objCli.set_B2BEnderecoMail(customer.email);
                         objCli.set_Telefone(customer.phoneNumber);
+                        objCli.set_NumContribuinte(customer.nif);
                         PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
 
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_GruposDeClientes", customer.customerGroups);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_Sexo", customer.gender);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_Nacionalidade", customer.nationality);
                         PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_DataNascimento", Convert.ToDateTime(customer.dateOfBirth));
-                        objCli.set_NumContribuinte(customer.nif);
 
 
                         erro.Erro = 0;
