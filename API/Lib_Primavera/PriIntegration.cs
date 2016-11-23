@@ -618,9 +618,127 @@ namespace SFA_REST.Lib_Primavera
         #endregion customervisits
 
 
-        #region Needs
+        #region Leads
 
-        #endregion Needs
+        public static List<Model.Lead> ListLeads()
+        {
+            StdBELista obj;
+
+            List<Model.Lead> listLeads = new List<Model.Lead>();
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+
+                    string query = "SELECT * FROM CabecOportunidadesVenda";
+                    obj = PriEngine.Engine.Consulta(query);
+
+                    while (!obj.NoFim())
+                    {
+                        listLeads.Add(new Model.Lead
+                        {
+                            id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", ""),
+                            customerID = obj.Valor("Entidade"),
+                            expirationDate = obj.Valor("DataExpiracao").ToString(),
+                            description = obj.Valor("Descricao"),
+                            summary = obj.Valor("Resumo"),
+                            value = obj.Valor("ValorTotalOV").ToString(),
+                            salesRepID = obj.Valor("Vendedor"),
+                            type = obj.Valor("Oportunidade")
+                        });
+                        obj.Seguinte();
+                    }
+
+                    return listLeads;
+                }
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public static Lib_Primavera.Model.Lead GetLead(string id)
+        {
+            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                System.Diagnostics.Debug.WriteLine("Abriu");
+
+                string query = "SELECT * FROM CabecOportunidadesVenda WHERE ID = '" + id + "'";
+                StdBELista obj = PriEngine.Engine.Consulta(query);
+
+                if (!obj.Vazia())
+                {
+                    System.Diagnostics.Debug.WriteLine("Apanhou");
+                    Model.Lead myLead;
+                    myLead = new Model.Lead
+                    {
+                        id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", ""),
+                        customerID = obj.Valor("Entidade"),
+                        expirationDate = obj.Valor("DataExpiracao").ToString(),
+                        description = obj.Valor("Descricao"),
+                        summary = obj.Valor("Resumo"),
+                        value = obj.Valor("ValorTotalOV").ToString(),
+                        salesRepID = obj.Valor("Vendedor"),
+                        type = obj.Valor("Oportunidade")
+                    };
+                    return myLead;
+                }
+                return null;
+            }
+            return null;
+        }
+
+        public static Lib_Primavera.Model.ErrorResponse CreateLead(Model.Lead lead)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+
+            CrmBEOportunidadeVenda myLead = new CrmBEOportunidadeVenda();
+
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+                    string guid = Guid.NewGuid().ToString();
+                    System.Diagnostics.Debug.WriteLine(guid);
+                    myLead.set_ID(guid);
+                    myLead.set_Oportunidade(lead.type);
+                    myLead.set_Descricao(lead.description);
+                    myLead.set_Entidade(lead.customerID);
+                    myLead.set_TipoEntidade("C");
+                    myLead.set_ValorTotalOV(Convert.ToDouble(lead.value));
+                    myLead.set_Resumo(lead.summary);
+                    myLead.set_Vendedor(lead.salesRepID);
+                    myLead.set_CicloVenda("CV_HW");
+                    myLead.set_ValorTotalOV(Convert.ToDouble(lead.value));
+                    myLead.set_DataCriacao(DateTime.Now);
+                    myLead.set_DataExpiracao(new DateTime(2100, 12, 12));
+                    myLead.set_Moeda("EUR");
+
+                    PriEngine.Engine.CRM.OportunidadesVenda.Actualiza(myLead);
+
+                    erro.Erro = 0;
+                    erro.Descricao = "Sucesso";
+                    return erro;
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Error Accessing the Company";
+                    return erro;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                erro.Erro = 1;
+                erro.Descricao = "Missing or Incorrect field";
+                return erro;
+            }
+        }
 
 
         #region SalesOrder
