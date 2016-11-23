@@ -7,6 +7,7 @@ using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using Interop.GcpBE900;
 using Interop.RhpBE900;
+using Interop.CrmBE900;
 using ADODB;
 using System.Globalization;
 
@@ -14,7 +15,6 @@ namespace SFA_REST.Lib_Primavera
 {
     public class PriIntegration
     {
-
         #region Costumer
 
         public static List<Model.Customer> ListCustomers()
@@ -189,8 +189,6 @@ namespace SFA_REST.Lib_Primavera
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
             }
-
-
         }
 
         #endregion Customer;   // -----------------------------  END   CLIENTE    -----------------------
@@ -335,25 +333,22 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBI, NumContr, Sexo, CDU_Ativo FROM FUNCIONARIOS";
+                string query = "SELECT * FROM VENDEDORES";
                 obj = PriEngine.Engine.Consulta(query);
 
                 while (!obj.NoFim())
                 {
                     listSalesRepresentative.Add(new Model.SalesRepresentative
                     {
-                        id = obj.Valor("Codigo"),
-                        email = obj.Valor("Email"),
+                        id = obj.Valor("Vendedor"),
+                        email = obj.Valor("EMail"),
                         name = obj.Valor("Nome"),
-                        dateOfBirth = obj.Valor("DataNascimento").ToString(),
+                        dateOfBirth = obj.Valor("CDU_DataNascimento").ToString(),
                         address = obj.Valor("Morada"),
-                        country = obj.Valor("Pais"),
-                        nationality = obj.Valor("Nacionalidade"),
-                        phoneNumber = obj.Valor("Telemovel"),
-                        maritalStatus = obj.Valor("EstadoCivil"),
-                        civilID = obj.Valor("NumBI"),
-                        nif = obj.Valor("NumContr"),
-                        gender = obj.Valor("Sexo"),
+                        country = obj.Valor("CDU_Pais"),
+                        nationality = obj.Valor("CDU_Nacionalidade"),
+                        phoneNumber = obj.Valor("Telefone"),
+                        gender = obj.Valor("CDU_Sexo").ToString(),
                         active = obj.Valor("CDU_Ativo").ToString()
                     });
                     obj.Seguinte();
@@ -372,9 +367,9 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-                    if (PriEngine.Engine.RecursosHumanos.Funcionarios.Existe(id))
+                    if (PriEngine.Engine.Comercial.Vendedores.Existe(id))
                     {
-                        string query = "SELECT Codigo, Email, Nome, DataNascimento, Morada, Pais, Nacionalidade, Telemovel, EstadoCivil, NumBI, NumContr, Sexo, CDU_Ativo FROM FUNCIONARIOS WHERE Codigo = '" + id + "'";
+                        string query = "SELECT * FROM VENDEDORES WHERE Vendedor = '" + id + "'";
                         StdBELista obj = PriEngine.Engine.Consulta(query);
 
                         if (!obj.Vazia())
@@ -382,18 +377,15 @@ namespace SFA_REST.Lib_Primavera
                             Model.SalesRepresentative mySalesRep;
                             mySalesRep = new Model.SalesRepresentative
                             {
-                                id = obj.Valor("Codigo"),
-                                email = obj.Valor("Email"),
+                                id = obj.Valor("Vendedor"),
+                                email = obj.Valor("EMail"),
                                 name = obj.Valor("Nome"),
-                                dateOfBirth = obj.Valor("DataNascimento").ToString(),
+                                dateOfBirth = obj.Valor("CDU_DataNascimento").ToString(),
                                 address = obj.Valor("Morada"),
-                                country = obj.Valor("Pais"),
-                                nationality = obj.Valor("Nacionalidade"),
-                                phoneNumber = obj.Valor("Telemovel"),
-                                maritalStatus = obj.Valor("EstadoCivil"),
-                                civilID = obj.Valor("NumBI"),
-                                nif = obj.Valor("NumContr"),
-                                gender = obj.Valor("Sexo"),
+                                country = obj.Valor("CDU_Pais"),
+                                nationality = obj.Valor("CDU_Nacionalidade"),
+                                phoneNumber = obj.Valor("Telefone"),
+                                gender = obj.Valor("CDU_Sexo").ToString(),
                                 active = obj.Valor("CDU_Ativo").ToString()
                             };
                             return mySalesRep;
@@ -411,13 +403,12 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        // NOT FUNCTIONAL
         public static Lib_Primavera.Model.ErrorResponse CreateSalesRepresentative(Model.SalesRepresentative salesRepresentative)
         {
             System.Diagnostics.Debug.WriteLine("entrou na funcao de criaçao");
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
-            RhpBEFuncionario mySalesRep = new RhpBEFuncionario();
+            GcpBEVendedor mySalesRep = new GcpBEVendedor();
 
             try
             {
@@ -425,34 +416,18 @@ namespace SFA_REST.Lib_Primavera
                 {
                     try
                     {
-                        System.Diagnostics.Debug.WriteLine("Entrou na criaçao");
-
-                        mySalesRep.set_Funcionario(salesRepresentative.id);
+                        mySalesRep.set_Vendedor(salesRepresentative.id);
                         mySalesRep.set_Email(salesRepresentative.email);
                         mySalesRep.set_Nome(salesRepresentative.name);
-                        mySalesRep.set_TipoRendimento("A"); //Trabalho Dependente
-                        mySalesRep.set_DataAdmissao(DateTime.Now);
-                        mySalesRep.set_SegurancaSocial("001");
-                        mySalesRep.set_Situacao("001"); //Efetivo
-                        mySalesRep.set_Instrumento("001"); //Instrumento de Regulamentação do Trabalho
-                        mySalesRep.set_Periodo("P01"); //Mensal
-                        mySalesRep.set_Estabelecimento("001"); //Sede
-                        mySalesRep.set_FormaPagSF("001"); //Tranche Completa-Mês Subsídio
-                        mySalesRep.set_FormaPagSN("001"); //Tranche Completa-Mês Subsídio
-                        /*mySalesRep.set_DataNascimento(Convert.ToDateTime(salesRepresentative.dateOfBirth));
                         mySalesRep.set_Morada(salesRepresentative.address);
-                        mySalesRep.set_Pais(salesRepresentative.country);
-                        mySalesRep.set_Nacionalidade(salesRepresentative.nationality);
-                        mySalesRep.set_Telemovel(salesRepresentative.phoneNumber);
-                        mySalesRep.set_EstadoCivil(salesRepresentative.maritalStatus);
-                        mySalesRep.set_NumeroBI(salesRepresentative.civilID);
-                        mySalesRep.set_NumContribuinte(salesRepresentative.nif);
-                        mySalesRep.set_Sexo(salesRepresentative.gender);*/
-                    //    mySalesRep.set_Moeda("EUR");
-
-                        System.Diagnostics.Debug.WriteLine("Definiu tudo");
+                        mySalesRep.set_Telefone(salesRepresentative.phoneNumber);
                     
-                        PriEngine.Engine.RecursosHumanos.Funcionarios.Actualiza(mySalesRep);
+                        PriEngine.Engine.Comercial.Vendedores.Actualiza(mySalesRep);
+                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_DataNascimento", salesRepresentative.dateOfBirth);
+                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_Nacionalidade", salesRepresentative.nationality);
+                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_Pais", salesRepresentative.country);
+                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_Sexo", salesRepresentative.gender);
+
                     }
                     catch (Exception e)
                     {
@@ -489,13 +464,13 @@ namespace SFA_REST.Lib_Primavera
         public static Lib_Primavera.Model.ErrorResponse DeactivateSalesRepresentative(string id)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
-            RhpBEFuncionario obj = new RhpBEFuncionario();
+            GcpBEVendedor obj = new GcpBEVendedor();
 
             try
             {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-                    if (!PriEngine.Engine.RecursosHumanos.Funcionarios.Existe(id))
+                    if (!PriEngine.Engine.Comercial.Vendedores.Existe(id))
                     {
                         erro.Erro = 1;
                         erro.Descricao = "The Sales Representative doesn't exist";
@@ -503,7 +478,7 @@ namespace SFA_REST.Lib_Primavera
                     }
                     else
                     {
-                        PriEngine.Engine.RecursosHumanos.Funcionarios.ActualizaValorAtributo(id, "CDU_Ativo", 0);
+                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(id, "CDU_Ativo", 0);
 
                         erro.Erro = 0;
                         erro.Descricao = "Success";
@@ -528,6 +503,125 @@ namespace SFA_REST.Lib_Primavera
         }
 
         #endregion SalesRepresentative
+
+
+        #region CustomerVisits
+
+        public static List<Model.Visits> ListVisits()
+        {
+            StdBELista obj;
+
+            List<Model.Visits> listVisits = new List<Model.Visits>();
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+
+                    string query = "SELECT * FROM TAREFAS";
+                    obj = PriEngine.Engine.Consulta(query);
+
+                    while (!obj.NoFim())
+                    {
+                        listVisits.Add(new Model.Visits
+                        {
+                            id = obj.Valor("Id"),
+                            customerID = obj.Valor("EntidadePrincipal"),
+                            representativeID = obj.Valor("Utilizador"),
+                            date = obj.Valor("DataInicio").ToString(),
+                            summary = obj.Valor("Resumo"),
+                            notes = obj.Valor("Descricao")
+                        });
+                        obj.Seguinte();
+                    }
+
+                    return listVisits;
+                }
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public static Lib_Primavera.Model.Visits GetVisit(string id)
+        {
+            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                if (PriEngine.Engine.Comercial.Clientes.Existe(id))
+                {
+                    string query = "SELECT * FROM TAREFAS WHERE Id = '" + id + "'";
+                    StdBELista obj = PriEngine.Engine.Consulta(query);
+
+                    if (!obj.Vazia())
+                    {
+                        Model.Visits myVisits;
+                        myVisits = new Model.Visits
+                        {
+                            id = obj.Valor("Id"),
+                            customerID = obj.Valor("EntidadePrincipal"),
+                            representativeID = obj.Valor("Utilizador"),
+                            date = obj.Valor("DataInicio").ToString(),
+                            summary = obj.Valor("Resumo"),
+                            notes = obj.Valor("Descricao")
+                        };
+                        return myVisits;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            return null;
+        }
+
+        public static Lib_Primavera.Model.ErrorResponse CreateVisit(Model.Visits visit)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+
+            CrmBEActividade myVisit = new CrmBEActividade();
+
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+                    myVisit.set_ID(visit.id);
+                    myVisit.set_IDTipoActividade("9F832B71-08CF-4B4D-A31A-AA9C834E058E");
+                    myVisit.set_EntidadePrincipal(visit.customerID);
+                    myVisit.set_Utilizador(visit.representativeID);
+                    myVisit.set_DataInicio(Convert.ToDateTime(visit.date));
+                    myVisit.set_DataFim(Convert.ToDateTime(visit.date));
+                    myVisit.set_Resumo(visit.summary);
+
+                    PriEngine.Engine.CRM.Actividades.Actualiza(myVisit);
+                    erro.Erro = 0;
+                    erro.Descricao = "Sucesso";
+                    return erro;
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Error Accessing the Company";
+                    return erro;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                erro.Erro = 1;
+                erro.Descricao = "Missing or Incorrect field";
+                return erro;
+            }
+
+        }
+
+        #endregion CustomerVisits
+
+
+        #region Needs
+
+        #endregion Needs
 
 
         #region DocCompra
@@ -597,7 +691,7 @@ namespace SFA_REST.Lib_Primavera
             GcpBELinhaDocumentoCompra myLin = new GcpBELinhaDocumentoCompra();
             GcpBELinhasDocumentoCompra myLinhas = new GcpBELinhasDocumentoCompra();
 
-            PreencheRelacaoCompras rl = new PreencheRelacaoCompras();
+            Interop.GcpBE900.PreencheRelacaoCompras rl = new Interop.GcpBE900.PreencheRelacaoCompras();
             List<Model.LinhaDocCompra> lstlindv = new List<Model.LinhaDocCompra>();
 
             try
@@ -660,8 +754,8 @@ namespace SFA_REST.Lib_Primavera
             GcpBELinhaDocumentoVenda myLin = new GcpBELinhaDocumentoVenda();
 
             GcpBELinhasDocumentoVenda myLinhas = new GcpBELinhasDocumentoVenda();
-             
-            PreencheRelacaoVendas rl = new PreencheRelacaoVendas();
+
+            Interop.GcpBE900.PreencheRelacaoVendas rl = new Interop.GcpBE900.PreencheRelacaoVendas();
             List<Model.LinhaDocVenda> lstlindv = new List<Model.LinhaDocVenda>();
             
             try
