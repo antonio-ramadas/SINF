@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SFA_REST.Lib_Primavera.Model
 {
-    public class Needs
+    public class Lead
     {
         public string id { get; set; }
 
