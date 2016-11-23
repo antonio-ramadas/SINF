@@ -505,118 +505,117 @@ namespace SFA_REST.Lib_Primavera
         #endregion SalesRepresentative
 
 
-        //#region CustomerVisits
+        #region customervisits
 
-        //public static List<Model.Visits> ListVisits()
-        //{
-        //    StdBELista obj;
+        public static List<Model.Visits> listvisits()
+        {
+            StdBELista obj;
 
-        //    List<Model.Visits> listVisits = new List<Model.Visits>();
-        //    try
-        //    {
-        //        if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
-        //        {
+            List<Model.Visits> listvisits = new List<Model.Visits>();
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
 
-        //            string query = "SELECT * FROM TAREFAS";
-        //            obj = PriEngine.Engine.Consulta(query);
+                    string query = "select * from Tarefas";
+                    obj = PriEngine.Engine.Consulta(query);
 
-        //            while (!obj.NoFim())
-        //            {
-        //                listVisits.Add(new Model.Visits
-        //                {
-        //                    id = obj.Valor("Id"),
-        //                    customerID = obj.Valor("EntidadePrincipal"),
-        //                    representativeID = obj.Valor("Utilizador"),
-        //                    date = obj.Valor("DataInicio").ToString(),
-        //                    summary = obj.Valor("Resumo"),
-        //                    notes = obj.Valor("Descricao")
-        //                });
-        //                obj.Seguinte();
-        //            }
+                    while (!obj.NoFim())
+                    {
+                        listvisits.Add(new Model.Visits
+                        {
+                            id = obj.Valor("Id"),
+                            customerID = obj.Valor("EntidadePrincipal"),
+                            representativeID = obj.Valor("Utilizador"),
+                            date = obj.Valor("DataInicio").tostring(),
+                            summary = obj.Valor("Resumo"),
+                            notes = obj.Valor("Descricao")
+                        });
+                        obj.Seguinte();
+                    }
 
-        //            return listVisits;
-        //        }
-        //        else
-        //            return null;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine(e.Message);
-        //        return null;
-        //    }
-        //}
+                    return listvisits;
+                }
+                else
+                    return null;
+            }
+            catch (Exception e){
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
 
-        //public static Lib_Primavera.Model.Visits GetVisit(string id)
-        //{
-        //    if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
-        //    {
-        //        if (PriEngine.Engine.Comercial.Clientes.Existe(id))
-        //        {
-        //            string query = "SELECT * FROM TAREFAS WHERE Id = '" + id + "'";
-        //            StdBELista obj = PriEngine.Engine.Consulta(query);
+        public static Lib_Primavera.Model.Visits GetVisit(string id)
+        {
+            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                if (PriEngine.Engine.Comercial.Clientes.Existe(id))
+                {
+                    string query = "select * from Tarefas where Id = '" + id + "'";
+                    StdBELista obj = PriEngine.Engine.Consulta(query);
 
-        //            if (!obj.Vazia())
-        //            {
-        //                Model.Visits myVisits;
-        //                myVisits = new Model.Visits
-        //                {
-        //                    id = obj.Valor("Id"),
-        //                    customerID = obj.Valor("EntidadePrincipal"),
-        //                    representativeID = obj.Valor("Utilizador"),
-        //                    date = obj.Valor("DataInicio").ToString(),
-        //                    summary = obj.Valor("Resumo"),
-        //                    notes = obj.Valor("Descricao")
-        //                };
-        //                return myVisits;
-        //            }
-        //            return null;
-        //        }
-        //        return null;
-        //    }
-        //    return null;
-        //}
+                    if (!obj.Vazia())
+                    {
+                        Model.Visits myVisits;
+                        myVisits = new Model.Visits
+                        {
+                            id = obj.Valor("Id"),
+                            customerID = obj.Valor("EntidadePrincipal"),
+                            representativeID = obj.Valor("Utilizador"),
+                            date = obj.Valor("DataInicio").tostring(),
+                            summary = obj.Valor("Resumo"),
+                            notes = obj.Valor("Descricao")
+                        };
+                        return myVisits;
+                    }
+                    return null;
+                }
+                return null;
+            }
+            return null;
+        }
 
-        //public static Lib_Primavera.Model.ErrorResponse CreateVisit(Model.Visits visit)
-        //{
-        //    Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+        public static Lib_Primavera.Model.ErrorResponse CreateVisit(Model.Visits visit)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
-        //    CrmBEActividade myVisit = new CrmBEActividade();
+            CrmBEActividade myVisit = new CrmBEActividade();
 
-        //    try
-        //    {
-        //        if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
-        //        {
-        //            myVisit.set_ID(visit.id);
-        //            myVisit.set_IDTipoActividade("9F832B71-08CF-4B4D-A31A-AA9C834E058E");
-        //            myVisit.set_EntidadePrincipal(visit.customerID);
-        //            myVisit.set_Utilizador(visit.representativeID);
-        //            myVisit.set_DataInicio(Convert.ToDateTime(visit.date));
-        //            myVisit.set_DataFim(Convert.ToDateTime(visit.date));
-        //            myVisit.set_Resumo(visit.summary);
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+                    myVisit.set_ID(visit.id);
+                    myVisit.set_IDTipoActividade("9f832b71-08cf-4b4d-a31a-aa9c834e058e");
+                    myVisit.set_EntidadePrincipal(visit.customerID);
+                    myVisit.set_Utilizador(visit.representativeID);
+                    myVisit.set_DataInicio(Convert.ToDateTime(visit.date));
+                    myVisit.set_DataFim(Convert.ToDateTime(visit.date));
+                    myVisit.set_Resumo(visit.summary);
 
-        //            PriEngine.Engine.CRM.Actividades.Actualiza(myVisit);
-        //            erro.Erro = 0;
-        //            erro.Descricao = "Sucesso";
-        //            return erro;
-        //        }
-        //        else
-        //        {
-        //            erro.Erro = 1;
-        //            erro.Descricao = "Error Accessing the Company";
-        //            return erro;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine(ex.Message);
-        //        erro.Erro = 1;
-        //        erro.Descricao = "Missing or Incorrect field";
-        //        return erro;
-        //    }
+                    PriEngine.Engine.CRM.Actividades.Actualiza(myVisit);
+                    erro.Erro = 0;
+                    erro.Descricao = "sucesso";
+                    return erro;
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "error accessing the company";
+                    return erro;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                erro.Erro = 1;
+                erro.Descricao = "missing or incorrect field";
+                return erro;
+            }
 
-        //}
+        }
 
-        //#endregion CustomerVisits
+        #endregion customervisits
 
 
         #region Needs
