@@ -284,7 +284,43 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        #endregion Artigo
+        #endregion Product
+
+
+        #region Category
+
+        public static List<string> CategoryList()
+        {
+
+            StdBELista objList;
+
+            List<string> listArts = new List<string>();
+            string id;
+            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                string query = "SELECT Familia FROM Familias";
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    id = objList.Valor("Familia");
+                    listArts.Add(id);
+                    objList.Seguinte();
+                }
+
+                return listArts;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+        #endregion Category
 
 
         #region SalesRepresentative
