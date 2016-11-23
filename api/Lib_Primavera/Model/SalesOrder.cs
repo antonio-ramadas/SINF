@@ -44,6 +44,18 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
+        public string Responsavel
+        {
+            get;
+            set;
+        }
+
+        public string Client
+        {
+            get;
+            set;
+        }
+
         public List<Model.LinhaDocVenda> LinhasDoc
 
         {

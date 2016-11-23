@@ -94,9 +94,16 @@ namespace SFA_REST.Controllers
 
         [Route("api/sales/reps/{salesRepId}")]
         [HttpGet]
-        public Lib_Primavera.Model.SalesOrder GetSalesOrderByRep(string salesRepId)
+        public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByRep(string salesRepId)
         {
             return Lib_Primavera.PriIntegration.GetSalesOrderByRep(salesRepId);
+        }
+
+        [Route("api/sales/costumer/{costumerId}")]
+        [HttpGet]
+        public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByCostumer(string costumerId)
+        {
+            return Lib_Primavera.PriIntegration.GetSalesOrderByCostumer(costumerId);
         }
     }
 }
