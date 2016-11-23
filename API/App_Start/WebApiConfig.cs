@@ -10,6 +10,8 @@ namespace SFA_REST
     {
         public static void Register(HttpConfiguration config)
         {
+            config.MapHttpAttributeRoutes();
+
             config.Routes.MapHttpRoute(
                 name: "SFA_API",
                 routeTemplate: "api/{controller}/{id}",

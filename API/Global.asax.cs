@@ -23,6 +23,9 @@ namespace SFA_REST
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Manually added for costum routes
+            GlobalConfiguration.Configuration.EnsureInitialized();
         }
     }
 }

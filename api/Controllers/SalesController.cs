@@ -30,20 +30,20 @@ namespace SFA_REST.Controllers
 
 
         //// GET api/cliente/5    
-        //public Lib_Primavera.Model.SalesOrder Get(string id)
-        //{
-        //    Lib_Primavera.Model.SalesOrder salesOrder = Lib_Primavera.PriIntegration.Encomenda_Get(id);
-        //    if (salesOrder == null)
-        //    {
-        //        throw new HttpResponseException(
-        //                Request.CreateResponse(HttpStatusCode.NotFound));
+        public Lib_Primavera.Model.SalesOrder Get(string id)
+        {
+            Lib_Primavera.Model.SalesOrder salesOrder = Lib_Primavera.PriIntegration.Encomenda_Get(id);
+            if (salesOrder == null)
+            {
+                throw new HttpResponseException(
+                        Request.CreateResponse(HttpStatusCode.NotFound));
 
-        //    }
-        //    else
-        //    {
-        //        return salesOrder;
-        //    }
-        //}
+            }
+            else
+            {
+                return salesOrder;
+            }
+        }
 
 
         public HttpResponseMessage Post(Lib_Primavera.Model.SalesOrder dv)
@@ -92,9 +92,9 @@ namespace SFA_REST.Controllers
             }
         }
 
-        //[Route("api/sales/reps/{salesRepId}")]
-        //[HttpGet]
-        public Lib_Primavera.Model.SalesOrder Get(string salesRepId)
+        [Route("api/sales/reps/{salesRepId}")]
+        [HttpGet]
+        public Lib_Primavera.Model.SalesOrder GetSalesOrderByRep(string salesRepId)
         {
             return Lib_Primavera.PriIntegration.GetSalesOrderByRep(salesRepId);
         }
