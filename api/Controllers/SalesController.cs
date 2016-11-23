@@ -5,7 +5,6 @@ using System.Web;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AttributeRouting.Web.Http;
 using SFA_REST.Lib_Primavera.Model;
 
 using System;
@@ -15,7 +14,6 @@ using System.Web;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AttributeRouting.Web.Http;
 using SFA_REST.Lib_Primavera.Model;
 
 namespace SFA_REST.Controllers
@@ -98,9 +96,7 @@ namespace SFA_REST.Controllers
         [HttpGet]
         public Lib_Primavera.Model.SalesOrder GetByRepresentative(string salesRepId)
         {
-
-
-            return Lib_Primavera.PriIntegration.GetSalesByRepresentative(salesRepId);
+            return Lib_Primavera.PriIntegration.GetSalesOrderByRep(salesRepId);
         }
     }
 }
