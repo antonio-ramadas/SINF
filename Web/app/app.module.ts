@@ -1,5 +1,6 @@
 import { NgModule, ApplicationRef }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 
 @NgModule({
   imports:      [
+                  FormsModule,
                   ChartsModule,
                   BrowserModule,
                   AppRoutingModule,

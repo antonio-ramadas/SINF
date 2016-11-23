@@ -1,2 +1,131 @@
-<h1>Client #{{clientId}} Webpage</h1>
-<h4>This webpage is the only one to have a parameterized route</h4>
+<!-- Contact Master detail flow -->
+<div id="main" class="container-fluid">
+  <div class="row">
+
+    <!-- Contact List -->
+    <div id="contact-list-col" class="col-xs-12 col-md-3">
+      <div class="sfa-panel">
+        <div class="title"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search Contacts </div>
+        <div id="contact-search-bar" class="input-group input-group-lg">
+          <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+          <input type="text" class="form-control" placeholder="Search for Client" aria-describedby="sizing-addon1">
+          <span class="input-group-btn">
+            <button class="btn btn-success" type="button">+</button>
+          </span>
+        </div>
+        <div id="contact-list-panel">
+          <ul id="contact-list">
+            <li>
+              <div class="contact-name"> Pedro Romano Barbosa </div>
+              <div class="contant-basic-info"> Important basic information </div>
+              <div class="tag"> tag </div>
+            </li>
+            <li>
+              <div class="contact-name"> Pedro Romano Barbosa </div>
+              <div class="contant-basic-info"> Important basic information </div>
+              <div class="tag"> tag </div>
+            </li>
+            <li>
+              <div class="contact-name"> Pedro Romano Barbosa </div>
+              <div class="contant-basic-info"> Important basic information </div>
+              <div class="tag"> tag </div>
+            </li>
+            <li>
+              <div class="contact-name"> Pedro Romano Barbosa </div>
+              <div class="contant-basic-info"> Important basic information </div>
+              <div class="tag"> tag </div>
+            </li>
+            <li>
+              <div class="contact-name"> Pedro Romano Barbosa </div>
+              <div class="contant-basic-info"> Important basic information </div>
+              <div class="tag"> tag </div>
+            </li>
+            <li>
+              <div class="contact-name"> Pedro Romano Barbosa </div>
+              <div class="contant-basic-info"> Important basic information </div>
+              <div class="tag"> tag </div>
+            </li>
+            <li>
+              <div class="contact-name"> Pedro Romano Barbosa </div>
+              <div class="contant-basic-info"> Important basic information </div>
+              <div class="tag"> tag </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Contact Detail -->
+    <div id="client-col" class="col-xs-12 col-md-6">
+
+        <!-- Contact Panel -->
+        <div id="contact-panel" class="sfa-panel">
+          <div>
+            <div class="title"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Client Detail </div>
+            <button id="contact-button" type="button" class="btn btn-success" [(ngModel)]="singleModel" ngDefaultControl>
+              Contact
+            </button>
+          </div>
+          <div id="contact-panel-header">
+            <img src="https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-9/11752443_1103956676299436_8388653724643498064_n.jpg?oh=32407ad38f08b82c40a7ed462d191c40&oe=58B58FE4">
+            <div id="contact-title">
+              <div id="contact-title-name">
+                <strong> Pedro Romano Barbosa </strong>
+              </div>
+              <div id="contact-title-organization">
+                FEUP
+              </div>
+              <div id="contact-title-location">
+                Senhora da Hora, Porto
+              </div>
+            </div>
+          </div>
+          <div id="contact-panel-content">
+            <div class="row">
+              <div class="col-xs-7">
+                <strong>
+                  Content Detail
+                </strong>
+                <div id="content-detail">
+                  <ul id="content-detail-list">
+                    <li> <strong> Info: </strong> some information</li>
+                    <li> <strong> Info: </strong> some information</li>
+                    <li> <strong> Info: </strong> some information</li>
+                    <li> <strong> Info: </strong> some information</li>
+                  </ul>
+                  <button type="button" class="btn btn-primary" [(ngModel)]="singleModel" ngDefaultControl>
+                    Edit Information
+                  </button>
+                </div>
+              </div>
+              <div class="col-xs-5">
+                <div id="notes">
+                  <strong> Notes: </strong>
+                  <textarea id="note-area"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-md-3">
+      <!-- Order History -->
+      <div class="contact-history">
+        <div class="sfa-panel">
+          <div class="title"> <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Order History </div>
+          <ul id="order-history-list">
+            <li>Order</li>
+            <li>Order</li>
+            <li>Order</li>
+            <li>Order</li>
+            <li>Order</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
