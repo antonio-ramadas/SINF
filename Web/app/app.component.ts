@@ -9,7 +9,7 @@ export class AppComponent implements OnInit {
   showNavbar: boolean;
 
   ngOnInit(): void {
-    var regex = /^\/login$/g
+    var regex = /^\/(login)?$/g
     this.showNavbar = !regex.test(window.location.pathname);
   }
  }

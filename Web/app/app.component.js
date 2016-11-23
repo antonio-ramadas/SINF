@@ -13,7 +13,7 @@ var AppComponent = (function () {
     function AppComponent() {
     }
     AppComponent.prototype.ngOnInit = function () {
-        var regex = /^\/login$/g;
+        var regex = /^\/(login)?$/g;
         this.showNavbar = !regex.test(window.location.pathname);
     };
     AppComponent = __decorate([
