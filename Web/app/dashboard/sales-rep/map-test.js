@@ -9,21 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var MapTest = (function () {
+    function MapTest() {
+        this.lat = 51.678418;
+        this.lng = 7.809007;
     }
-    AppComponent.prototype.ngOnInit = function () {
-        var regex = /^\/(login)?$/g;
-        this.showNavbar = !regex.test(window.location.pathname);
-    };
-    AppComponent = __decorate([
+    MapTest = __decorate([
         core_1.Component({
-            selector: 'app',
-            template: '<navbar *ngIf="showNavbar"></navbar><router-outlet></router-outlet>'
+            selector: 'map',
+            styles: ["\n\t\t.sebm-google-map-container {\n\t\t\theight: 300px;\n\t\t}\n\t"],
+            template: "\n\t\t<sebm-google-map [latitude]=\"lat\" [longitude]=\"lng\"></sebm-google-map>\n\t"
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], MapTest);
+    return MapTest;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.MapTest = MapTest;
+//# sourceMappingURL=map-test.js.map

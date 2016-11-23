@@ -9,21 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var Item_1 = require('./Item');
+var TreeViewComponent = (function () {
+    function TreeViewComponent() {
     }
-    AppComponent.prototype.ngOnInit = function () {
-        var regex = /^\/(login)?$/g;
-        this.showNavbar = !regex.test(window.location.pathname);
-    };
-    AppComponent = __decorate([
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Item_1.Item)
+    ], TreeViewComponent.prototype, "root", void 0);
+    TreeViewComponent = __decorate([
         core_1.Component({
-            selector: 'app',
-            template: '<navbar *ngIf="showNavbar"></navbar><router-outlet></router-outlet>'
+            selector: 'tree-view',
+            template: "\n  <ul class=\"catalogue-list\">\n    <li *ngFor=\"let item of root.children\">\n      <a> {{item.name}} </a>\n      <span *ngIf=\"item.children.length != 0\">\n        <tree-view [root]=\"item\"> </tree-view>\n      </span>\n    </li>\n  </ul>\n  ",
+            styles: ["\n  .catalogue-list{\n    list-style: none;\n    padding: 1rem;\n  }\n  "]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], TreeViewComponent);
+    return TreeViewComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.TreeViewComponent = TreeViewComponent;
+//# sourceMappingURL=tree-view.js.map
