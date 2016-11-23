@@ -550,13 +550,13 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-                    //myVisit.set_ID(visit.id);
+                    myVisit.set_ID(visit.id);
                     myVisit.set_IDTipoActividade("9F832B71-08CF-4B4D-A31A-AA9C834E058E");
-                    myVisit.set_EntidadePrincipal(visit.representativeID);
-                    myVisit.set_UtilizadorDestino(visit.customerID);
+                    myVisit.set_EntidadePrincipal(visit.customerID);
+                    myVisit.set_Utilizador(visit.representativeID);
                     myVisit.set_DataInicio(Convert.ToDateTime(visit.date));
                     myVisit.set_DataFim(Convert.ToDateTime(visit.date));
-                    myVisit.set_Resumo(visit.notes);
+                    myVisit.set_Resumo(visit.summary);
 
                     PriEngine.Engine.CRM.Actividades.Actualiza(myVisit);
                     erro.Erro = 0;
