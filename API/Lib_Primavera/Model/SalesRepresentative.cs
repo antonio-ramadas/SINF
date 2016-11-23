@@ -23,12 +23,6 @@ namespace SFA_REST.Lib_Primavera.Model
 
         public string phoneNumber { get; set; }
 
-        public string maritalStatus { get; set; }
-
-        public string civilID { get; set;}
-
-        public string nif { get; set; }
-
         public string gender { get; set; }
 
         public string active { get; set; }
