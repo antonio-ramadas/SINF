@@ -9,19 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var SalesRepComponent = (function () {
-    function SalesRepComponent() {
+var DoughnutChartDemoComponent = (function () {
+    function DoughnutChartDemoComponent() {
+        // Doughnut
+        this.doughnutChartLabels = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+        this.doughnutChartData = [350, 450, 100];
+        this.doughnutChartType = 'doughnut';
     }
-    SalesRepComponent = __decorate([
+    // events
+    DoughnutChartDemoComponent.prototype.chartClicked = function (e) {
+        console.log(e);
+    };
+    DoughnutChartDemoComponent.prototype.chartHovered = function (e) {
+        console.log(e);
+    };
+    DoughnutChartDemoComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'sales-rep',
-            styleUrls: ['style.css'],
-            templateUrl: 'index.html'
+            selector: 'doughnut-chart-demo',
+            templateUrl: 'graph-test.html',
+            styles: ["\n    canvas {\n      \n    }\n    "]
         }), 
         __metadata('design:paramtypes', [])
-    ], SalesRepComponent);
-    return SalesRepComponent;
+    ], DoughnutChartDemoComponent);
+    return DoughnutChartDemoComponent;
 }());
-exports.SalesRepComponent = SalesRepComponent;
-//# sourceMappingURL=component.js.map
+exports.DoughnutChartDemoComponent = DoughnutChartDemoComponent;
+//# sourceMappingURL=graph-test.js.map
