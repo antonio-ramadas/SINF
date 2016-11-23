@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
+  moduleId: module.id,
   selector: 'sales-rep',
-  styleUrls: [ 'app/dashboard/sales-rep/style.css' ],
-  templateUrl: 'app/dashboard/sales-rep/index.html'
+  styleUrls: [ 'style.css' ],
+  templateUrl: 'index.html'
 })
 
-export class SalesRepComponent { }
+export class SalesRepComponent {
+  
+}

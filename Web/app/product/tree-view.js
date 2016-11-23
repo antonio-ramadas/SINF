@@ -9,19 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var SalesRepComponent = (function () {
-    function SalesRepComponent() {
+var Item_1 = require('./Item');
+var TreeViewComponent = (function () {
+    function TreeViewComponent() {
     }
-    SalesRepComponent = __decorate([
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Item_1.Item)
+    ], TreeViewComponent.prototype, "root", void 0);
+    TreeViewComponent = __decorate([
         core_1.Component({
-            moduleId: module.id,
-            selector: 'sales-rep',
-            styleUrls: ['style.css'],
-            templateUrl: 'index.html'
+            selector: 'tree-view',
+            template: "\n  <ul class=\"catalogue-list\">\n    <li *ngFor=\"let item of root.children\">\n      <a> {{item.name}} </a>\n      <span *ngIf=\"item.children.length != 0\">\n        <tree-view [root]=\"item\"> </tree-view>\n      </span>\n    </li>\n  </ul>\n  ",
+            styles: ["\n  .catalogue-list{\n    list-style: none;\n    padding: 1rem;\n  }\n  "]
         }), 
         __metadata('design:paramtypes', [])
-    ], SalesRepComponent);
-    return SalesRepComponent;
+    ], TreeViewComponent);
+    return TreeViewComponent;
 }());
-exports.SalesRepComponent = SalesRepComponent;
-//# sourceMappingURL=component.js.map
+exports.TreeViewComponent = TreeViewComponent;
+//# sourceMappingURL=tree-view.js.map
