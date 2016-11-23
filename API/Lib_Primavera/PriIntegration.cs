@@ -284,7 +284,7 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        #endregion Artigo
+        #endregion Product
 
 
         #region Category
