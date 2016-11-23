@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace SFA_REST.Lib_Primavera.Model
+{
+    public class Product
+    {
+
+        public string id
+        {
+            get;
+            set;
+        }
+
+        public string model
+        {
+            get;
+            set;
+        }
+
+        public double price
+        {
+            get;
+            set;
+        }
+
+        public float vat 
+        {
+            get;
+            set;
+        }
+
+        public string categoryId
+        {
+            get;
+            set;
+        }
+
+        public string description
+        {
+            get;
+            set;
+        }
+
+        public double quantity
+        {
+            get;
+            set;
+        }
+
+        public List<string> warehouses
+        {
+            get;
+            set;
+        }
+
+
+        public string brand
+        {
+            get;
+            set;
+        }
+
+    }
+}
