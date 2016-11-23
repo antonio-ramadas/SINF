@@ -23,8 +23,8 @@ namespace SFA_REST.Controllers
         // GET api/cliente/5    
         public Lib_Primavera.Model.DocCompra Get(string id)
         {
-            Lib_Primavera.Model.DocVenda doccompra = Lib_Primavera.Comercial.GR_List(id);
-            if (docvenda == null)
+            Lib_Primavera.Model.SalesOrder doccompra = Lib_Primavera.Comercial.GR_List(id);
+            if (SalesOrder == null)
             {
                 throw new HttpResponseException(
                         Request.CreateResponse(HttpStatusCode.NotFound));
@@ -32,7 +32,7 @@ namespace SFA_REST.Controllers
             }
             else
             {
-                return docvenda;
+                return SalesOrder;
             }
         }
         */

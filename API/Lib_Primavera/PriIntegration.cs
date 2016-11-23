@@ -507,7 +507,7 @@ namespace SFA_REST.Lib_Primavera
 
         #region customervisits
 
-        public static List<Model.Visits> listvisits()
+        public static List<Model.Visits> ListVisits()
         {
             StdBELista obj;
 

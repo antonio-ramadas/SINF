@@ -16,16 +16,16 @@ namespace SFA_REST.Controllers
         //
         // GET: /Clientes/
 
-        public IEnumerable<Lib_Primavera.Model.DocVenda> Get()
+        public IEnumerable<Lib_Primavera.Model.SalesOrder> Get()
         {
             return Lib_Primavera.PriIntegration.Encomendas_List();
         }
 
 
         // GET api/cliente/5    
-        public Lib_Primavera.Model.DocVenda Get(string id)
+        public Lib_Primavera.Model.SalesOrder Get(string id)
         {
-            Lib_Primavera.Model.DocVenda docvenda = Lib_Primavera.PriIntegration.Encomenda_Get(id);
+            Lib_Primavera.Model.SalesOrder docvenda = Lib_Primavera.PriIntegration.Encomenda_Get(id);
             if (docvenda == null)
             {
                 throw new HttpResponseException(
@@ -39,7 +39,7 @@ namespace SFA_REST.Controllers
         }
 
 
-        public HttpResponseMessage Post(Lib_Primavera.Model.DocVenda dv)
+        public HttpResponseMessage Post(Lib_Primavera.Model.SalesOrder dv)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.Encomendas_New(dv);
