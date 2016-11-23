@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace SFA_REST.Controllers
 {
-    public class NeedsController : ApiController
+    public class LeadsController : ApiController
     {
         
     }
