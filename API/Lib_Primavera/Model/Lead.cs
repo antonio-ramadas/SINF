@@ -11,8 +11,16 @@ namespace SFA_REST.Lib_Primavera.Model
 
         public string customerID { get; set; }
 
-        public string productID { get; set; }
+        public string expirationDate { get; set; }
 
-        public string quantity { get; set; }
+        public string description { get; set; }
+
+        public string summary { get; set; }
+
+        public string value { get; set; }
+
+        public string salesRepID { get; set; }
+
+        public string type { get; set; }
     }
 }
