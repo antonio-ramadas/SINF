@@ -9,11 +9,11 @@ import { ProductComponent }     from './product/component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'client/:id',  component: ClientComponent },
+  { path: 'client',  component: ClientComponent },
   { path: 'dashboard/manager', component: ManagerComponent },
   { path: 'dashboard/sales-rep', component: SalesRepComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'product', component: ProductComponent },
+  { path: 'product/:id', component: ProductComponent },
   { path: '**', redirectTo: '/login'}
 ];
 

@@ -16,12 +16,36 @@ var Service = (function () {
     function Service(http) {
         this.http = http;
         this.baseUrl = 'http://localhost:49822/api';
-        this.customerUrl = '/customer'; // URL to web API
-        this.headers = new http_1.Headers({ 'Access-Control-Allow-Origin': '*' });
-        this.options = new http_1.RequestOptions({ headers: this.headers });
+        this.customerPath = '/customer'; // Path to web API
+        this.productPath = '/product';
+        this.categoryPath = '/category';
     }
     Service.prototype.getCustomers = function () {
-        return this.http.get(this.baseUrl + this.customerUrl)
+        return this.http.get(this.baseUrl + this.customerPath)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    Service.prototype.getProduct = function (id) {
+        /*let params: URLSearchParams = new URLSearchParams();
+        params.set('id', id);*/
+        return this.http.get(this.baseUrl + this.productPath + '/' + id) //, { search: params } )
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    Service.prototype.getProductsList = function () {
+        return this.http.get(this.baseUrl + this.productPath)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    Service.prototype.getCategoriesList = function () {
+        return this.http.get(this.baseUrl + this.categoryPath)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    Service.prototype.getProductListByCategory = function (id) {
+        var params = new http_1.URLSearchParams();
+        params.set('categoryId', id);
+        return this.http.get(this.baseUrl + this.categoryPath, { search: params })
             .map(this.extractData)
             .catch(this.handleError);
     };

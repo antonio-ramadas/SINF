@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Item } from './Item';
 import { Service } from './../app.service';
-import { Customer } from './../class/customer'
+import { Customer } from './../class/customer';
+import { Product } from './../class/product';
 
 @Component({
   selector: 'product',
@@ -35,8 +37,13 @@ export class ProductComponent {
   item3 = new Item("item3");
   item4 = new Item("item4");
   item5 = new Item("item5");
+  id : string;
+  
+  categories = [];
+  product = {};
+  errorMessage: string;
 
-  constructor(private service: Service){
+  constructor(private service: Service, private route: ActivatedRoute){
     this.item0.addItem(this.item1);
     this.item0.addItem(this.item2);
     this.item1.addItem(this.item3);
@@ -44,7 +51,21 @@ export class ProductComponent {
     this.item3.addItem(this.item5);
   }
 
-  ngOnInit() { this.getCustomers(); }
+  ngOnInit() {
+    this.getCustomers();
+    this.getCategories();
+    this.route.params.subscribe((params : Params) => {
+      this.id = params['id'];
+      this.getProduct();
+    });
+  }
+
+  getCategories() {
+    this.service.getCategoriesList()
+                    .subscribe(
+                       categories => this.categories = categories,
+                       error =>  this.errorMessage = <any>error);
+  }
 
   getCustomers() {
     this.service.getCustomers()
@@ -52,5 +73,11 @@ export class ProductComponent {
                        customers => {this.orderHistoryList = []; for (let customer of customers) this.orderHistoryList.push(new Customer(customer));},
                        error =>  this.errorMessage = <any>error);
   }
-  errorMessage: string;
+
+  getProduct() {
+    this.service.getProduct(this.id)
+                    .subscribe(
+                       product => {this.product = new Product(product);},
+                       error =>  this.errorMessage = <any>error);
+  }
 }

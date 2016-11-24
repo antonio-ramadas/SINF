@@ -6,8 +6,8 @@
       <span class="glyphicon glyphicon-tags" aria-hidden="true"></span> Catalogue
     </div>
     <div id="catalogue-panel" class="panel panel-default">
-      <div class="panel-body container-fluid">
-        <div id="tree"> {{item0.name}} <tree-view id="tree" [root]="item0"></tree-view> </div>
+      <div *ngFor="let category of categories" class="panel-body container-fluid">
+        <div id="tree"> {{category.description}}  </div> <!--<tree-view id="tree" [root]="item0"></tree-view>-->
       </div>
     </div>
   </div>
@@ -17,8 +17,8 @@
     <div id="product-panel" class="panel panel-default">
       <div class="panel-heading">
         <div class="panel-title">
-          <h3>{{productName}}</h3>
-          <h4>Product ID: #{{productId}}</h4>
+          <h3>{{product.family}}</h3>
+          <h4>Product ID: #{{product.id}}</h4>
         </div>
       </div>
       <div class="panel-body container-fluid">
@@ -46,22 +46,22 @@
             </nav>
           </div>
           <div id="product-info" class="col-xs-12 col-sm-6">
-            <h4>Category: {{category}}</h4>
-            <h5>Price: {{price}}</h5>
+            <h4>Category: {{product.family}}</h4>
+            <h5>Price: €{{product.price}}</h5>
+            <h5>VAT: €{{product.vat}}</h5>
             <ul>
-              <li>Availability: status</li>
-              <li>Sales Count: 123</li>
-              <li>In Stock: 2</li>
+              <li>Sales Count: {{product.salesCount}}</li>
+              <li>In Stock: {{product.stock}}</li>
             </ul>
-            <h5>Features:</h5>
+            <h5>Warehouses:</h5>
             <ul id="features">
-              <li *ngFor="let feature of features">
-                {{feature}}
+              <li *ngFor="let warehouse of product.warehouses">
+                {{warehouse}}
               </li>
             </ul>
             <h5>Description:</h5>
             <div id="description">
-              {{description}}
+              {{product.description}}
             </div>
           </div>
         </div>

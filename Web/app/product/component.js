@@ -9,12 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var Item_1 = require('./Item');
 var app_service_1 = require('./../app.service');
 var customer_1 = require('./../class/customer');
+var product_1 = require('./../class/product');
 var ProductComponent = (function () {
-    function ProductComponent(service) {
+    function ProductComponent(service, route) {
         this.service = service;
+        this.route = route;
         this.productName = 'Product #1';
         this.productId = '12345678';
         this.price = "100€";
@@ -28,13 +31,28 @@ var ProductComponent = (function () {
         this.item3 = new Item_1.Item("item3");
         this.item4 = new Item_1.Item("item4");
         this.item5 = new Item_1.Item("item5");
+        this.categories = [];
+        this.product = {};
         this.item0.addItem(this.item1);
         this.item0.addItem(this.item2);
         this.item1.addItem(this.item3);
         this.item1.addItem(this.item4);
         this.item3.addItem(this.item5);
     }
-    ProductComponent.prototype.ngOnInit = function () { this.getCustomers(); };
+    ProductComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getCustomers();
+        this.getCategories();
+        this.route.params.subscribe(function (params) {
+            _this.id = params['id'];
+            _this.getProduct();
+        });
+    };
+    ProductComponent.prototype.getCategories = function () {
+        var _this = this;
+        this.service.getCategoriesList()
+            .subscribe(function (categories) { return _this.categories = categories; }, function (error) { return _this.errorMessage = error; });
+    };
     ProductComponent.prototype.getCustomers = function () {
         var _this = this;
         this.service.getCustomers()
@@ -42,6 +60,11 @@ var ProductComponent = (function () {
             var customer = customers_1[_i];
             _this.orderHistoryList.push(new customer_1.Customer(customer));
         } }, function (error) { return _this.errorMessage = error; });
+    };
+    ProductComponent.prototype.getProduct = function () {
+        var _this = this;
+        this.service.getProduct(this.id)
+            .subscribe(function (product) { _this.product = new product_1.Product(product); }, function (error) { return _this.errorMessage = error; });
     };
     ProductComponent = __decorate([
         core_1.Component({
@@ -51,7 +74,7 @@ var ProductComponent = (function () {
             styleUrls: ['style.css'],
             providers: [app_service_1.Service]
         }), 
-        __metadata('design:paramtypes', [app_service_1.Service])
+        __metadata('design:paramtypes', [app_service_1.Service, router_1.ActivatedRoute])
     ], ProductComponent);
     return ProductComponent;
 }());
