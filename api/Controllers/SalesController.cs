@@ -41,38 +41,17 @@ namespace SFA_REST.Controllers
         }
 
         [Route("api/sales/reps/{salesRepId}")]
-        [HttpPut]
-        public HttpResponseMessage Put(string id, Lib_Primavera.Model.Customer cliente)
-        {
-
-            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-
-            try
-            {
-                erro = Lib_Primavera.PriIntegration.UpdateCustomer(id, cliente);
-                if (erro.Erro == 0)
-                    return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
-                else return Request.CreateResponse(HttpStatusCode.NotFound, erro.Descricao);
-            }
-            catch (Exception exc)
-            {
-                System.Diagnostics.Debug.WriteLine(exc.Message);
-                return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
-            }
-        }
-
-        [Route("api/sales/reps/{salesRepId}")]
         [HttpGet]
         public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByRep(string salesRepId)
         {
             return Lib_Primavera.PriIntegration.GetSalesOrderByRep(salesRepId);
         }
 
-        [Route("api/sales/costumer/{costumerId}")]
+        [Route("api/sales/customer/{costumerId}")]
         [HttpGet]
-        public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByCostumer(string costumerId)
+        public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByCstomer(string costumerId)
         {
-            return Lib_Primavera.PriIntegration.GetSalesOrderByCostumer(costumerId);
+            return Lib_Primavera.PriIntegration.GetSalesOrderByCustomer(costumerId);
         }
     }
 }

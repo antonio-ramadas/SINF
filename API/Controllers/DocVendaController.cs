@@ -18,7 +18,7 @@ namespace SFA_REST.Controllers
 
         public IEnumerable<Lib_Primavera.Model.SalesOrder> Get()
         {
-            return Lib_Primavera.PriIntegration.Encomendas_List();
+            return Lib_Primavera.PriIntegration.ListSalesOrder();
         }
 
 
@@ -42,7 +42,7 @@ namespace SFA_REST.Controllers
         public HttpResponseMessage Post(Lib_Primavera.Model.SalesOrder dv)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-            erro = Lib_Primavera.PriIntegration.Encomendas_New(dv);
+            erro = Lib_Primavera.PriIntegration.CreateSalesOrder(dv);
 
             if (erro.Erro == 0)
             {

@@ -14,43 +14,37 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
-        public string Entidade
+        public string entity
         {
             get;
             set;
         }
 
-        public int NumDoc
+        public int numDoc
         {
             get;
             set;
         }
 
-        public DateTime Data
+        public DateTime date
         {
             get;
             set;
         }
 
-        public double TotalMerc
+        public double totalMerc
         {
             get;
             set;
         }
 
-        public string Serie
+        public string serie
         {
             get;
             set;
         }
 
-        public string Responsavel
-        {
-            get;
-            set;
-        }
-
-        public string Client
+        public string salesRep
         {
             get;
             set;
