@@ -861,7 +861,6 @@ namespace SFA_REST.Lib_Primavera
         #endregion DocCompra
 
 
-        #region DocsVenda
 
         public static Model.ErrorResponse Encomendas_New(Model.SalesOrder dv)
         {
