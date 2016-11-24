@@ -698,7 +698,7 @@ namespace SFA_REST.Lib_Primavera
 
             CrmBEOportunidadeVenda myLead = new CrmBEOportunidadeVenda();
 
-            try
+            try 
             {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
