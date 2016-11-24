@@ -33,6 +33,17 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
+        ///     GET method for a customer of the ERP, with a given string represented his name as a String
+        /// </summary>
+        /// <returns> Customer with the given name </returns>
+        [Route("api/customer/search/{name}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Customer> GetByName(string name)
+        {
+            return Lib_Primavera.PriIntegration.GetCustomerByName(name);
+        }
+
+        /// <summary>
         ///     POST method for the customer class
         /// </summary>
         /// <returns> HttpResponse with the output from the server </returns>

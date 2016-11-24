@@ -19,8 +19,6 @@ namespace SFA_REST.Lib_Primavera
 
         public static List<Model.Customer> ListCustomers()
         { 
-            StdBELista objList;
-
             List<Model.Customer> listCustomers = new List<Model.Customer>();
             try
             {
@@ -28,7 +26,7 @@ namespace SFA_REST.Lib_Primavera
                 {
 
                     string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM  CLIENTES";
-                    objList = PriEngine.Engine.Consulta(query);
+                    StdBELista objList = PriEngine.Engine.Consulta(query);
 
                     while (!objList.NoFim())
                     {
@@ -94,6 +92,39 @@ namespace SFA_REST.Lib_Primavera
                 return null;
             }
             return null;
+        }
+
+
+        public static List<Model.Customer> GetCustomerByName(string name)
+        {
+            List<Model.Customer> listCustomers = new List<Model.Customer>();
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+                    string query = "SELECT DISTINCT Cliente, Nome FROM CLIENTES WHERE Nome LIKE '%" + name + "%'";
+                    StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                    while (!objList.NoFim())
+                    {
+                        listCustomers.Add(new Model.Customer
+                        {
+                            id = objList.Valor("Cliente"),
+                            name = objList.Valor("Nome")
+                        });
+                        objList.Seguinte();
+                    }
+
+                    return listCustomers;
+
+                }
+                return listCustomers;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public static Lib_Primavera.Model.ErrorResponse UpdateCustomer(String id, Lib_Primavera.Model.Customer customer)
@@ -790,7 +821,6 @@ namespace SFA_REST.Lib_Primavera
 
         #region DocCompra
 
-
         public static List<Model.DocCompra> VGR_List()
         {
                 
@@ -844,8 +874,7 @@ namespace SFA_REST.Lib_Primavera
             }
             return listdc;
         }
-
-                
+          
         public static Model.ErrorResponse VGR_New(Model.DocCompra dc)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
@@ -903,7 +932,6 @@ namespace SFA_REST.Lib_Primavera
                 return erro;
             }
         }
-
 
         #endregion DocCompra
 
@@ -1175,9 +1203,7 @@ namespace SFA_REST.Lib_Primavera
                 {
                     string st = "SELECT DISTINCT TOP " + number + " Clientes.Nome,LinhasDoc.Data FROM Clientes LEFT JOIN CabecDoc ON Clientes.Cliente = CabecDoc.Entidade LEFT JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc WHERE LinhasDoc.Artigo='" + productID + "' ORDER BY LinhasDoc.Data DESC";
 
-                    System.Diagnostics.Debug.WriteLine(st);
                     objListLinhas = PriEngine.Engine.Consulta(st);
-                    System.Diagnostics.Debug.WriteLine("consultou");
                     while (!objListLinhas.NoFim())
                     {
                         listSalesOrder.Add(new Model.SalesOrderHistory
@@ -1186,7 +1212,6 @@ namespace SFA_REST.Lib_Primavera
                             date = objListLinhas.Valor("Data").ToString()
                         });
 
-                        System.Diagnostics.Debug.WriteLine("inseriu");
                         objListLinhas.Seguinte();
                     }
                     return listSalesOrder;
