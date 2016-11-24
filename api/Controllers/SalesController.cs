@@ -69,9 +69,20 @@ namespace SFA_REST.Controllers
         /// <returns> List of SalesOrder </returns>
         [Route("api/sales/customer/{costumerId}")]
         [HttpGet]
-        public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByCstomer(string costumerId)
+        public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByCustomer(string costumerId)
         {
             return Lib_Primavera.PriIntegration.GetSalesOrderByCustomer(costumerId);
+        }
+
+        /// <summary>
+        ///   Get method to retrieve the sales relative to a certain customer
+        /// </summary>
+        /// <returns> List of SalesOrder </returns>
+        [Route("api/sales/history/{productId}/{number}")]
+        [HttpGet]
+        public List<Lib_Primavera.Model.SalesOrderHistory> GetSalesOrderHistoryByProduct(string productId, string number)
+        {
+            return Lib_Primavera.PriIntegration.GetSalesOrderByProductForHistory(productId, number);
         }
     }
 }

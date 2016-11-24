@@ -523,10 +523,10 @@ namespace SFA_REST.Lib_Primavera
             List<Model.Visits> listvisits = new List<Model.Visits>();
             try
             {
-                if (PriEngine.isOpen() == true)
+                if (PriEngine.isOpen())
                 {
 
-                    string query = "select * from Tarefas";
+                    string query = "SELECT * from Tarefas";
                     obj = PriEngine.Engine.Consulta(query);
 
                     while (!obj.NoFim())
@@ -924,7 +924,7 @@ namespace SFA_REST.Lib_Primavera
 
             try
             {
-                if (PriEngine.isOpen() == true)
+                if (PriEngine.isOpen())
                 {
                     // Atribui valores ao cabecalho do doc
                     //myEnc.set_DataDoc(dv.Data);
@@ -1021,15 +1021,13 @@ namespace SFA_REST.Lib_Primavera
 
         public static Model.SalesOrder Encomenda_Get(string numdoc)
         {
-            
-            
             StdBELista objListCab;
             StdBELista objListLin;
             Model.SalesOrder dv = new Model.SalesOrder();
             Model.LinhaDocVenda lindv = new Model.LinhaDocVenda();
             List<Model.LinhaDocVenda> listlindv = new List<Model.LinhaDocVenda>();
 
-            if (PriEngine.isOpen() == true)
+            if (PriEngine.isOpen())
             {
                 string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel From CabecDoc where TipoDoc='ECL' and NumDoc='" + numdoc + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
@@ -1075,7 +1073,7 @@ namespace SFA_REST.Lib_Primavera
             List<Model.LinhaDocVenda> listlindv = new List<Model.LinhaDocVenda>();
             List<Model.SalesOrder> listSalesOrder = new List<Model.SalesOrder>();
 
-            if (PriEngine.isOpen() == true)
+            if (PriEngine.isOpen())
             {
                 string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
@@ -1165,6 +1163,41 @@ namespace SFA_REST.Lib_Primavera
                 return listSalesOrder;
             }
             return null;
+        }
+
+        public static List<Model.SalesOrderHistory> GetSalesOrderByProductForHistory(string productID, string number)
+        {
+            StdBELista objListLinhas;
+            List<Model.SalesOrderHistory> listSalesOrder = new List<Model.SalesOrderHistory>();
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+                    string st = "SELECT DISTINCT TOP " + number + " Clientes.Nome,LinhasDoc.Data FROM Clientes LEFT JOIN CabecDoc ON Clientes.Cliente = CabecDoc.Entidade LEFT JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc WHERE LinhasDoc.Artigo='" + productID + "' ORDER BY LinhasDoc.Data DESC";
+
+                    System.Diagnostics.Debug.WriteLine(st);
+                    objListLinhas = PriEngine.Engine.Consulta(st);
+                    System.Diagnostics.Debug.WriteLine("consultou");
+                    while (!objListLinhas.NoFim())
+                    {
+                        listSalesOrder.Add(new Model.SalesOrderHistory
+                        {
+                            name = objListLinhas.Valor("Nome"),
+                            date = objListLinhas.Valor("Data").ToString()
+                        });
+
+                        System.Diagnostics.Debug.WriteLine("inseriu");
+                        objListLinhas.Seguinte();
+                    }
+                    return listSalesOrder;
+                }
+                return listSalesOrder;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         #endregion SalesOrder
