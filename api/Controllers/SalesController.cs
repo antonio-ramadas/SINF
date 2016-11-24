@@ -11,16 +11,23 @@ namespace SFA_REST.Controllers
 {
     public class SalesController : ApiController
     {
-        //
-        // GET: /Clientes/
-
+        /// <summary>
+        ///   Get method to retrieve all the sales in the ERP
+        /// </summary>
+        /// <returns> List with all the instances of the sales </returns>
+        [Route("api/sales")]
+        [HttpGet]
         public IEnumerable<Lib_Primavera.Model.SalesOrder> Get()
         {
             return Lib_Primavera.PriIntegration.ListSalesOrder();
         }
 
-
-        //// GET api/cliente/5    
+        /// <summary>
+        ///   Get method to retrieve a single sale in the ERP
+        /// </summary>
+        /// <returns> The sale with the corresponding specified id </returns>
+        [Route("api/sales/{id}")]
+        [HttpGet]
         public Lib_Primavera.Model.SalesOrder Get(string id)
         {
             Lib_Primavera.Model.SalesOrder salesOrder = Lib_Primavera.PriIntegration.Encomenda_Get(id);
@@ -29,7 +36,12 @@ namespace SFA_REST.Controllers
             else return salesOrder;
         }
 
-
+        /// <summary>
+        ///   Post method for creation of a sale order
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/sales")]
+        [HttpPost]
         public HttpResponseMessage Post(Lib_Primavera.Model.SalesOrder dv)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
@@ -40,6 +52,10 @@ namespace SFA_REST.Controllers
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
+        /// <summary>
+        ///   Get method to retrieve the sales obtained by a salesman
+        /// </summary>
+        /// <returns> List of SalesOrder </returns>
         [Route("api/sales/reps/{salesRepId}")]
         [HttpGet]
         public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByRep(string salesRepId)
@@ -47,6 +63,10 @@ namespace SFA_REST.Controllers
             return Lib_Primavera.PriIntegration.GetSalesOrderByRep(salesRepId);
         }
 
+        /// <summary>
+        ///   Get method to retrieve the sales relative to a certain customer
+        /// </summary>
+        /// <returns> List of SalesOrder </returns>
         [Route("api/sales/customer/{costumerId}")]
         [HttpGet]
         public List<Lib_Primavera.Model.SalesOrder> GetSalesOrderByCstomer(string costumerId)

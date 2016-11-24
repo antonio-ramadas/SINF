@@ -10,29 +10,36 @@ namespace SFA_REST.Controllers
 {
     public class LeadsController : ApiController
     {
-        /** 
-        *  GET method for the all the customer of the ERP
-        */
-        // api/customer
+        /// <summary>
+        ///   GET method for the all the leads registered in the ERP  
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/leads")]
+        [HttpGet]
         public IEnumerable<Lib_Primavera.Model.Lead> Get()
         {
             return Lib_Primavera.PriIntegration.ListLeads();
         }
 
 
-        /** 
-         *  GET method for a customer of the ERP, with a given id represented as a String
-         */
-        // api/customer/{id}
+        /// <summary>
+        ///   GET method for a lead in the ERP, with a given id represented as a String
+        /// </summary>
+        /// <returns> Lead with the respective specified id </returns>
+        [Route("api/leads/{id}")]
+        [HttpGet]
         public Lead Get(string id)
         {
             return Lib_Primavera.PriIntegration.GetLead(id);
         }
 
-        /** 
-         *  POST method for the customer class
-         */
-        // api/customer
+
+        /// <summary>
+        ///   POST method for the creation of a given lead
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/leads")]
+        [HttpPost]
         public HttpResponseMessage Post(Lib_Primavera.Model.Lead lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
@@ -44,13 +51,20 @@ namespace SFA_REST.Controllers
 
         }
 
-        public HttpResponseMessage Delete(Lib_Primavera.Model.Lead lead)
+
+        /// <summary>
+        ///   DELETE method to erase a certain lead
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/leads/{id}")]
+        [HttpDelete]
+        public HttpResponseMessage Delete(string id)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-            erro = Lib_Primavera.PriIntegration.DeleteLead(lead);
+            erro = Lib_Primavera.PriIntegration.DeleteLead(id);
 
             if (erro.Erro == 0)
-                return Request.CreateResponse(HttpStatusCode.Created, lead);
+                return Request.CreateResponse(HttpStatusCode.Created, id);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
     }

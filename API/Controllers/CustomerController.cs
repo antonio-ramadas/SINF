@@ -11,47 +11,50 @@ namespace SFA_REST.Controllers
 {
     public class CustomerController : ApiController
     {
-        /** 
-         *  GET method for the all the customer of the ERP
-         */
-        // api/customer
+        /// <summary>
+        ///     GET method for the all the customer of the ERP
+        /// </summary>
+        /// <returns> List with all the customers in the system</returns>
+        [Route("api/customer")]
+        [HttpGet]
         public IEnumerable<Lib_Primavera.Model.Customer> Get() {
             return Lib_Primavera.PriIntegration.ListCustomers();
         }
 
-
-        /** 
-         *  GET method for a customer of the ERP, with a given id represented as a String
-         */
-        // api/customer/{id}
+        /// <summary>
+        ///     GET method for a customer of the ERP, with a given id represented as a String
+        /// </summary>
+        /// <returns> Customer with the given id </returns>
+        [Route("api/customer/{id}")]
+        [HttpGet]
         public Customer Get(string id)
         {
             return Lib_Primavera.PriIntegration.GetCustomer(id);
         }
 
-        /** 
-         *  POST method for the customer class
-         */
-        // api/customer
+        /// <summary>
+        ///     POST method for the customer class
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/customer")]
+        [HttpPost]
         public HttpResponseMessage Post(Lib_Primavera.Model.Customer customer)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.CreateCustomer(customer);
 
-            if (erro.Erro == 0) {
-                var response = Request.CreateResponse(HttpStatusCode.Created, customer);
-                string uri = Url.Link("SFA_API", new { id = customer.id });
-                response.Headers.Location = new Uri(uri);
-                return response;
-            }
+            if (erro.Erro == 0) 
+                return Request.CreateResponse(HttpStatusCode.Created, customer);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
 
         }
 
-        /** 
-         *  PUT method for the edition of a customer's info.
-         */
-        // api/customer/{id}
+        /// <summary>
+        ///     PUT method edit a customer's info
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/customer/{id}")]
+        [HttpPut]
         public HttpResponseMessage Put(string id, Lib_Primavera.Model.Customer cliente) {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
 

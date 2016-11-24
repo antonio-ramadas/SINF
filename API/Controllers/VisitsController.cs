@@ -10,29 +10,37 @@ namespace SFA_REST.Controllers
 {
     public class VisitsController : ApiController
     {
-        /** 
-        *  GET method for the all the customer of the ERP
-        */
-        // api/visits
+        
+        /// <summary>
+        ///   GET method to retrieve all the tasks in the ERP
+        /// </summary>
+        /// <returns> List containing the visits' information </returns>
+        [Route("api/visits")]
+        [HttpGet]
         public IEnumerable<Lib_Primavera.Model.Visits> Get()
         {
             return Lib_Primavera.PriIntegration.ListVisits();
         }
 
 
-        /** 
-         *  GET method for a customer of the ERP, with a given id represented as a String
-         */
-        // api/customer/{id}
+        /// <summary>
+        ///   GET method to retrieve a certain task in the ERP
+        /// </summary>
+        /// <returns> Visit with the corresponding specified id </returns>
+        [Route("api/visits/{id}")]
+        [HttpGet]
         public Visits Get(string id)
         {
             return Lib_Primavera.PriIntegration.GetVisit(id);
         }
 
-        /** 
-         *  POST method for the customer class
-         */
-        // api/customer
+        
+        /// <summary>
+        ///   POST method to create a visit task
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/visits")]
+        [HttpPost]
         public HttpResponseMessage Post(Lib_Primavera.Model.Visits visit)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();

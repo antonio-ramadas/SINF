@@ -11,33 +11,37 @@ namespace SFA_REST.Controllers
 {
     public class SalesRepController : ApiController
     {
-        /** 
-         *  GET method for the all the sales representative of the ERP
-         *  
-         *  RETURN: Array with JSON's containing the sales representatives information
-        */
-        // api/salesRep
+        
+        /// <summary>
+        ///   GET method for the all the sales representative of the ERP
+        /// </summary>
+        /// <returns> Array with JSON's containing the sales representatives information </returns>
+        [Route("api/salesrep")]
+        [HttpGet]
         public IEnumerable<Lib_Primavera.Model.SalesRepresentative> Get()
         {
             return Lib_Primavera.PriIntegration.listSalesRepresentatives();
         }
 
 
-        /** 
-         *  GET method for a sales representative of the ERP, with a given id represented as a String
-         *  
-         *  RETURN: JSON with sales representative information or null, in case the sales representative with the given id doesn't exist
-         */
-        // api/saleRep/{id}
+        /// <summary>
+        ///   GET method for a sales representative of the ERP, with a given id represented as a String
+        /// </summary>
+        /// <returns> JSON with sales representative information or null, in case the sales representative with the given id doesn't exist </returns>
+        [Route("api/salesrep/{id}")]
+        [HttpGet]
         public SalesRepresentative Get(string id)
         {
             return Lib_Primavera.PriIntegration.GetSalesRepresentative(id);
         }
 
-        /** 
-         *  POST method for the sales representative class
-         */
-        // api/customer
+        
+        /// <summary>
+        ///   POST method for creation of a sales representative class
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/salesrep")]
+        [HttpPost]
         public HttpResponseMessage Post(Lib_Primavera.Model.SalesRepresentative salesRepresentative)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
@@ -54,10 +58,14 @@ namespace SFA_REST.Controllers
 
         }
 
-        /** 
-         *  PUT method for disabling a sales representative activity.
-         */
-        public HttpResponseMessage Put(string id, Lib_Primavera.Model.SalesRepresentative salesRep)
+        
+        /// <summary>
+        ///   PUT Method to disable a certain salesman
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/salesrep/disable/{id}")]
+        [HttpPut]
+        public HttpResponseMessage Put(string id)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
 
