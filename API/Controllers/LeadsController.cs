@@ -36,7 +36,7 @@ namespace SFA_REST.Controllers
         public HttpResponseMessage Post(Lib_Primavera.Model.Lead lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-            erro = Lib_Primavera.PriIntegration.CreateCustomer(lead);
+            erro = Lib_Primavera.PriIntegration.CreateLead(lead);
 
             if (erro.Erro == 0)
             {
