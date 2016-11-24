@@ -739,7 +739,7 @@ namespace SFA_REST.Lib_Primavera
         }
         #endregion Leads
 
-        #region SalesOrder
+        #region DocCompra
 
 
         public static List<Model.DocCompra> VGR_List()
