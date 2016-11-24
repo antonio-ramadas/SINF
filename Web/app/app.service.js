@@ -19,7 +19,13 @@ var Service = (function () {
         this.customerPath = '/customer'; // Path to web API
         this.productPath = '/product';
         this.categoryPath = '/category';
+        this.historyPath = '/sales/history';
     }
+    Service.prototype.getSalesHistoryByProduct = function (id, total) {
+        return this.http.get(this.baseUrl + this.historyPath + '/' + id + '/' + total)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
     Service.prototype.getCustomers = function () {
         return this.http.get(this.baseUrl + this.customerPath)
             .map(this.extractData)

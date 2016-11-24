@@ -12,7 +12,6 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var Item_1 = require('./Item');
 var app_service_1 = require('./../app.service');
-var customer_1 = require('./../class/customer');
 var product_1 = require('./../class/product');
 var ProductComponent = (function () {
     function ProductComponent(service, route) {
@@ -32,6 +31,7 @@ var ProductComponent = (function () {
         this.item4 = new Item_1.Item("item4");
         this.item5 = new Item_1.Item("item5");
         this.categories = [];
+        this.history = [];
         this.product = {};
         this.item0.addItem(this.item1);
         this.item0.addItem(this.item2);
@@ -41,25 +41,22 @@ var ProductComponent = (function () {
     }
     ProductComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.getCustomers();
         this.getCategories();
         this.route.params.subscribe(function (params) {
             _this.id = params['id'];
             _this.getProduct();
+            _this.getHistory();
         });
+    };
+    ProductComponent.prototype.getHistory = function () {
+        var _this = this;
+        this.service.getSalesHistoryByProduct(this.id, '30')
+            .subscribe(function (records) { return _this.history = records; }, function (error) { return _this.errorMessage = error; });
     };
     ProductComponent.prototype.getCategories = function () {
         var _this = this;
         this.service.getCategoriesList()
             .subscribe(function (categories) { return _this.categories = categories; }, function (error) { return _this.errorMessage = error; });
-    };
-    ProductComponent.prototype.getCustomers = function () {
-        var _this = this;
-        this.service.getCustomers()
-            .subscribe(function (customers) { _this.orderHistoryList = []; for (var _i = 0, customers_1 = customers; _i < customers_1.length; _i++) {
-            var customer = customers_1[_i];
-            _this.orderHistoryList.push(new customer_1.Customer(customer));
-        } }, function (error) { return _this.errorMessage = error; });
     };
     ProductComponent.prototype.getProduct = function () {
         var _this = this;

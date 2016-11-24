@@ -40,6 +40,7 @@ export class ProductComponent {
   id : string;
   
   categories = [];
+  history = [];
   product = {};
   errorMessage: string;
 
@@ -52,25 +53,25 @@ export class ProductComponent {
   }
 
   ngOnInit() {
-    this.getCustomers();
     this.getCategories();
     this.route.params.subscribe((params : Params) => {
       this.id = params['id'];
       this.getProduct();
+      this.getHistory();
     });
+  }
+
+  getHistory() {
+    this.service.getSalesHistoryByProduct(this.id, '30')
+                    .subscribe(
+                       records => this.history = records,
+                       error =>  this.errorMessage = <any>error);
   }
 
   getCategories() {
     this.service.getCategoriesList()
                     .subscribe(
                        categories => this.categories = categories,
-                       error =>  this.errorMessage = <any>error);
-  }
-
-  getCustomers() {
-    this.service.getCustomers()
-                     .subscribe(
-                       customers => {this.orderHistoryList = []; for (let customer of customers) this.orderHistoryList.push(new Customer(customer));},
                        error =>  this.errorMessage = <any>error);
   }
 

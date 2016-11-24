@@ -10,10 +10,17 @@ import 'rxjs/add/operator/catch';
 export class Service {
   private baseUrl = 'http://localhost:49822/api';
   private customerPath = '/customer';  // Path to web API
-  private productPath = '/product';  
+  private productPath = '/product';
   private categoryPath = '/category';
+  private historyPath = '/sales/history';
 
   constructor (private http: Http) {}
+  getSalesHistoryByProduct (id: string, total: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.historyPath + '/' + id + '/' + total)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getCustomers (): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.customerPath)
                     .map(this.extractData)

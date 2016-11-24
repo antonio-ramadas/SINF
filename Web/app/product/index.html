@@ -91,10 +91,10 @@
     <div id="order-history-panel" class="panel panel-default">
       <div class="panel-body container-fluid">
         <ul>
-          <li *ngFor="let customer of orderHistoryList" class="order-history-item">
+          <li *ngFor="let record of history" class="order-history-item">
             <a>
-              <h3> {{customer.name}} </h3>
-              <h4> {{customer.phone}} </h4>
+              <h3> {{record.name}} </h3>
+              <h4> {{record.date}} </h4>
             </a>
           </li>
         </ul>
