@@ -55,8 +55,7 @@ namespace SFA_REST.Lib_Primavera.Model
             get;
             set;
         }
-
-
+        
         public string brand
         {
             get;
