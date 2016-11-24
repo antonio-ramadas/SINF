@@ -1,7 +1,7 @@
 /* COLORS */
 
 .color-1 {
-  color: #3388CD;
+  color: white;
 }
 
 .color-2 {
@@ -55,7 +55,6 @@
 
 .section {
   padding: 1rem;
-  background-color: #EEEEEE;
 }
 
 .section > div {
@@ -83,16 +82,14 @@
 /* IDS */
 
 #dashboard {
-  background-color: #EEEEEE;
+  margin-top: 4rem;
   padding: 2rem;
 }
 
-#main-title {
-
-}
-
-#main-title > div {
+#main-title > span {
+  font-weight: bold;
   font-size: 4rem;
+  vertical-align: middle;
 }
 
 #main-title > span {

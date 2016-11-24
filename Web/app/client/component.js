@@ -13,6 +13,7 @@ var router_1 = require('@angular/router');
 var ClientComponent = (function () {
     function ClientComponent(route) {
         this.route = route;
+        this.singleModel = '1';
     }
     ClientComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -22,9 +23,10 @@ var ClientComponent = (function () {
     };
     ClientComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'client',
-            styleUrls: ['app/client/style.css'],
-            templateUrl: 'app/client/index.html'
+            styleUrls: ['style.css'],
+            templateUrl: 'index.html'
         }), 
         __metadata('design:paramtypes', [router_1.ActivatedRoute])
     ], ClientComponent);
