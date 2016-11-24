@@ -254,7 +254,7 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        public static List<string> ListaArtigos()
+        public static List<string> ListProducts()
         {
                         
             StdBELista objList;
@@ -898,6 +898,7 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion DocCompra
 
+
         #region SalesOrder
 
         public static Model.ErrorResponse Encomendas_New(Model.SalesOrder dv)
@@ -1159,6 +1160,7 @@ namespace SFA_REST.Lib_Primavera
         }
 
         #endregion SalesOrder
+
 
         #region RoutesCalendar
 
