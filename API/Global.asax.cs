@@ -26,6 +26,9 @@ namespace SFA_REST
 
             //Manually added for costum routes
             GlobalConfiguration.Configuration.EnsureInitialized();
+
+            PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim());
+            
         }
     }
 }

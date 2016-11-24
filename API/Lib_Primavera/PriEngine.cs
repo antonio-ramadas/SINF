@@ -16,6 +16,7 @@ namespace SFA_REST.Lib_Primavera
         public static StdPlatBS Platform { get; set; }
         public static ErpBS Engine { get; set; }
 
+
         public static bool InitializeCompany(string Company, string User, string Password)
         {
             //obtem serviçoes e regras de negocio sobre a configuração do módulo
@@ -63,6 +64,7 @@ namespace SFA_REST.Lib_Primavera
                 // Returns the engine.
                 Engine = MotorLE;
 
+
                 return true;
             }
             else
@@ -71,6 +73,14 @@ namespace SFA_REST.Lib_Primavera
             }
 
 
+        }
+
+        public static bool isOpen()
+        {
+            if (!Platform.Inicializada)
+                InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim());
+            
+            return true;
         }
 
     }

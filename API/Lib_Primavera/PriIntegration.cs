@@ -24,7 +24,7 @@ namespace SFA_REST.Lib_Primavera
             List<Model.Customer> listCustomers = new List<Model.Customer>();
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen())
                 {
 
                     string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM  CLIENTES";
@@ -64,7 +64,7 @@ namespace SFA_REST.Lib_Primavera
 
         public static Lib_Primavera.Model.Customer GetCustomer(string id)
         {
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen())
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id))
                 {
@@ -102,7 +102,7 @@ namespace SFA_REST.Lib_Primavera
             GcpBECliente objCli = new GcpBECliente();
 
             try {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen())
                 {
                     if (!PriEngine.Engine.Comercial.Clientes.Existe(id)) {
                         erro.Erro = 1;
@@ -156,7 +156,7 @@ namespace SFA_REST.Lib_Primavera
             GcpBECliente myCli = new GcpBECliente();
 
             try {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen())
                 {
                     myCli.set_Cliente(customer.id);
                     myCli.set_Nome(customer.name);
@@ -207,7 +207,7 @@ namespace SFA_REST.Lib_Primavera
             GcpBEArtigoMoeda objArtigoMoeda = new GcpBEArtigoMoeda();
             Model.Product myProd = new Model.Product();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen())
             {
 
                 
@@ -260,7 +260,7 @@ namespace SFA_REST.Lib_Primavera
             StdBELista objList;
 
             List<Model.Product> listArts = new List<Model.Product>();
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen())
             {
                 string query = "SELECT * FROM ARTIGO";
                 objList = PriEngine.Engine.Consulta(query);
@@ -300,7 +300,7 @@ namespace SFA_REST.Lib_Primavera
 
             List<Model.Category> listArts = new List<Model.Category>();
             string id;
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
 
                 string query = "SELECT * FROM Familias";
@@ -338,7 +338,7 @@ namespace SFA_REST.Lib_Primavera
 
             List<Model.SalesRepresentative> listSalesRepresentative = new List<Model.SalesRepresentative>();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 string query = "SELECT * FROM VENDEDORES";
                 obj = PriEngine.Engine.Consulta(query);
@@ -372,7 +372,7 @@ namespace SFA_REST.Lib_Primavera
         {
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     if (PriEngine.Engine.Comercial.Vendedores.Existe(id))
                     {
@@ -419,7 +419,7 @@ namespace SFA_REST.Lib_Primavera
 
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     try
                     {
@@ -475,7 +475,7 @@ namespace SFA_REST.Lib_Primavera
 
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     if (!PriEngine.Engine.Comercial.Vendedores.Existe(id))
                     {
@@ -521,7 +521,7 @@ namespace SFA_REST.Lib_Primavera
             List<Model.Visits> listvisits = new List<Model.Visits>();
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
 
                     string query = "select * from Tarefas";
@@ -554,7 +554,7 @@ namespace SFA_REST.Lib_Primavera
 
         public static Lib_Primavera.Model.Visits GetVisit(string id)
         {
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id))
                 {
@@ -590,7 +590,7 @@ namespace SFA_REST.Lib_Primavera
 
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     myVisit.set_ID(visit.id);
                     myVisit.set_IDTipoActividade("9f832b71-08cf-4b4d-a31a-aa9c834e058e");
@@ -634,7 +634,7 @@ namespace SFA_REST.Lib_Primavera
             List<Model.Lead> listLeads = new List<Model.Lead>();
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
 
                     string query = "SELECT * FROM CabecOportunidadesVenda";
@@ -670,7 +670,7 @@ namespace SFA_REST.Lib_Primavera
 
         public static Lib_Primavera.Model.Lead GetLead(string id)
         {
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 System.Diagnostics.Debug.WriteLine("Abriu");
 
@@ -707,7 +707,7 @@ namespace SFA_REST.Lib_Primavera
 
             try 
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     myLead.set_ID(Guid.NewGuid().ToString());
                     myLead.set_Oportunidade(lead.type);
@@ -753,7 +753,7 @@ namespace SFA_REST.Lib_Primavera
 
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     if(!PriEngine.Engine.CRM.OportunidadesVenda.ExisteID(ID))
                     {
@@ -799,7 +799,7 @@ namespace SFA_REST.Lib_Primavera
             Model.LinhaDocCompra lindc = new Model.LinhaDocCompra();
             List<Model.LinhaDocCompra> listlindc = new List<Model.LinhaDocCompra>();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 objListCab = PriEngine.Engine.Consulta("SELECT id, NumDocExterno, Entidade, DataDoc, NumDoc, TotalMerc, Serie From CabecCompras where TipoDoc='VGR'");
                 while (!objListCab.NoFim())
@@ -858,7 +858,7 @@ namespace SFA_REST.Lib_Primavera
 
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     // Atribui valores ao cabecalho do doc
                     //myEnc.set_DataDoc(dv.Data);
@@ -922,7 +922,7 @@ namespace SFA_REST.Lib_Primavera
 
             try
             {
-                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.isOpen() == true)
                 {
                     // Atribui valores ao cabecalho do doc
                     //myEnc.set_DataDoc(dv.Data);
@@ -976,7 +976,7 @@ namespace SFA_REST.Lib_Primavera
             List<Model.LinhaDocVenda> listlindv = new
             List<Model.LinhaDocVenda>();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 objListCab = PriEngine.Engine.Consulta("SELECT id, Entidade, Data, NumDoc, TotalMerc, Responsavel, Serie From CabecDoc where TipoDoc='ECL'");
                 while (!objListCab.NoFim())
@@ -1027,7 +1027,7 @@ namespace SFA_REST.Lib_Primavera
             Model.LinhaDocVenda lindv = new Model.LinhaDocVenda();
             List<Model.LinhaDocVenda> listlindv = new List<Model.LinhaDocVenda>();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel From CabecDoc where TipoDoc='ECL' and NumDoc='" + numdoc + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
@@ -1073,7 +1073,7 @@ namespace SFA_REST.Lib_Primavera
             List<Model.LinhaDocVenda> listlindv = new List<Model.LinhaDocVenda>();
             List<Model.SalesOrder> listSalesOrder = new List<Model.SalesOrder>();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
@@ -1124,7 +1124,7 @@ namespace SFA_REST.Lib_Primavera
             List<Model.LinhaDocVenda> listlindv = new List<Model.LinhaDocVenda>();
             List<Model.SalesOrder> listSalesOrder = new List<Model.SalesOrder>();
 
-            if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+            if (PriEngine.isOpen() == true)
             {
                 string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
