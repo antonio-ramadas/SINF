@@ -10,8 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var Item_1 = require('./Item');
+var app_service_1 = require('./../app.service');
+var customer_1 = require('./../class/customer');
 var ProductComponent = (function () {
-    function ProductComponent() {
+    function ProductComponent(service) {
+        this.service = service;
         this.productName = 'Product #1';
         this.productId = '12345678';
         this.price = "100€";
@@ -19,11 +22,6 @@ var ProductComponent = (function () {
         this.description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim\n  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea\n  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate\n  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint\n  occaecat cupidatat non proident, sunt in culpa qui officia deserunt\n  mollit anim id est laborum.";
         this.images = ["https://www.google.com", "image2", "image3", "image4"];
         this.features = ["Feature #1", "Feature #2", "Feature #3", "Feature #4"];
-        this.orderHistoryList = [
-            { "client": 1214, "info": "Pedro Romano Barbosa" },
-            { "client": 424242, "info": "António Ramadas" },
-            { "client": 123, "info": "Duarte Pinto" }
-        ];
         this.item0 = new Item_1.Item("item0");
         this.item1 = new Item_1.Item("item1");
         this.item2 = new Item_1.Item("item2");
@@ -36,14 +34,24 @@ var ProductComponent = (function () {
         this.item1.addItem(this.item4);
         this.item3.addItem(this.item5);
     }
+    ProductComponent.prototype.ngOnInit = function () { this.getCustomers(); };
+    ProductComponent.prototype.getCustomers = function () {
+        var _this = this;
+        this.service.getCustomers()
+            .subscribe(function (customers) { _this.orderHistoryList = []; for (var _i = 0, customers_1 = customers; _i < customers_1.length; _i++) {
+            var customer = customers_1[_i];
+            _this.orderHistoryList.push(new customer_1.Customer(customer));
+        } }, function (error) { return _this.errorMessage = error; });
+    };
     ProductComponent = __decorate([
         core_1.Component({
             selector: 'product',
             moduleId: module.id,
             templateUrl: 'index.html',
-            styleUrls: ['style.css']
+            styleUrls: ['style.css'],
+            providers: [app_service_1.Service]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [app_service_1.Service])
     ], ProductComponent);
     return ProductComponent;
 }());

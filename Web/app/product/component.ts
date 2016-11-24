@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { Item } from './Item';
+import { Service } from './../app.service';
+import { Customer } from './../class/customer'
 
 @Component({
   selector: 'product',
   moduleId: module.id,
   templateUrl: 'index.html',
-  styleUrls: ['style.css']
+  styleUrls: ['style.css'],
+  providers: [Service]
 })
 
 export class ProductComponent {
@@ -25,11 +28,7 @@ export class ProductComponent {
 
   features = ["Feature #1","Feature #2","Feature #3","Feature #4"];
 
-  orderHistoryList: { client: number, info: string }[] = [
-    { "client": 1214, "info": "Pedro Romano Barbosa" },
-    { "client": 424242, "info": "António Ramadas" },
-    { "client": 123, "info": "Duarte Pinto" }
-  ];
+  orderHistoryList: Customer[];
   item0 = new Item("item0");
   item1 = new Item("item1");
   item2 = new Item("item2");
@@ -37,11 +36,21 @@ export class ProductComponent {
   item4 = new Item("item4");
   item5 = new Item("item5");
 
-  constructor(){
+  constructor(private service: Service){
     this.item0.addItem(this.item1);
     this.item0.addItem(this.item2);
     this.item1.addItem(this.item3);
     this.item1.addItem(this.item4);
     this.item3.addItem(this.item5);
   }
+
+  ngOnInit() { this.getCustomers(); }
+
+  getCustomers() {
+    this.service.getCustomers()
+                     .subscribe(
+                       customers => {this.orderHistoryList = []; for (let customer of customers) this.orderHistoryList.push(new Customer(customer));},
+                       error =>  this.errorMessage = <any>error);
+  }
+  errorMessage: string;
 }

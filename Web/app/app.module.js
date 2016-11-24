@@ -14,6 +14,7 @@ var app_routing_module_1 = require('./app-routing.module');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var tree_view_1 = require('./product/tree-view');
 var ng2_charts_1 = require('ng2-charts/ng2-charts');
+var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 var component_1 = require('./client/component');
 var component_2 = require('./dashboard/manager/component');
@@ -38,7 +39,9 @@ var AppModule = (function () {
                 ng2_bootstrap_1.DropdownModule,
                 core_2.AgmCoreModule.forRoot({
                     apiKey: 'AIzaSyAGYHY_VL3DJcBenEANyhtGs2iJd6Strpk'
-                })
+                }),
+                http_1.HttpModule,
+                http_1.JsonpModule
             ],
             declarations: [
                 app_component_1.AppComponent,
