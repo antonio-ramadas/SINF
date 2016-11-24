@@ -39,12 +39,7 @@ namespace SFA_REST.Controllers
             erro = Lib_Primavera.PriIntegration.CreateLead(lead);
 
             if (erro.Erro == 0)
-            {
-                var response = Request.CreateResponse(HttpStatusCode.Created, lead);
-                string uri = Url.Link("SFA_API", new { id = lead.id });
-                response.Headers.Location = new Uri(uri);
-                return response;
-            }
+                return Request.CreateResponse(HttpStatusCode.Created, lead);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
 
         }
@@ -55,12 +50,7 @@ namespace SFA_REST.Controllers
             erro = Lib_Primavera.PriIntegration.DeleteLead(lead);
 
             if (erro.Erro == 0)
-            {
-                var response = Request.CreateResponse(HttpStatusCode.Created, lead);
-                //string uri = Url.Link("SFA_API", new { id = lead.id });
-                //response.Headers.Remove(uri);
-                return response;
-            }
+                return Request.CreateResponse(HttpStatusCode.Created, lead);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
     }
