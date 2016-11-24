@@ -17,7 +17,7 @@ namespace SFA_REST.Controllers
         /// <returns> List with the categories existing in the ERP </returns>
         [Route("api/category")]
         [HttpGet]
-        public List<string> Get()
+        public List<Lib_Primavera.Model.Category> Get()
         {
             return Lib_Primavera.PriIntegration.CategoryList();
         }

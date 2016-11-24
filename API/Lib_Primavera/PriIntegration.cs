@@ -293,23 +293,26 @@ namespace SFA_REST.Lib_Primavera
 
         #region Category
 
-        public static List<string> CategoryList()
+        public static List<Model.Category> CategoryList()
         {
 
             StdBELista objList;
 
-            List<string> listArts = new List<string>();
+            List<Model.Category> listArts = new List<Model.Category>();
             string id;
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                string query = "SELECT Familia FROM Familias";
+                string query = "SELECT * FROM Familias";
                 objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim())
                 {
-                    id = objList.Valor("Familia");
-                    listArts.Add(id);
+                    listArts.Add(new Model.Category
+                    {
+                        family = objList.Valor("Familia"),
+                        description = objList.Valor("Descricao")
+                    });
                     objList.Seguinte();
                 }
 
@@ -742,11 +745,11 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.ErrorResponse DeleteLead(Model.Lead lead)
+        public static Lib_Primavera.Model.ErrorResponse DeleteLead(string id)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
-            string ID = "{" + lead.id + "}";
+            string ID = "{" + id + "}";
 
             try
             {
