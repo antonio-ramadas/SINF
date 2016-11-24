@@ -702,9 +702,7 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
                 {
-                    string guid = Guid.NewGuid().ToString();
-                    System.Diagnostics.Debug.WriteLine(guid);
-                    myLead.set_ID(guid);
+                    myLead.set_ID(Guid.NewGuid().ToString());
                     myLead.set_Oportunidade(lead.type);
                     myLead.set_Descricao(lead.description);
                     myLead.set_Entidade(lead.customerID);
@@ -739,7 +737,7 @@ namespace SFA_REST.Lib_Primavera
                 return erro;
             }
         }
-
+        #endregion Leads
 
         #region SalesOrder
 
@@ -860,7 +858,7 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion DocCompra
 
-
+        #region SalesOrder
 
         public static Model.ErrorResponse Encomendas_New(Model.SalesOrder dv)
         {
