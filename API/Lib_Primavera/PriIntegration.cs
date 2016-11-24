@@ -737,7 +737,47 @@ namespace SFA_REST.Lib_Primavera
                 return erro;
             }
         }
+
+        public static Lib_Primavera.Model.ErrorResponse DeleteLead(Model.Lead lead)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+
+            string ID = "{" + lead.id + "}";
+
+            try
+            {
+                if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
+                {
+                    if(!PriEngine.Engine.CRM.OportunidadesVenda.ExisteID(ID))
+                    {
+                        erro.Erro = 1;
+                        erro.Descricao = "The Lead doesn't exist.";
+                        return erro;
+                    }
+                    PriEngine.Engine.CRM.OportunidadesVenda.RemoveID(ID);
+
+                    erro.Erro = 0;
+                    erro.Descricao = "Sucesso";
+                    return erro;
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Error Accessing the Company";
+                    return erro;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                erro.Erro = 1;
+                erro.Descricao = "Missing or Incorrect field";
+                return erro;
+            }
+        }
+
         #endregion Leads
+
 
         #region DocCompra
 
@@ -920,8 +960,6 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-     
-
         public static List<Model.SalesOrder> Encomendas_List()
         {
             
@@ -973,9 +1011,6 @@ namespace SFA_REST.Lib_Primavera
             return listdv;
         }
 
-
-       
-
         public static Model.SalesOrder Encomenda_Get(string numdoc)
         {
             
@@ -1021,7 +1056,6 @@ namespace SFA_REST.Lib_Primavera
             }
             return null;
         }
-
 
         public static List<Model.SalesOrder> GetSalesOrderByRep(string salesRepId)
         {
@@ -1074,7 +1108,7 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static   List<Model.SalesOrder> GetSalesOrderByCostumer(string costumerId)
+        public static List<Model.SalesOrder> GetSalesOrderByCostumer(string costumerId)
         {
             StdBELista objListCab;
             StdBELista objListLin;
@@ -1125,5 +1159,19 @@ namespace SFA_REST.Lib_Primavera
         }
 
         #endregion SalesOrder
+
+        #region RoutesCalendar
+
+        public static List<Model.RoutesCalendar> ListRoutes()
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+
+            List<Model.RoutesCalendar> lstlindv = new List<Model.RoutesCalendar>();
+
+            return lstlindv;
+        }
+
+        #endregion RoutesCalendar
+
     }
 }

@@ -48,5 +48,20 @@ namespace SFA_REST.Controllers
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
 
         }
+
+        public HttpResponseMessage Delete(Lib_Primavera.Model.Lead lead)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
+            erro = Lib_Primavera.PriIntegration.DeleteLead(lead);
+
+            if (erro.Erro == 0)
+            {
+                var response = Request.CreateResponse(HttpStatusCode.Created, lead);
+                //string uri = Url.Link("SFA_API", new { id = lead.id });
+                //response.Headers.Remove(uri);
+                return response;
+            }
+            else return Request.CreateResponse(HttpStatusCode.BadRequest);
+        }
     }
 }
