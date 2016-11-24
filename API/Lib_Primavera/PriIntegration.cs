@@ -254,22 +254,26 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        public static List<string> ListProducts()
+        public static List<Model.Product> ListProducts()
         {
                         
             StdBELista objList;
 
-            List<string> listArts = new List<string>();
-            string id;
+            List<Model.Product> listArts = new List<Model.Product>();
             if (PriEngine.InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim()) == true)
             {
-
-                objList = PriEngine.Engine.Comercial.Artigos.LstArtigos();
+                string query = "SELECT * FROM ARTIGO";
+                objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim())
                 {
-                    id = objList.Valor("Artigo");
-                    listArts.Add(id);
+                    listArts.Add(new Model.Product
+                    {
+                        id = objList.Valor("Artigo"),
+                        description = objList.Valor("Descricao"),
+                        quantity = objList.Valor("STKActual")
+
+                    });
                     objList.Seguinte();
                 }
 
@@ -901,7 +905,7 @@ namespace SFA_REST.Lib_Primavera
 
         #region SalesOrder
 
-        public static Model.ErrorResponse Encomendas_New(Model.SalesOrder dv)
+        public static Model.ErrorResponse CreateSalesOrder(Model.SalesOrder dv)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
             GcpBEDocumentoVenda myEnc = new GcpBEDocumentoVenda();
@@ -961,9 +965,8 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static List<Model.SalesOrder> Encomendas_List()
+        public static List<Model.SalesOrder> ListSalesOrder()
         {
-            
             StdBELista objListCab;
             StdBELista objListLin;
             Model.SalesOrder dv = new Model.SalesOrder();

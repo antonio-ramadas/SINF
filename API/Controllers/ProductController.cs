@@ -16,7 +16,7 @@ namespace SFA_REST.Controllers
         /** 
          *  GET method for all the items of the ERP
          */
-        public List<string> Get(){
+        public List<SFA_REST.Lib_Primavera.Model.Product> Get(){
             return Lib_Primavera.PriIntegration.ListProducts();
         }
 
