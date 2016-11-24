@@ -240,7 +240,7 @@ namespace SFA_REST.Lib_Primavera
                     warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
                     foreach (GcpBEArtigoArmazem warehouse in warehouses)
                     {
-                        myProd.warehouses.Add(warehouse.get_Armazem());
+                        myProd.warehouses.Add(warehouse.get_Descricao());
                     }
 
                     return myProd;
@@ -271,7 +271,9 @@ namespace SFA_REST.Lib_Primavera
                     {
                         id = objList.Valor("Artigo"),
                         description = objList.Valor("Descricao"),
-                        quantity = objList.Valor("STKActual")
+                        quantity = objList.Valor("STKActual"),
+                        brand = objList.Valor("Marca"),
+                        model = objList.Valor("Modelo")
 
                     });
                     objList.Seguinte();
