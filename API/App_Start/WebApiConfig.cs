@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Net.Http.Formatting;
+using System.Web.Http.Cors;
 
 namespace SFA_REST
 {
@@ -10,6 +11,10 @@ namespace SFA_REST
     {
         public static void Register(HttpConfiguration config)
         {
+            //enabling cors
+            var corsAttr = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(corsAttr);    
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
