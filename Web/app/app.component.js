@@ -19,7 +19,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app',
-            template: '<navbar *ngIf="showNavbar"></navbar><router-outlet></router-outlet>'
+            template: "\n  <navbar *ngIf=\"showNavbar\"></navbar>\n  <router-outlet></router-outlet>"
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

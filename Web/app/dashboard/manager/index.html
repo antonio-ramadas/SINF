@@ -1,1 +1,110 @@
-<h1>Manager Webpage</h1>
+<div id="dashboard" class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="main-title" class="color-1">
+        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span> Global Overview </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- First Row -->
+  <div class="row">
+
+    <!-- Performance -->
+    <div class="col-xs-12 col-md-7 section">
+      <div>
+        <div id="performance" class="title color-2">
+          <span class="glyphicon glyphicon-scale" aria-hidden="true"></span> <div> Performance Indicators</div>
+        </div>
+        <div class="content">
+          <div class="row" id="performance-graphs">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-4">
+              <doughnut-chart-demo></doughnut-chart-demo>
+            </div>
+            <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-4">
+              <line-chart-demo></line-chart-demo>
+            </div>
+            <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-offset-0 col-md-4">
+              <bar-chart-demo></bar-chart-demo>
+            </div>
+          </div>
+          <div class="row" id="performance-statistics">
+            <div class="col-xs-4 lol">
+              <div class="background-color-6">
+                Statistic #1
+              </div>
+            </div>
+            <div class="col-xs-4 lol ">
+              <div class="background-color-7">
+                Statistic #2
+              </div>
+            </div>
+            <div class="col-xs-4 lol">
+              <div class="background-color-8">
+                Statistic #3
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Representatives and Products-->
+    <div class="col-xs-12 col-md-5 section">
+      <div>
+        <div id="representatives" class="title color-3">
+          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+          <div> Top Representatives </div>
+        </div>
+        <div class="content">
+          <ul class="list">
+            <li>
+              <div class="text"> Representative Name </div>
+              <div class="time"> Rating </div>
+            </li>
+            <li>
+              <div class="text"> Representative Name </div>
+              <div class="time"> Rating </div>
+            </li>
+            <li>
+              <div class="text"> Representative Name </div>
+              <div class="time"> Rating </div>
+            </li>
+            <li>
+              <div class="text"> Representative Name </div>
+              <div class="time"> Rating </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div id="products" class="title color-4">
+          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <div> Top Products </div>
+        </div>
+        <div class="content">
+          <ul class="list">
+            <li>
+              <div class="text"> Product </div>
+              <div class="time"> Category </div>
+            </li>
+            <li>
+              <div class="text"> Product </div>
+              <div class="time"> Category </div>
+            </li>
+            <li>
+              <div class="text"> Product </div>
+              <div class="time"> Category </div>
+            </li>
+            <li>
+              <div class="text"> Product </div>
+              <div class="time"> Category </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
