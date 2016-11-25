@@ -86,11 +86,37 @@ namespace SFA_REST.Controllers
         ///     GET method to get a list of all the costumers with a tag
         /// </summary>
         /// <returns> List with all the customers in the system with a specific tag </returns>
-        [Route("api/customer/label/{labelId}")]
+        [Route("api/customer/label/{label}")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Customer> GetCostumersByLabel(string labelId)
+        public IEnumerable<Lib_Primavera.Model.Customer> GetCostumersByLabel(string label)
         {
-            return Lib_Primavera.PriIntegration.ListCostumerByLabel(labelId);
+            return Lib_Primavera.PriIntegration.ListCostumerByLabel(label);
+        }
+
+        /// <summary>
+        ///     Post method to add a list of all the costumers with a tag
+        /// </summary>
+        /// <returns> List with all the customers in the system with a specific tag </returns>
+        [Route("api/customer/label/{costumerId}/{label}")]
+        [HttpPut]
+        public HttpResponseMessage PutLabel(string costumerId, string label)
+        {
+
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
+
+            try
+            {
+                erro = Lib_Primavera.PriIntegration.AddLabelToCostumer(costumerId, label);
+
+                if (erro.Erro == 0)
+                    return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
+                else
+                    return Request.CreateResponse(HttpStatusCode.NotFound, erro.Descricao);
+            }
+            catch (Exception exc)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, exc.Message);
+            }
         }
     }
 }

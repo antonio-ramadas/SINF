@@ -1297,5 +1297,88 @@ namespace SFA_REST.Lib_Primavera
         }
 
         #endregion Labels
+
+        internal static Model.ErrorResponse AddLabelToCostumer(string costumerId, string labelId)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            GcpBECliente objCli = new GcpBECliente();
+            StdBECampos camposUteis;
+            StdBECampos novosCampos = new StdBECampos();
+            
+            bool result = false;
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+                    if (!PriEngine.Engine.Comercial.Clientes.Existe(costumerId))
+                    {
+                        erro.Erro = 1;
+                        erro.Descricao = "Client Not Found";
+                        return erro;
+                    }
+                    else
+                    {
+                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(costumerId);
+                        objCli.set_EmModoEdicao(true);
+
+                        camposUteis = objCli.get_CamposUtil();
+                        foreach(StdBECampo campo in camposUteis)
+                        {
+                            string valor;
+                            if (campo.Valor is DBNull)
+                            {
+                                valor = "";
+                            }
+                            else
+                            {
+                                valor = campo.Valor;
+                            }
+
+                            valor = valor.Trim();
+                            if (valor == "" && !result)
+                            {
+                                campo.Valor = labelId;
+                                result = true;
+                            }
+
+                            novosCampos.Insere(campo);
+                            continue;
+                            
+                        }
+
+                        if (result)
+                        {
+                            objCli.set_CamposUtil(novosCampos);
+                            PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
+                            erro.Erro = 0;
+                            erro.Descricao = "Sucess";
+                            
+                        }else
+                        {
+                            erro.Erro = 1;
+                            erro.Descricao = "Client already has 3 labels, can't have more";
+                        }
+
+                        
+                        return erro;
+                    }
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Error accessing Database";
+                    return erro;
+
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                erro.Erro = 1;
+                erro.Descricao = ex.Message;
+                return erro;
+            }
+        }
     }
 }
