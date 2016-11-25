@@ -15,6 +15,7 @@ var component_2 = require('./dashboard/manager/component');
 var component_3 = require('./dashboard/sales-rep/component');
 var component_4 = require('./login/component');
 var component_5 = require('./product/component');
+var search_component_1 = require('./search/search.component');
 var routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'client/:id', component: component_1.ClientComponent },
@@ -22,6 +23,7 @@ var routes = [
     { path: 'dashboard/sales-rep', component: component_3.SalesRepComponent },
     { path: 'login', component: component_4.LoginComponent },
     { path: 'product', component: component_5.ProductComponent },
+    { path: 'search', component: search_component_1.SearchComponent },
     { path: '**', redirectTo: '/login' }
 ];
 var AppRoutingModule = (function () {
