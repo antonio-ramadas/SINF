@@ -22,12 +22,16 @@ var component_3 = require('./dashboard/sales-rep/component');
 var component_4 = require('./login/component');
 var component_5 = require('./product/component');
 var component_6 = require('./navbar/component');
+var search_component_1 = require('./search/search.component');
 var graph_test_1 = require('./dashboard/sales-rep/graph-test');
 var graph_test2_1 = require('./dashboard/sales-rep/graph-test2');
 var graph_test3_1 = require('./dashboard/sales-rep/graph-test3');
 var map_test_1 = require('./dashboard/sales-rep/map-test');
 var core_2 = require('angular2-google-maps/core');
 var forms_1 = require('@angular/forms');
+var forms_2 = require('@angular/forms');
+var ng2_bootstrap_2 = require('ng2-bootstrap/ng2-bootstrap');
+var ng2_bootstrap_3 = require('ng2-bootstrap/ng2-bootstrap');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -35,10 +39,13 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 forms_1.FormsModule,
+                forms_2.ReactiveFormsModule,
                 ng2_charts_1.ChartsModule,
                 platform_browser_1.BrowserModule,
+                ng2_bootstrap_2.ModalModule,
                 app_routing_module_1.AppRoutingModule,
                 ng2_bootstrap_1.DropdownModule,
+                ng2_bootstrap_3.PaginationModule,
                 core_2.AgmCoreModule.forRoot({
                     apiKey: 'AIzaSyAGYHY_VL3DJcBenEANyhtGs2iJd6Strpk'
                 }),
@@ -48,6 +55,7 @@ var AppModule = (function () {
             ],
             declarations: [
                 app_component_1.AppComponent,
+                search_component_1.SearchComponent,
                 component_4.LoginComponent,
                 component_1.ClientComponent,
                 component_2.ManagerComponent,
