@@ -280,11 +280,15 @@ namespace SFA_REST.Lib_Primavera
                     myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
                     
                     //Get warehouse's list
-                    myProd.warehouses = new List<string>();
+                    myProd.warehouses = new List<Lib_Primavera.Model.WarehouseProduct>();
                     warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
+                    Lib_Primavera.Model.WarehouseProduct myWarehouse;
                     foreach (GcpBEArtigoArmazem warehouse in warehouses)
                     {
-                        myProd.warehouses.Add(warehouse.get_Descricao());
+                        myWarehouse = new Lib_Primavera.Model.WarehouseProduct();
+                        myWarehouse.id = warehouse.get_Armazem();
+                        myWarehouse.quantity = warehouse.get_StkActual();
+                        myProd.warehouses.Add(myWarehouse);
                     }
 
                     return myProd;

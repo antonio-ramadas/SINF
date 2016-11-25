@@ -50,7 +50,7 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
-        public List<string> warehouses
+        public List<WarehouseProduct> warehouses
         {
             get;
             set;

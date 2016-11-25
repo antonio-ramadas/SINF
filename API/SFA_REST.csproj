@@ -285,6 +285,7 @@
     </Compile>
     <Compile Include="Lib_Primavera\Model\Category.cs" />
     <Compile Include="Lib_Primavera\Model\ErrorResponse.cs" />
+    <Compile Include="Lib_Primavera\Model\WarehouseProduct.cs" />
     <Compile Include="Lib_Primavera\Model\Lead.cs" />
     <Compile Include="Lib_Primavera\Model\Product.cs" />
     <Compile Include="Lib_Primavera\Model\RoutesCalendar.cs" />
