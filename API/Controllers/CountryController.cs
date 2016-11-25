@@ -9,7 +9,10 @@ namespace SFA_REST.Controllers
 {
     public class CountryController : ApiController
     {
-        // GET api/<controller>
+        /// <summary>
+        ///     GET method to retrieve the countrie's list
+        /// </summary>
+        /// <returns> List with all the countries in the system</returns>
         public IEnumerable<Lib_Primavera.Model.Country> Get()
         {
             return Lib_Primavera.PriIntegration.GetCountries();
