@@ -26,5 +26,7 @@ namespace SFA_REST.Lib_Primavera.Model
         public string dateOfBirth { get; set; }
 
         public string nif { get; set; }
+
+        public List<string> labels { get; set; }
     }
 }

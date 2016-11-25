@@ -33,6 +33,16 @@ namespace SFA_REST.Controllers
             return Lib_Primavera.PriIntegration.GetLead(id);
         }
 
+        /// <summary>
+        ///   GET method for a lead in the ERP, with a given id represented as a String
+        /// </summary>
+        /// <returns> Lead with the respective specified id </returns>
+        [Route("api/leads/customer/{id}")]
+        [HttpGet]
+        public IEnumerable<Lead> GetByCustomer(string id)
+        {
+            return Lib_Primavera.PriIntegration.ListLeadsByCustomer(id);
+        }
 
         /// <summary>
         ///   POST method for the creation of a given lead

@@ -81,5 +81,68 @@ namespace SFA_REST.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
             }
         }
+
+        /// <summary>
+        ///     GET method to get a list of all the costumers with a label
+        /// </summary>
+        /// <returns> List with all the customers in the system with a specific tag </returns>
+        [Route("api/customer/label/{label}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Customer> GetCostumersByLabel(string label)
+        {
+            return Lib_Primavera.PriIntegration.ListCostumerByLabel(label);
+        }
+
+        /// <summary>
+        ///     Put method to add a label to a costumer
+        /// </summary>
+        /// <returns> HttpResponseMessage with the output from the server </returns>
+        [Route("api/customer/label/{customerId}/{label}")]
+        [HttpPut]
+        public HttpResponseMessage PutLabel(string customerId, string label)
+        {
+
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
+
+            try
+            {
+                erro = Lib_Primavera.PriIntegration.AddLabelToCostumer(customerId, label);
+
+                if (erro.Erro == 0)
+                    return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
+                else
+                    return Request.CreateResponse(HttpStatusCode.NotFound, erro.Descricao);
+            }
+            catch (Exception exc)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, exc.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Delete method to delete a label from a costumer
+        /// </summary>
+        /// <returns> HttpResponseMessage with the output from the server </returns>
+        [Route("api/customer/label/{customerId}/{label}")]
+        [HttpDelete]
+        public HttpResponseMessage DeleteLabel(string customerId, string label)
+        {
+
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
+
+            try
+            {
+                erro = Lib_Primavera.PriIntegration.DeleteLabelToCostumer(customerId, label);
+
+                if (erro.Erro == 0)
+                    return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
+                else
+                    return Request.CreateResponse(HttpStatusCode.NotFound, erro.Descricao);
+            }
+            catch (Exception exc)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, exc.Message);
+            }
+        }
     }
 }

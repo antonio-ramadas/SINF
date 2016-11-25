@@ -25,11 +25,15 @@ namespace SFA_REST.Lib_Primavera
                 if (PriEngine.isOpen())
                 {
 
-                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM  CLIENTES";
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, NumContrib as NIF, Pais, CDU_CampoVar1, CDU_CampoVar2, CDU_CampoVar3 FROM  CLIENTES";
                     StdBELista objList = PriEngine.Engine.Consulta(query);
-
+                    List<string> labelsList;
                     while (!objList.NoFim())
                     {
+                        labelsList = new List<string>();
+                        labelsList.Add(objList.Valor("CDU_CampoVar1"));
+                        labelsList.Add(objList.Valor("CDU_CampoVar2"));
+                        labelsList.Add(objList.Valor("CDU_CampoVar3"));
                         listCustomers.Add(new Model.Customer
                         {
                             id = objList.Valor("Cliente"),
@@ -37,11 +41,10 @@ namespace SFA_REST.Lib_Primavera
                             phoneNumber = objList.Valor("Fac_Tel"),
                             address = objList.Valor("Morada"),
                             email = objList.Valor("Mail"),
-                            customerGroups = objList.Valor("CDU_GruposDeClientes"),
                             gender = objList.Valor("CDU_Sexo"),
-                            dateOfBirth = objList.Valor("CDU_DataNascimento").ToString(),
-                            nationality = objList.Valor("CDU_Nacionalidade"),
-                            nif = objList.Valor("NIF")
+                            nationality = objList.Valor("Pais"),
+                            nif = objList.Valor("NIF"),
+                            labels = labelsList
                         });
                         objList.Seguinte();
 
@@ -66,12 +69,17 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id))
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, NumContrib as NIF, Pais, CDU_CampoVar1, CDU_CampoVar2, CDU_CampoVar3 FROM CLIENTES WHERE Cliente = '" + id + "'";
                     StdBELista objCli = PriEngine.Engine.Consulta(query);
+                    List<string> labelsList;
 
                     if (!objCli.Vazia())
                     {
                         Model.Customer myCli;
+                        labelsList = new List<string>();
+                        labelsList.Add(objCli.Valor("CDU_CampoVar1"));
+                        labelsList.Add(objCli.Valor("CDU_CampoVar2"));
+                        labelsList.Add(objCli.Valor("CDU_CampoVar3"));
                         myCli = new Model.Customer
                         {
                             id = objCli.Valor("Cliente"),
@@ -79,11 +87,9 @@ namespace SFA_REST.Lib_Primavera
                             phoneNumber = objCli.Valor("Fac_Tel"),
                             address = objCli.Valor("Morada"),
                             email = objCli.Valor("Mail"),
-                            customerGroups = objCli.Valor("CDU_GruposDeClientes"),
-                            gender = objCli.Valor("CDU_Sexo"),
-                            nationality = objCli.Valor("CDU_Nacionalidade"),
-                            dateOfBirth = objCli.Valor("CDU_DataNascimento").ToString(),
-                            nif = objCli.Valor("NIF")
+                            nationality = objCli.Valor("Pais"),
+                            nif = objCli.Valor("NIF"),
+                            labels = labelsList
                         };
                         return myCli;
                     }
@@ -148,12 +154,8 @@ namespace SFA_REST.Lib_Primavera
                         objCli.set_B2BEnderecoMail(customer.email);
                         objCli.set_Telefone(customer.phoneNumber);
                         objCli.set_NumContribuinte(customer.nif);
+                        objCli.set_Pais(customer.nationality);
                         PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
-
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_GruposDeClientes", customer.customerGroups);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_Sexo", customer.gender);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_Nacionalidade", customer.nationality);
-                        PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(id, "CDU_DataNascimento", Convert.ToDateTime(customer.dateOfBirth));
 
                         erro.Erro = 0;
                         erro.Descricao = "Sucesso";
@@ -194,13 +196,9 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_Telefone(customer.phoneNumber);
                     myCli.set_B2BEnderecoMail(customer.email);
                     myCli.set_NumContribuinte(customer.nif);
+                    myCli.set_Pais(customer.nationality);
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
-
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_GruposDeClientes", customer.customerGroups);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_Sexo", customer.gender);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_Nacionalidade", customer.nationality);
-                    PriEngine.Engine.Comercial.Clientes.ActualizaValorAtributo(customer.id, "CDU_DataNascimento", customer.dateOfBirth);
 
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
@@ -253,7 +251,9 @@ namespace SFA_REST.Lib_Primavera
                     myProd.model = objArtigo.get_Modelo();
                     myProd.brand = objArtigo.get_Marca();
                     myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
-                    
+
+                    myProd.salesCount = GetSalesCount(productId);
+
                     //GET PRODUCT PRICE
                     if (PriEngine.Engine.Comercial.ArtigosPrecos.Existe(productId, CURRENCY, UNIT)==false)
                     {
@@ -266,11 +266,15 @@ namespace SFA_REST.Lib_Primavera
                     myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
                     
                     //Get warehouse's list
-                    myProd.warehouses = new List<string>();
+                    myProd.warehouses = new List<Lib_Primavera.Model.WarehouseProduct>();
                     warehouses = PriEngine.Engine.Comercial.ArtigosArmazens.ListaArtigosArmazens(productId);
+                    Lib_Primavera.Model.WarehouseProduct myWarehouse;
                     foreach (GcpBEArtigoArmazem warehouse in warehouses)
                     {
-                        myProd.warehouses.Add(warehouse.get_Descricao());
+                        myWarehouse = new Lib_Primavera.Model.WarehouseProduct();
+                        myWarehouse.id = warehouse.get_Armazem();
+                        myWarehouse.quantity = warehouse.get_StkActual();
+                        myProd.warehouses.Add(myWarehouse);
                     }
 
                     return myProd;
@@ -282,6 +286,28 @@ namespace SFA_REST.Lib_Primavera
                 return null;
             }
 
+        }
+
+        public static double GetSalesCount(string productId)
+        {
+            StdBELista objList;
+            if(PriEngine.isOpen())
+            {
+                if (PriEngine.Engine.Comercial.Artigos.Existe(productId) == false)
+                {
+                    return 0;
+                }
+
+                string query = "SELECT SUM(Quantidade) as salesCount FROM LinhasDoc WHERE Artigo ='" + productId + "'";
+                objList = PriEngine.Engine.Consulta(query);
+
+                return objList.Valor("salesCount");
+                
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public static List<Model.Product> ListProducts()
@@ -382,12 +408,8 @@ namespace SFA_REST.Lib_Primavera
                         id = obj.Valor("Vendedor"),
                         email = obj.Valor("EMail"),
                         name = obj.Valor("Nome"),
-                        dateOfBirth = obj.Valor("CDU_DataNascimento").ToString(),
                         address = obj.Valor("Morada"),
-                        country = obj.Valor("CDU_Pais"),
-                        nationality = obj.Valor("CDU_Nacionalidade"),
                         phoneNumber = obj.Valor("Telefone"),
-                        gender = obj.Valor("CDU_Sexo").ToString(),
                         active = obj.Valor("CDU_Ativo").ToString()
                     });
                     obj.Seguinte();
@@ -419,12 +441,8 @@ namespace SFA_REST.Lib_Primavera
                                 id = obj.Valor("Vendedor"),
                                 email = obj.Valor("EMail"),
                                 name = obj.Valor("Nome"),
-                                dateOfBirth = obj.Valor("CDU_DataNascimento").ToString(),
                                 address = obj.Valor("Morada"),
-                                country = obj.Valor("CDU_Pais"),
-                                nationality = obj.Valor("CDU_Nacionalidade"),
                                 phoneNumber = obj.Valor("Telefone"),
-                                gender = obj.Valor("CDU_Sexo").ToString(),
                                 active = obj.Valor("CDU_Ativo").ToString()
                             };
                             return mySalesRep;
@@ -462,11 +480,7 @@ namespace SFA_REST.Lib_Primavera
                         mySalesRep.set_Telefone(salesRepresentative.phoneNumber);
                     
                         PriEngine.Engine.Comercial.Vendedores.Actualiza(mySalesRep);
-                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_DataNascimento", salesRepresentative.dateOfBirth);
-                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_Nacionalidade", salesRepresentative.nationality);
-                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_Pais", salesRepresentative.country);
-                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "CDU_Sexo", salesRepresentative.gender);
-
+                       
                     }
                     catch (Exception e)
                     {
@@ -670,6 +684,47 @@ namespace SFA_REST.Lib_Primavera
                 {
 
                     string query = "SELECT * FROM CabecOportunidadesVenda";
+                    obj = PriEngine.Engine.Consulta(query);
+
+                    while (!obj.NoFim())
+                    {
+                        listLeads.Add(new Model.Lead
+                        {
+                            id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", ""),
+                            customerID = obj.Valor("Entidade"),
+                            expirationDate = obj.Valor("DataExpiracao").ToString(),
+                            description = obj.Valor("Descricao"),
+                            summary = obj.Valor("Resumo"),
+                            value = obj.Valor("ValorTotalOV").ToString(),
+                            salesRepID = obj.Valor("Vendedor"),
+                            type = obj.Valor("Oportunidade")
+                        });
+                        obj.Seguinte();
+                    }
+
+                    return listLeads;
+                }
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public static List<Model.Lead> ListLeadsByCustomer(string customerId)
+        {
+            StdBELista obj;
+
+            List<Model.Lead> listLeads = new List<Model.Lead>();
+            try
+            {
+                if (PriEngine.isOpen() == true)
+                {
+
+                    string query = "SELECT * FROM CabecOportunidadesVenda WHERE Entidade = '"+customerId+"'";
                     obj = PriEngine.Engine.Consulta(query);
 
                     while (!obj.NoFim())
@@ -1240,5 +1295,248 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion RoutesCalendar
 
+
+        #region Labels
+        public static IEnumerable<Model.Customer> ListCostumerByLabel(string labelId)
+        {
+            List<Model.Customer> listCustomers = new List<Model.Customer>();
+            
+            if (PriEngine.isOpen())
+            {
+
+                string query = "SELECT * FROM  CLIENTES WHERE CDU_CampoVar1 ='" + labelId + "' OR CDU_CampoVar2 = '" + labelId + "' OR CDU_CampoVar3 = '" + labelId + "'";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                List<string> labelsList;
+
+                while (!objList.NoFim())
+                {
+                    labelsList = new List<string>();
+                    labelsList.Add(objList.Valor("CDU_CampoVar1"));
+                    labelsList.Add(objList.Valor("CDU_CampoVar2"));
+                    labelsList.Add(objList.Valor("CDU_CampoVar3"));
+
+                    listCustomers.Add(new Model.Customer
+                    {
+                        id = objList.Valor("Cliente"),
+                        name = objList.Valor("Nome"),
+                        phoneNumber = objList.Valor("Fac_Tel"),
+                        address = objList.Valor("Fac_Mor"),
+                        email = objList.Valor("B2BEnderecoMail"),
+                        //customerGroups = objList.Valor("CDU_GruposDeClientes"),
+                        //gender = objList.Valor("CDU_Sexo"),
+                        //dateOfBirth = objList.Valor("CDU_DataNascimento").ToString(),
+                        nationality = objList.Valor("Pais"),
+                        nif = objList.Valor("NumContrib"),
+                        labels = labelsList
+                    });
+                    objList.Seguinte();
+
+                }
+
+                return listCustomers;
+            }
+            else
+                return null;
+        }
+
+        public static Model.ErrorResponse AddLabelToCostumer(string costumerId, string labelId)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            GcpBECliente objCli = new GcpBECliente();
+            StdBECampos camposUteis;
+            StdBECampos novosCampos = new StdBECampos();
+            
+            bool result = false;
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+                    if (!PriEngine.Engine.Comercial.Clientes.Existe(costumerId))
+                    {
+                        erro.Erro = 1;
+                        erro.Descricao = "Client Not Found";
+                        return erro;
+                    }
+                    else
+                    {
+                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(costumerId);
+                        objCli.set_EmModoEdicao(true);
+
+                        camposUteis = objCli.get_CamposUtil();
+                        foreach(StdBECampo campo in camposUteis)
+                        {
+                            string valor;
+                            if (campo.Valor is DBNull)
+                            {
+                                valor = "";
+                            }
+                            else
+                            {
+                                valor = campo.Valor;
+                            }
+
+                            valor = valor.Trim();
+                            if (valor == "" && !result)
+                            {
+                                campo.Valor = labelId;
+                                result = true;
+                            }
+
+                            novosCampos.Insere(campo);
+                            continue;
+                            
+                        }
+
+                        if (result)
+                        {
+                            objCli.set_CamposUtil(novosCampos);
+                            PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
+                            erro.Erro = 0;
+                            erro.Descricao = "Sucess";
+                            
+                        }else
+                        {
+                            erro.Erro = 1;
+                            erro.Descricao = "Client already has 3 labels, can't have more";
+                        }
+
+                        
+                        return erro;
+                    }
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Error accessing Database";
+                    return erro;
+
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                erro.Erro = 1;
+                erro.Descricao = ex.Message;
+                return erro;
+            }
+        }
+
+        public static Model.ErrorResponse DeleteLabelToCostumer(string costumerId, string label)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            GcpBECliente objCli = new GcpBECliente();
+            StdBECampos camposUteis;
+            StdBECampos novosCampos = new StdBECampos();
+
+            bool result = false;
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+                    if (!PriEngine.Engine.Comercial.Clientes.Existe(costumerId))
+                    {
+                        erro.Erro = 1;
+                        erro.Descricao = "Client Not Found";
+                        return erro;
+                    }
+                    else
+                    {
+                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(costumerId);
+                        objCli.set_EmModoEdicao(true);
+
+                        camposUteis = objCli.get_CamposUtil();
+                        foreach (StdBECampo campo in camposUteis)
+                        {
+                            string valor;
+                            if (campo.Valor is DBNull)
+                            {
+                                valor = "";
+                            }
+                            else
+                            {
+                                valor = campo.Valor;
+                            }
+
+                            valor = valor.Trim();
+                            if (valor == label)
+                            {
+                                campo.Valor = DBNull.Value;
+                                result = true;
+                            }
+
+                            novosCampos.Insere(campo);
+                            continue;
+
+                        }
+
+                        if (result)
+                        {
+                            objCli.set_CamposUtil(novosCampos);
+                            PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
+                            erro.Erro = 0;
+                            erro.Descricao = "Sucess";
+
+                        }
+                        else
+                        {
+                            erro.Erro = 1;
+                            erro.Descricao = "Client doesn't have that label";
+                        }
+
+
+                        return erro;
+                    }
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Error accessing Database";
+                    return erro;
+
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                erro.Erro = 1;
+                erro.Descricao = ex.Message;
+                return erro;
+            }
+        }
+
+        #endregion Labels
+
+        #region Paises
+
+        internal static IEnumerable<Model.Country> GetCountries()
+        {
+            List<Lib_Primavera.Model.Country> countries = new List<Model.Country>();
+
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT Pais, Descricao FROM Paises";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                Lib_Primavera.Model.Country country;
+                while (!objList.NoFim())
+                {
+                    country = new Model.Country();
+                    country.country = objList.Valor("Pais");
+                    country.descricao = objList.Valor("Descricao");
+                    countries.Add(country);
+
+                    objList.Seguinte();
+                }
+
+                return countries;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
     }
+        #endregion paises
 }
