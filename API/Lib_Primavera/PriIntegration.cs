@@ -265,7 +265,9 @@ namespace SFA_REST.Lib_Primavera
                     myProd.model = objArtigo.get_Modelo();
                     myProd.brand = objArtigo.get_Marca();
                     myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
-                    
+
+                    myProd.salesCount = getSalesCount(productId);
+
                     //GET PRODUCT PRICE
                     if (PriEngine.Engine.Comercial.ArtigosPrecos.Existe(productId, CURRENCY, UNIT)==false)
                     {
@@ -294,6 +296,28 @@ namespace SFA_REST.Lib_Primavera
                 return null;
             }
 
+        }
+
+        public static double getSalesCount(string productId)
+        {
+            StdBELista objList;
+            if(PriEngine.isOpen())
+            {
+                if (PriEngine.Engine.Comercial.Artigos.Existe(productId) == false)
+                {
+                    return 0;
+                }
+
+                string query = "SELECT SUM(Quantidade) as salesCount FROM LinhasDoc WHERE Artigo ='" + productId + "'";
+                objList = PriEngine.Engine.Consulta(query);
+
+                return objList.Valor("salesCount");
+                
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public static List<Model.Product> ListProducts()
