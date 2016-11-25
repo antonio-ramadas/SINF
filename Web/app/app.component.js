@@ -10,7 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(viewContainerRef) {
+        // You need this small hack in order to catch application root view container ref
+        this.viewContainerRef = viewContainerRef;
     }
     AppComponent.prototype.ngOnInit = function () {
         var regex = /^\/(login)?$/g;
@@ -21,7 +23,7 @@ var AppComponent = (function () {
             selector: 'app',
             template: "\n  <navbar *ngIf=\"showNavbar\"></navbar>\n  <router-outlet></router-outlet>"
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);
     return AppComponent;
 }());

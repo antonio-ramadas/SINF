@@ -11,9 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
+var forms_2 = require('@angular/forms');
 var app_routing_module_1 = require('./app-routing.module');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_bootstrap_2 = require('ng2-bootstrap/ng2-bootstrap');
+var ng2_bootstrap_3 = require('ng2-bootstrap/ng2-bootstrap');
 var tree_view_1 = require('./product/tree-view');
 var ng2_charts_1 = require('ng2-charts/ng2-charts');
 var app_component_1 = require('./app.component');
@@ -36,8 +38,10 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 forms_1.FormsModule,
+                forms_2.ReactiveFormsModule,
                 ng2_charts_1.ChartsModule,
                 platform_browser_1.BrowserModule,
+                ng2_bootstrap_3.ModalModule,
                 app_routing_module_1.AppRoutingModule,
                 ng2_bootstrap_1.DropdownModule,
                 ng2_bootstrap_2.PaginationModule,

@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
+var core_1 = require('@angular/core');
 var SearchComponent = (function () {
     function SearchComponent() {
         // Deve ser um array de objetos representative/product
@@ -23,16 +23,16 @@ var SearchComponent = (function () {
         console.log('Number items per page: ' + event.itemsPerPage);
     };
     ;
+    SearchComponent = __decorate([
+        core_1.Component({
+            selector: 'search',
+            moduleId: module.id,
+            templateUrl: 'search.component.html',
+            styleUrls: ['search.component.css']
+        }), 
+        __metadata('design:paramtypes', [])
+    ], SearchComponent);
     return SearchComponent;
 }());
-SearchComponent = __decorate([
-    core_1.Component({
-        selector: 'search',
-        moduleId: module.id,
-        templateUrl: 'search.component.html',
-        styleUrls: ['search.component.css']
-    }),
-    __metadata("design:paramtypes", [])
-], SearchComponent);
 exports.SearchComponent = SearchComponent;
 //# sourceMappingURL=search.component.js.map
