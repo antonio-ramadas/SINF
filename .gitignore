@@ -1,6 +1,6 @@
 system-config.js*
-*.js
-*.map
+web/**/*.js
+web/**/*.map
 node_modules
 jspm_packages
 bower_components
