@@ -411,7 +411,7 @@ namespace SFA_REST.Lib_Primavera
                         name = obj.Valor("Nome"),
                         address = obj.Valor("Morada"),
                         phoneNumber = obj.Valor("Telefone"),
-                        active = obj.Valor("CDU_Ativo").ToString()
+                        active = obj.Valor("DisponivelEmPMS").ToString()
                     });
                     obj.Seguinte();
 
@@ -444,7 +444,7 @@ namespace SFA_REST.Lib_Primavera
                                 name = obj.Valor("Nome"),
                                 address = obj.Valor("Morada"),
                                 phoneNumber = obj.Valor("Telefone"),
-                                active = obj.Valor("CDU_Ativo").ToString()
+                                active = obj.Valor("DisponivelEmPMS").ToString()
                             };
                             return mySalesRep;
                         }
@@ -532,7 +532,7 @@ namespace SFA_REST.Lib_Primavera
                     }
                     else
                     {
-                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(id, "CDU_Ativo", 0);
+                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(id, "DisponivelEmPMS", 0);
 
                         erro.Erro = 0;
                         erro.Descricao = "Success";
