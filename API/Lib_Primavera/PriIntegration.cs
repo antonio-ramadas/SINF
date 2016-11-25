@@ -94,7 +94,6 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-
         public static List<Model.Customer> GetCustomerByName(string name)
         {
             List<Model.Customer> listCustomers = new List<Model.Customer>();
