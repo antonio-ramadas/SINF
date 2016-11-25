@@ -27,6 +27,7 @@ var graph_test2_1 = require('./dashboard/sales-rep/graph-test2');
 var graph_test3_1 = require('./dashboard/sales-rep/graph-test3');
 var map_test_1 = require('./dashboard/sales-rep/map-test');
 var core_2 = require('angular2-google-maps/core');
+var forms_1 = require('@angular/forms');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -41,7 +42,8 @@ var AppModule = (function () {
                     apiKey: 'AIzaSyAGYHY_VL3DJcBenEANyhtGs2iJd6Strpk'
                 }),
                 http_1.HttpModule,
-                http_1.JsonpModule
+                http_1.JsonpModule,
+                forms_1.FormsModule
             ],
             declarations: [
                 app_component_1.AppComponent,

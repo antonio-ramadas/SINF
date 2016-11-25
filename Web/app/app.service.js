@@ -20,6 +20,7 @@ var Service = (function () {
         this.productPath = '/product';
         this.categoryPath = '/category';
         this.historyPath = '/sales/history';
+        this.searchPath = '/search';
     }
     Service.prototype.getSalesHistoryByProduct = function (id, total) {
         return this.http.get(this.baseUrl + this.historyPath + '/' + id + '/' + total)
@@ -28,6 +29,11 @@ var Service = (function () {
     };
     Service.prototype.getCustomers = function () {
         return this.http.get(this.baseUrl + this.customerPath)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    Service.prototype.getCustomerByName = function (hint) {
+        return this.http.get(this.baseUrl + this.customerPath + this.searchPath + '/' + hint)
             .map(this.extractData)
             .catch(this.handleError);
     };

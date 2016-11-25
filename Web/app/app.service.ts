@@ -13,6 +13,7 @@ export class Service {
   private productPath = '/product';
   private categoryPath = '/category';
   private historyPath = '/sales/history';
+  private searchPath = '/search';
 
   constructor (private http: Http) {}
   getSalesHistoryByProduct (id: string, total: string): Observable<JSON[]> {
@@ -23,6 +24,12 @@ export class Service {
 
   getCustomers (): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.customerPath)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getCustomerByName (hint: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.customerPath + this.searchPath + '/' + hint)
                     .map(this.extractData)
                     .catch(this.handleError);
   }

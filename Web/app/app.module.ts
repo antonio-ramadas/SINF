@@ -18,6 +18,7 @@ import { LineChartDemoComponent }         from './dashboard/sales-rep/graph-test
 import { BarChartDemoComponent }          from './dashboard/sales-rep/graph-test3';
 import { MapTest }                        from './dashboard/sales-rep/map-test';
 import { AgmCoreModule }                  from 'angular2-google-maps/core';
+import { FormsModule }                    from '@angular/forms';
 
 @NgModule({
   imports:      [
@@ -29,7 +30,8 @@ import { AgmCoreModule }                  from 'angular2-google-maps/core';
                       apiKey: 'AIzaSyAGYHY_VL3DJcBenEANyhtGs2iJd6Strpk'
                     }),
                   HttpModule,
-                  JsonpModule
+                  JsonpModule,
+                  FormsModule
                 ],
   declarations: [
                   AppComponent,

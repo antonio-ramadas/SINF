@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Item } from './Item';
 import { Service } from './../app.service';
@@ -10,7 +10,8 @@ import { Product } from './../class/product';
   moduleId: module.id,
   templateUrl: 'index.html',
   styleUrls: ['style.css'],
-  providers: [Service]
+  providers: [Service],
+  inputs: ['hint']
 })
 
 export class ProductComponent {
@@ -41,7 +42,9 @@ export class ProductComponent {
   
   categories = [];
   history = [];
+  search = [];
   product = {};
+  hint = '';
   errorMessage: string;
 
   constructor(private service: Service, private route: ActivatedRoute){
@@ -60,6 +63,14 @@ export class ProductComponent {
       this.getHistory();
     });
   }
+
+  eventHandler(event) {
+   //console.log(event, event.keyCode, event.keyIdentifier);
+   this.service.getCustomerByName(this.hint + event.key)
+                    .subscribe(
+                       suggestions => this.search = suggestions,
+                       error =>  this.errorMessage = <any>error);
+} 
 
   getHistory() {
     this.service.getSalesHistoryByProduct(this.id, '30')

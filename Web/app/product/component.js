@@ -32,7 +32,9 @@ var ProductComponent = (function () {
         this.item5 = new Item_1.Item("item5");
         this.categories = [];
         this.history = [];
+        this.search = [];
         this.product = {};
+        this.hint = '';
         this.item0.addItem(this.item1);
         this.item0.addItem(this.item2);
         this.item1.addItem(this.item3);
@@ -47,6 +49,12 @@ var ProductComponent = (function () {
             _this.getProduct();
             _this.getHistory();
         });
+    };
+    ProductComponent.prototype.eventHandler = function (event) {
+        var _this = this;
+        //console.log(event, event.keyCode, event.keyIdentifier);
+        this.service.getCustomerByName(this.hint + event.key)
+            .subscribe(function (suggestions) { return _this.search = suggestions; }, function (error) { return _this.errorMessage = error; });
     };
     ProductComponent.prototype.getHistory = function () {
         var _this = this;
@@ -69,7 +77,8 @@ var ProductComponent = (function () {
             moduleId: module.id,
             templateUrl: 'index.html',
             styleUrls: ['style.css'],
-            providers: [app_service_1.Service]
+            providers: [app_service_1.Service],
+            inputs: ['hint']
         }), 
         __metadata('design:paramtypes', [app_service_1.Service, router_1.ActivatedRoute])
     ], ProductComponent);
