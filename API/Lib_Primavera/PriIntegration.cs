@@ -41,7 +41,6 @@ namespace SFA_REST.Lib_Primavera
                             phoneNumber = objList.Valor("Fac_Tel"),
                             address = objList.Valor("Morada"),
                             email = objList.Valor("Mail"),
-                            gender = objList.Valor("CDU_Sexo"),
                             nationality = objList.Valor("Pais"),
                             nif = objList.Valor("NIF"),
                             labels = labelsList
