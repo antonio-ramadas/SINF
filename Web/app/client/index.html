@@ -15,39 +15,9 @@
         </div>
         <div id="contact-list-panel">
           <ul id="contact-list">
-            <li>
-              <div class="contact-name"> Pedro Romano Barbosa </div>
-              <div class="contant-basic-info"> Important basic information </div>
-              <div class="tag"> tag </div>
-            </li>
-            <li>
-              <div class="contact-name"> Pedro Romano Barbosa </div>
-              <div class="contant-basic-info"> Important basic information </div>
-              <div class="tag"> tag </div>
-            </li>
-            <li>
-              <div class="contact-name"> Pedro Romano Barbosa </div>
-              <div class="contant-basic-info"> Important basic information </div>
-              <div class="tag"> tag </div>
-            </li>
-            <li>
-              <div class="contact-name"> Pedro Romano Barbosa </div>
-              <div class="contant-basic-info"> Important basic information </div>
-              <div class="tag"> tag </div>
-            </li>
-            <li>
-              <div class="contact-name"> Pedro Romano Barbosa </div>
-              <div class="contant-basic-info"> Important basic information </div>
-              <div class="tag"> tag </div>
-            </li>
-            <li>
-              <div class="contact-name"> Pedro Romano Barbosa </div>
-              <div class="contant-basic-info"> Important basic information </div>
-              <div class="tag"> tag </div>
-            </li>
-            <li>
-              <div class="contact-name"> Pedro Romano Barbosa </div>
-              <div class="contant-basic-info"> Important basic information </div>
+            <li *ngFor=" let customer of customers">
+              <div class="contact-name"> {{customer.id}} </div>
+              <div class="contant-basic-info"> {{customer.name}} </div>
               <div class="tag"> tag </div>
             </li>
           </ul>
@@ -71,13 +41,13 @@
             <img src="https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-9/11752443_1103956676299436_8388653724643498064_n.jpg?oh=32407ad38f08b82c40a7ed462d191c40&oe=58B58FE4">
             <div id="contact-title">
               <div id="contact-title-name">
-                <strong> Pedro Romano Barbosa </strong>
+                <strong> {{customer.name}} </strong>
               </div>
               <div id="contact-title-organization">
                 FEUP
               </div>
               <div id="contact-title-location">
-                Senhora da Hora, Porto
+                {{customer.address}}
               </div>
             </div>
           </div>
@@ -89,10 +59,10 @@
                 </strong>
                 <div id="content-detail">
                   <ul id="content-detail-list">
-                    <li> <strong> Info: </strong> some information</li>
-                    <li> <strong> Info: </strong> some information</li>
-                    <li> <strong> Info: </strong> some information</li>
-                    <li> <strong> Info: </strong> some information</li>
+                    <li> <strong> ID: </strong> {{customer.id}} </li>
+                    <li> <strong> Nationality: </strong> {{customer.nationality}} </li>
+                    <li> <strong> Phone number: </strong> {{customer.phoneNumber}} </li>
+                    <li> <strong> NIF: </strong> {{customer.nif}} </li>
                   </ul>
                   <button type="button" class="btn btn-primary" [(ngModel)]="singleModel" ngDefaultControl>
                     Edit Information

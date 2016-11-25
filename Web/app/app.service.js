@@ -61,6 +61,16 @@ var Service = (function () {
             .map(this.extractData)
             .catch(this.handleError);
     };
+    Service.prototype.getCostumer = function (id) {
+        return this.http.get(this.baseUrl + this.customerPath + '/' + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    Service.prototype.getCostumers = function () {
+        return this.http.get(this.baseUrl + this.customerPath)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
     Service.prototype.extractData = function (res) {
         var body = res.json();
         return body || {};

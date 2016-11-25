@@ -64,6 +64,18 @@ export class Service {
                     .catch(this.handleError);
   }
 
+  getCostumer(id: string): Observable<JSON[]>{
+    return this.http.get(this.baseUrl + this.customerPath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getCostumers(): Observable<JSON[]>{
+    return this.http.get(this.baseUrl + this.customerPath)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || { };
