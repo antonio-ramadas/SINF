@@ -266,7 +266,7 @@ namespace SFA_REST.Lib_Primavera
                     myProd.brand = objArtigo.get_Marca();
                     myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
 
-                    myProd.salesCount = getSalesCount(productId);
+                    myProd.salesCount = GetSalesCount(productId);
 
                     //GET PRODUCT PRICE
                     if (PriEngine.Engine.Comercial.ArtigosPrecos.Existe(productId, CURRENCY, UNIT)==false)
@@ -302,7 +302,7 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        public static double getSalesCount(string productId)
+        public static double GetSalesCount(string productId)
         {
             StdBELista objList;
             if(PriEngine.isOpen())
@@ -1532,6 +1532,35 @@ namespace SFA_REST.Lib_Primavera
                 erro.Descricao = ex.Message;
                 return erro;
             }
+        }
+
+        internal static IEnumerable<Model.Country> GetCountries()
+        {
+            List<Lib_Primavera.Model.Country> countries = new List<Model.Country>();
+
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT Pais, Descricao FROM Paises";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                Lib_Primavera.Model.Country country;
+                while (!objList.NoFim())
+                {
+                    country = new Model.Country();
+                    country.country = objList.Valor("Pais");
+                    country.descricao = objList.Valor("Descricao");
+                    countries.Add(country);
+
+                    objList.Seguinte();
+                }
+
+                return countries;
+            }
+            else
+            {
+                return null;
+            }
+
+            return countries;
         }
     }
 }
