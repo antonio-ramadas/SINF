@@ -81,5 +81,16 @@ namespace SFA_REST.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
             }
         }
+
+        /// <summary>
+        ///     GET method to get a list of all the costumers with a tag
+        /// </summary>
+        /// <returns> List with all the customers in the system with a specific tag </returns>
+        [Route("api/customer/label/{labelId}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Customer> GetCostumersByLabel(string labelId)
+        {
+            return Lib_Primavera.PriIntegration.ListCostumerByLabel(labelId);
+        }
     }
 }

@@ -25,11 +25,15 @@ namespace SFA_REST.Lib_Primavera
                 if (PriEngine.isOpen())
                 {
 
-                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM  CLIENTES";
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade, CDU_CampoVar1, CDU_CampoVar2, CDU_CampoVar3 FROM  CLIENTES";
                     StdBELista objList = PriEngine.Engine.Consulta(query);
-
+                    List<string> labelsList;
                     while (!objList.NoFim())
                     {
+                        labelsList = new List<string>();
+                        labelsList.Add(objList.Valor("CDU_CampoVar1"));
+                        labelsList.Add(objList.Valor("CDU_CampoVar2"));
+                        labelsList.Add(objList.Valor("CDU_CampoVar3"));
                         listCustomers.Add(new Model.Customer
                         {
                             id = objList.Valor("Cliente"),
@@ -41,7 +45,8 @@ namespace SFA_REST.Lib_Primavera
                             gender = objList.Valor("CDU_Sexo"),
                             dateOfBirth = objList.Valor("CDU_DataNascimento").ToString(),
                             nationality = objList.Valor("CDU_Nacionalidade"),
-                            nif = objList.Valor("NIF")
+                            nif = objList.Valor("NIF"),
+                            labels = labelsList
                         });
                         objList.Seguinte();
 
@@ -66,12 +71,17 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id))
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, CDU_DataNascimento, NumContrib as NIF, CDU_GruposDeClientes, CDU_Sexo, CDU_Nacionalidade, CDU_CampoVar1, CDU_CampoVar2, CDU_CampoVar3 FROM CLIENTES WHERE Cliente = '" + id + "'";
                     StdBELista objCli = PriEngine.Engine.Consulta(query);
+                    List<string> labelsList;
 
                     if (!objCli.Vazia())
                     {
                         Model.Customer myCli;
+                        labelsList = new List<string>();
+                        labelsList.Add(objCli.Valor("CDU_CampoVar1"));
+                        labelsList.Add(objCli.Valor("CDU_CampoVar2"));
+                        labelsList.Add(objCli.Valor("CDU_CampoVar3"));
                         myCli = new Model.Customer
                         {
                             id = objCli.Valor("Cliente"),
@@ -83,7 +93,8 @@ namespace SFA_REST.Lib_Primavera
                             gender = objCli.Valor("CDU_Sexo"),
                             nationality = objCli.Valor("CDU_Nacionalidade"),
                             dateOfBirth = objCli.Valor("CDU_DataNascimento").ToString(),
-                            nif = objCli.Valor("NIF")
+                            nif = objCli.Valor("NIF"),
+                            labels = labelsList
                         };
                         return myCli;
                     }
@@ -1241,5 +1252,50 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion RoutesCalendar
 
+
+        #region Labels
+        public static IEnumerable<Model.Customer> ListCostumerByLabel(string labelId)
+        {
+            List<Model.Customer> listCustomers = new List<Model.Customer>();
+            
+            if (PriEngine.isOpen())
+            {
+
+                string query = "SELECT * FROM  CLIENTES WHERE CDU_CampoVar1 ='" + labelId + "' OR CDU_CampoVar2 = '" + labelId + "' OR CDU_CampoVar3 = '" + labelId + "'";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                List<string> labelsList;
+
+                while (!objList.NoFim())
+                {
+                    labelsList = new List<string>();
+                    labelsList.Add(objList.Valor("CDU_CampoVar1"));
+                    labelsList.Add(objList.Valor("CDU_CampoVar2"));
+                    labelsList.Add(objList.Valor("CDU_CampoVar3"));
+
+                    listCustomers.Add(new Model.Customer
+                    {
+                        id = objList.Valor("Cliente"),
+                        name = objList.Valor("Nome"),
+                        phoneNumber = objList.Valor("Fac_Tel"),
+                        address = objList.Valor("Fac_Mor"),
+                        email = objList.Valor("B2BEnderecoMail"),
+                        //customerGroups = objList.Valor("CDU_GruposDeClientes"),
+                        //gender = objList.Valor("CDU_Sexo"),
+                        //dateOfBirth = objList.Valor("CDU_DataNascimento").ToString(),
+                        //nationality = objList.Valor("CDU_Nacionalidade"),
+                        nif = objList.Valor("NumContrib"),
+                        labels = labelsList
+                    });
+                    objList.Seguinte();
+
+                }
+
+                return listCustomers;
+            }
+            else
+                return null;
+        }
+
+        #endregion Labels
     }
 }
