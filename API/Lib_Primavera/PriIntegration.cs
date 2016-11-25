@@ -740,6 +740,47 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static List<Model.Lead> ListLeadsByCustomer(string customerId)
+        {
+            StdBELista obj;
+
+            List<Model.Lead> listLeads = new List<Model.Lead>();
+            try
+            {
+                if (PriEngine.isOpen() == true)
+                {
+
+                    string query = "SELECT * FROM CabecOportunidadesVenda WHERE Entidade = '"+customerId+"'";
+                    obj = PriEngine.Engine.Consulta(query);
+
+                    while (!obj.NoFim())
+                    {
+                        listLeads.Add(new Model.Lead
+                        {
+                            id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", ""),
+                            customerID = obj.Valor("Entidade"),
+                            expirationDate = obj.Valor("DataExpiracao").ToString(),
+                            description = obj.Valor("Descricao"),
+                            summary = obj.Valor("Resumo"),
+                            value = obj.Valor("ValorTotalOV").ToString(),
+                            salesRepID = obj.Valor("Vendedor"),
+                            type = obj.Valor("Oportunidade")
+                        });
+                        obj.Seguinte();
+                    }
+
+                    return listLeads;
+                }
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
         public static Lib_Primavera.Model.Lead GetLead(string id)
         {
             if (PriEngine.isOpen() == true)
