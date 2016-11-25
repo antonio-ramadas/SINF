@@ -83,7 +83,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///     GET method to get a list of all the costumers with a tag
+        ///     GET method to get a list of all the costumers with a label
         /// </summary>
         /// <returns> List with all the customers in the system with a specific tag </returns>
         [Route("api/customer/label/{label}")]
@@ -94,9 +94,9 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///     Post method to add a list of all the costumers with a tag
+        ///     Put method to add a label to a costumer
         /// </summary>
-        /// <returns> List with all the customers in the system with a specific tag </returns>
+        /// <returns> HttpResponseMessage with the output from the server </returns>
         [Route("api/customer/label/{costumerId}/{label}")]
         [HttpPut]
         public HttpResponseMessage PutLabel(string costumerId, string label)
