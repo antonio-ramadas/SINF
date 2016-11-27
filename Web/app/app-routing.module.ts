@@ -7,6 +7,7 @@ import { SalesRepComponent }    from './dashboard/sales-rep/component';
 import { LoginComponent }       from './login/component';
 import { ProductComponent }     from './product/component';
 import { SearchComponent } from './search/search.component';
+import { SalesOrderComponent } from './salesorder/salesorder.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'product', component: ProductComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'salesorder', component: SalesOrderComponent },
   { path: '**', redirectTo: '/login'}
 ];
 

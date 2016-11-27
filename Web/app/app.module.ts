@@ -22,6 +22,7 @@ import { LoginComponent }       from './login/component';
 import { ProductComponent }     from './product/component';
 import { NavbarComponent }      from './navbar/component';
 import { SearchComponent }      from './search/search.component';
+import { SalesOrderComponent } from './salesorder/salesorder.component';
 
 import { DoughnutChartDemoComponent } from './dashboard/sales-rep/graph-test';
 import { LineChartDemoComponent } from './dashboard/sales-rep/graph-test2';
@@ -46,6 +47,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
   declarations: [
                   AppComponent,
                   SearchComponent,
+                  SalesOrderComponent,
                   LoginComponent,
                   ClientComponent,
                   ManagerComponent,
