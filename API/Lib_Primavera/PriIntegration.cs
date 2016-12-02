@@ -15,7 +15,7 @@ namespace SFA_REST.Lib_Primavera
 {
     public class PriIntegration
     {
-        #region Costumer
+        #region Customer
 
         public static List<Model.Customer> ListCustomers()
         { 
@@ -353,24 +353,39 @@ namespace SFA_REST.Lib_Primavera
         public static List<Model.Category> CategoryList()
         {
 
-            StdBELista objList;
+            StdBELista list, subList; 
 
             List<Model.Category> listArts = new List<Model.Category>();
-            string id;
             if (PriEngine.isOpen() == true)
             {
 
                 string query = "SELECT * FROM Familias";
-                objList = PriEngine.Engine.Consulta(query);
+                list = PriEngine.Engine.Consulta(query);
 
-                while (!objList.NoFim())
+                while (!list.NoFim())
                 {
+                    string subQuery = "SELECT * FROM SubFamilias WHERE Familia='" + list.Valor("Familia") + "'";
+                    subList = PriEngine.Engine.Consulta(subQuery);
+                    List<Model.Category> subFamilias = new List<Model.Category>();
+                    while (!subList.NoFim())
+                    {
+                        subFamilias.Add(new Model.Category
+                        {
+                            family = subList.Valor("SubFamilia"),
+                            description = subList.Valor("Descricao"),
+                            children = null
+                        });
+
+                        subList.Seguinte();
+                    }
+
                     listArts.Add(new Model.Category
                     {
-                        family = objList.Valor("Familia"),
-                        description = objList.Valor("Descricao")
+                        family = list.Valor("Familia"),
+                        description = list.Valor("Descricao"),
+                        children = subFamilias
                     });
-                    objList.Seguinte();
+                    list.Seguinte();
                 }
 
                 return listArts;

@@ -10,5 +10,7 @@ namespace SFA_REST.Lib_Primavera.Model
         public string description { get; set; }
 
         public string family { get; set; }
+
+        public List<Category> children { get; set; }
     }
 }

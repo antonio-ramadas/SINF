@@ -12,7 +12,7 @@ namespace SFA_REST.Controllers
     public class CategoryController : ApiController
     {
         /// <summary>
-        ///     GET method for all the categories of the ERP
+        ///     GET method for all the categories and respective subCategories of the ERP
         /// </summary>
         /// <returns> List with the categories existing in the ERP </returns>
         [Route("api/category")]
