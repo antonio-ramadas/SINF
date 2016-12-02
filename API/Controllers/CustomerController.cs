@@ -25,7 +25,6 @@ namespace SFA_REST.Controllers
         ///     GET method for a customer of the ERP, with a given id represented as a String
         /// </summary>
         /// <returns> Customer with the given id </returns>
-
         [Route("api/customer/{id}")]
         [HttpGet]
         public Customer Get(string id)
