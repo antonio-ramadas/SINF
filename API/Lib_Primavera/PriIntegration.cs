@@ -572,7 +572,7 @@ namespace SFA_REST.Lib_Primavera
         #endregion SalesRepresentative
 
 
-        #region customervisits
+        #region Customervisits
 
         public static List<Model.Visits> ListVisits()
         {
@@ -682,7 +682,7 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        #endregion customervisits
+        #endregion Customervisits
 
 
         #region Leads
