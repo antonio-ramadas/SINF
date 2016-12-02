@@ -12,7 +12,7 @@ namespace SFA_REST.Controllers
     public class CustomerController : ApiController
     {
         /// <summary>
-        ///     GET method for the all the customer of the ERP
+        ///     GET method for the all the customers of the ERP
         /// </summary>
         /// <returns> List with all the customers in the system</returns>
         [Route("api/customer")]
@@ -25,6 +25,7 @@ namespace SFA_REST.Controllers
         ///     GET method for a customer of the ERP, with a given id represented as a String
         /// </summary>
         /// <returns> Customer with the given id </returns>
+
         [Route("api/customer/{id}")]
         [HttpGet]
         public Customer Get(string id)
