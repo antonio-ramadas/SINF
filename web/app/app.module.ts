@@ -11,6 +11,7 @@ import { ClientComponent }                from './client/component';
 import { ManagerComponent }               from './dashboard/manager/component';
 import { SalesRepComponent }              from './dashboard/sales-rep/component';
 import { LoginComponent }                 from './login/component';
+import { SalesOrderComponent }                 from './salesorder/component';
 import { ProductComponent }               from './product/component';
 import { NavbarComponent }                from './navbar/component';
 import { SearchComponent }                from './search/search.component';
@@ -45,6 +46,7 @@ import { PaginationModule } from 'ng2-bootstrap/ng2-bootstrap';
                   AppComponent,
                   SearchComponent,
                   LoginComponent,
+                  SalesOrderComponent,
                   ClientComponent,
                   ManagerComponent,
                   SalesRepComponent,
