@@ -33,8 +33,6 @@ namespace SFA_REST.Controllers
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             else return artigo;
         }
-
-        p
     }
 }
 
