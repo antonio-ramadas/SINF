@@ -8,20 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
+var core_1 = require('@angular/core');
 var SalesOrderComponent = (function () {
     function SalesOrderComponent() {
     }
+    SalesOrderComponent = __decorate([
+        core_1.Component({
+            selector: 'salesorder',
+            moduleId: module.id,
+            templateUrl: 'salesorder.component.html',
+            styleUrls: ['salesorder.component.css']
+        }), 
+        __metadata('design:paramtypes', [])
+    ], SalesOrderComponent);
     return SalesOrderComponent;
 }());
-SalesOrderComponent = __decorate([
-    core_1.Component({
-        selector: 'salesorder',
-        moduleId: module.id,
-        templateUrl: 'salesorder.component.html',
-        styleUrls: ['salesorder.component.css']
-    }),
-    __metadata("design:paramtypes", [])
-], SalesOrderComponent);
 exports.SalesOrderComponent = SalesOrderComponent;
 //# sourceMappingURL=salesorder.component.js.map
