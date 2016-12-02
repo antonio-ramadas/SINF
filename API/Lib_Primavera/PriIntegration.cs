@@ -1255,7 +1255,7 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.isOpen())
                 {
-                    string st = "SELECT DISTINCT TOP " + number + " Clientes.Nome,LinhasDoc.Data FROM Clientes LEFT JOIN CabecDoc ON Clientes.Cliente = CabecDoc.Entidade LEFT JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc WHERE LinhasDoc.Artigo='" + productID + "' ORDER BY LinhasDoc.Data DESC";
+                    string st = "SELECT Nome, s.Id, s.Entidade, s.Data FROM CLIENTES INNER JOIN (SELECT DISTINCT TOP " + number +"  CABECDOC.Id, CABECDOC.Entidade, LINHASDOC.Data FROM CABECDOC, LINHASDOC WHERE LINHASDOC.IdCabecDoc = CABECDOC.Id AND LINHASDOC.Artigo = '" + productID + "' ORDER BY LINHASDOC.Data DESC) s on s.Entidade = CLIENTES.Cliente";
 
                     objListLinhas = PriEngine.Engine.Consulta(st);
                     while (!objListLinhas.NoFim())
@@ -1263,7 +1263,9 @@ namespace SFA_REST.Lib_Primavera
                         listSalesOrder.Add(new Model.SalesOrderHistory
                         {
                             name = objListLinhas.Valor("Nome"),
-                            date = objListLinhas.Valor("Data").ToString()
+                            date = objListLinhas.Valor("s.Data").ToString(),
+                            customerID = objListLinhas.Valor("s.Entidade"),
+                            salesID = objListLinhas.Valor("s.Id")
                         });
 
                         objListLinhas.Seguinte();
