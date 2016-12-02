@@ -223,6 +223,37 @@ namespace SFA_REST.Lib_Primavera
 
         #region Product
 
+        public static List<Model.Product> ListProducts()
+        {
+            StdBELista objList;
+
+            List<Model.Product> listArts = new List<Model.Product>();
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT * FROM ARTIGO";
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    listArts.Add(new Model.Product
+                    {
+                        id = objList.Valor("Artigo"),
+                        description = objList.Valor("Descricao"),
+                        quantity = objList.Valor("STKActual"),
+                        brand = objList.Valor("Marca"),
+                        model = objList.Valor("Modelo"),
+                        category = objList.Valor("Familia"),
+                        subCategory = objList.Valor("SubFamilia")
+                    });
+                    objList.Seguinte();
+                }
+
+                return listArts;
+            }
+            else
+                return null;
+        }
+
         public static Lib_Primavera.Model.Product GetProduct(string productId)
         {
             string CURRENCY = "EUR";
@@ -236,12 +267,8 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.isOpen())
             {
-
-                
                 if (PriEngine.Engine.Comercial.Artigos.Existe(productId) == false)
-                {
                     return null;
-                }
                 else
                 {
                     objArtigo = PriEngine.Engine.Comercial.Artigos.Edita(productId);
@@ -249,6 +276,8 @@ namespace SFA_REST.Lib_Primavera
                     myProd.description = objArtigo.get_Descricao();
                     myProd.model = objArtigo.get_Modelo();
                     myProd.brand = objArtigo.get_Marca();
+                    myProd.category = objArtigo.get_Familia();
+                    myProd.subCategory = objArtigo.get_SubFamilia();
                     myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
 
                     myProd.salesCount = GetSalesCount(productId);
@@ -257,7 +286,9 @@ namespace SFA_REST.Lib_Primavera
                     if (PriEngine.Engine.Comercial.ArtigosPrecos.Existe(productId, CURRENCY, UNIT)==false)
                     {
                         myProd.price = float.MaxValue;
-                    }else{
+                    }
+                    else
+                    {
                         objArtigoMoeda = PriEngine.Engine.Comercial.ArtigosPrecos.Edita(productId, CURRENCY, UNIT);
                         myProd.price = objArtigoMoeda.get_PVP1();
                     }
@@ -276,6 +307,12 @@ namespace SFA_REST.Lib_Primavera
                         myProd.warehouses.Add(myWarehouse);
                     }
 
+                    string query = "SELECT CDU_CampoVar3 AS Image FROM ARTIGO WHERE Artigo ='" + myProd.id + "'";
+                    StdBELista list = PriEngine.Engine.Consulta(query);
+                    
+                    if(!list.Vazia())
+                        myProd.imageURL = list.Valor("Image");
+                        
                     return myProd;
                 }
                 
@@ -309,41 +346,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static List<Model.Product> ListProducts()
-        {
-                        
-            StdBELista objList;
-
-            List<Model.Product> listArts = new List<Model.Product>();
-            if (PriEngine.isOpen())
-            {
-                string query = "SELECT * FROM ARTIGO";
-                objList = PriEngine.Engine.Consulta(query);
-
-                while (!objList.NoFim())
-                {
-                    listArts.Add(new Model.Product
-                    {
-                        id = objList.Valor("Artigo"),
-                        description = objList.Valor("Descricao"),
-                        quantity = objList.Valor("STKActual"),
-                        brand = objList.Valor("Marca"),
-                        model = objList.Valor("Modelo")
-
-                    });
-                    objList.Seguinte();
-                }
-
-                return listArts;
-
-            }
-            else
-            {
-                return null;
-
-            }
-
-        }
+        
 
         #endregion Product
 

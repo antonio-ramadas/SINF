@@ -32,12 +32,6 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
-        public string categoryId
-        {
-            get;
-            set;
-        }
-
         public string description
         {
             get;
@@ -63,6 +57,24 @@ namespace SFA_REST.Lib_Primavera.Model
         }
 
         public double salesCount
+        {
+            get;
+            set;
+        }
+
+        public string category
+        {
+            get;
+            set;
+        }
+
+        public string subCategory
+        {
+            get;
+            set;
+        }
+
+        public string imageURL
         {
             get;
             set;
