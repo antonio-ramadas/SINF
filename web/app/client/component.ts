@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Service } from './../app.service';
+import { SalesOrder } from './../class/salesorder';
 
 @Component({
   moduleId: module.id,
@@ -20,6 +21,7 @@ export class ClientComponent implements OnInit {
   errorMessage: string;
   customer = {};
   customers = [];
+  salesHistory = [];
   hint = '';
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service) {
@@ -32,6 +34,13 @@ export class ClientComponent implements OnInit {
    this.service.getCustomerByName(this.hint)
                     .subscribe(
                        suggestions => this.customers = suggestions,
+                       error =>  this.errorMessage = <any>error);
+  }
+
+  getSalesHistory() {
+    this.service.getSalesHistoryByCustomer(this.id)
+                    .subscribe(
+                       sales => {this.salesHistory = []; for (let sale of sales) this.salesHistory.push(new SalesOrder(sale));},
                        error =>  this.errorMessage = <any>error);
   }
 
@@ -54,6 +63,7 @@ export class ClientComponent implements OnInit {
       this.id = params['id'];
       this.getCostumer();
       this.getCostumers();
+      this.getSalesHistory();
     });
     this.route.params.forEach((params: Params) => {
       this.clientId = +params['id'];

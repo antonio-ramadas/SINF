@@ -87,11 +87,7 @@
         <div class="sfa-panel">
           <div class="title"> <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Order History </div>
           <ul id="order-history-list">
-            <li>Order</li>
-            <li>Order</li>
-            <li>Order</li>
-            <li>Order</li>
-            <li>Order</li>
+            <li *ngFor=" let sale of salesHistory"> {{sale.date | date}} (€ {{sale.total}})</li>
           </ul>
         </div>
       </div>
