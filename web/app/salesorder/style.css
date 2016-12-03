@@ -28,6 +28,7 @@ td {
 
 td:last-child {
   border-right: solid 0.2rem #CCCCCC;
+  text-align: center;
 }
 
 tr:last-child > td:last-child {
