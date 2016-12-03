@@ -20,9 +20,19 @@ export class ClientComponent implements OnInit {
   errorMessage: string;
   customer = {};
   customers = [];
+  hint = '';
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service) {
 
+  }
+
+  eventHandler(event) {
+   //console.log(event, event.keyCode, event.keyIdentifier);
+   //console.log(this.hint);
+   this.service.getCustomerByName(this.hint)
+                    .subscribe(
+                       suggestions => this.customers = suggestions,
+                       error =>  this.errorMessage = <any>error);
   }
 
   getCostumer() {

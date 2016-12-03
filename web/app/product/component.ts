@@ -11,7 +11,7 @@ import { Product } from './../class/product';
   templateUrl: 'index.html',
   styleUrls: ['style.css'],
   providers: [Service],
-  inputs: ['hint']
+  inputs: ['hint', 'total']
 })
 
 export class ProductComponent {
@@ -20,10 +20,10 @@ export class ProductComponent {
   categories = [];
   history = [];
   search = [];
-  product = {};
+  product = {'imageUrl': 'default.jpg'};
   hint = '';
+  total = '';
   errorMessage: string;
-  images = ["https://www.google.com","image2","image3","image4"];
 
   constructor(private service: Service, private route: ActivatedRoute){
   }
@@ -36,14 +36,6 @@ export class ProductComponent {
       this.getHistory();
     });
   }
-
-  eventHandler(event) {
-   //console.log(event, event.keyCode, event.keyIdentifier);
-   this.service.getCustomerByName(this.hint + event.key)
-                    .subscribe(
-                       suggestions => this.search = suggestions,
-                       error =>  this.errorMessage = <any>error);
-} 
 
   getHistory() {
     this.service.getSalesHistoryByProduct(this.id, '30')

@@ -11,7 +11,7 @@ import { ClientComponent }                from './client/component';
 import { ManagerComponent }               from './dashboard/manager/component';
 import { SalesRepComponent }              from './dashboard/sales-rep/component';
 import { LoginComponent }                 from './login/component';
-import { SalesOrderComponent }                 from './salesorder/component';
+import { SalesOrderComponent }            from './salesorder/component';
 import { ProductComponent }               from './product/component';
 import { NavbarComponent }                from './navbar/component';
 import { SearchComponent }                from './search/search.component';
@@ -21,9 +21,9 @@ import { BarChartDemoComponent }          from './dashboard/sales-rep/graph-test
 import { MapTest }                        from './dashboard/sales-rep/map-test';
 import { AgmCoreModule }                  from 'angular2-google-maps/core';
 import { FormsModule }                    from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
-import { PaginationModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { ReactiveFormsModule }            from '@angular/forms';
+import { ModalModule }                    from 'ng2-bootstrap/ng2-bootstrap';
+import { PaginationModule }               from 'ng2-bootstrap/ng2-bootstrap';
 
 @NgModule({
   imports:      [

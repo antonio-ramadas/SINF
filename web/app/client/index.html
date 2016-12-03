@@ -8,7 +8,7 @@
         <div class="title"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search Contacts </div>
         <div id="contact-search-bar" class="input-group input-group-lg">
           <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-          <input type="text" class="form-control" placeholder="Search for Client" aria-describedby="sizing-addon1">
+          <input type="text" [(ngModel)]="hint" (keyup)="eventHandler($event)" class="form-control" placeholder="Search for Client" aria-describedby="sizing-addon1">
           <span class="input-group-btn">
             <button class="btn btn-success" type="button" (click)="smModal.show()">+</button>
           </span>
