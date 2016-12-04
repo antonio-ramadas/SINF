@@ -164,6 +164,10 @@ ul {
   border-bottom: solid 1px #EEEEEE;
 }*/
 
+.sales-line {
+  cursor: pointer;
+}
+
 #table-scroll {
   overflow-y: scroll;
   max-height: 75%;

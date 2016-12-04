@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'product/:id', component: ProductComponent },
   { path: 'search', component: SearchComponent },
-  { path: 'salesorder', component: SalesOrderComponent },
+  { path: 'salesorder/:id', component: SalesOrderComponent },
   { path: '**', redirectTo: '/login'}
 ];
 

@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Service } from './../app.service';
 import { SalesOrder } from './../class/salesorder';
+import { Customer } from './../class/customer';
 
 @Component({
   moduleId: module.id,
@@ -25,7 +26,7 @@ export class ClientComponent implements OnInit {
   salesHistory = [];
   hint = '';
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service, private location: Location) {
+  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service, private location: Location) {
 
   }
 
@@ -33,7 +34,7 @@ export class ClientComponent implements OnInit {
     //console.log(event, event.keyCode, event.keyIdentifier);
     //console.log(this.hint);
     if (this.hint.length <= 0)
-      this.getCostumers();
+      this.getCustomers();
     else
       this.service.getCustomerByName(this.hint)
         .subscribe(
@@ -41,11 +42,12 @@ export class ClientComponent implements OnInit {
         error => this.errorMessage = <any>error);
   }
 
+  goToSalesOrder(salesId) {
+    this.router.navigate(["/salesorder/" + salesId]);
+  }
+
   changeCustomer(newId) {
-    this.id = newId;
-    this.getCostumer();
-    this.getSalesHistory();
-    this.location.replaceState("/client/" + newId);
+    this.router.navigate(["/client/" + newId]);
   }
 
   getSalesHistory() {
@@ -55,47 +57,58 @@ export class ClientComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
 
-  getCostumer() {
-    this.service.getCostumer(this.id)
+  getCustomer() {
+    this.service.getCustomer(this.id)
       .subscribe(
-      customer => this.customer = customer,
+      customer => this.customer = new Customer(customer),
       error => this.errorMessage = <any>error);
   }
 
-  getCostumers() {
+  getCustomers() {
     this.service.getCostumers()
       .subscribe(
-      customers => this.customers = customers,
+      customers => { this.customers = []; for (let customer of customers) this.customers.push(new Customer(customer)); },
       error => this.errorMessage = <any>error);
+  }
+
+  editInfo() {
+    //não tem mal apresentar erros aqui
+    this.registerForm.patchValue({'id': this.customer.id});
+    this.registerForm.patchValue({'phoneNumber': this.customer.phone});
+    this.registerForm.patchValue({'name': this.customer.name});
+    this.registerForm.patchValue({'email': this.customer.email});
+    this.registerForm.patchValue({'address': this.customer.address});
+    this.registerForm.patchValue({'nationality': this.customer.nationality});
+    this.registerForm.patchValue({'birthDate': this.customer.dateOfBirth});
+    this.registerForm.patchValue({'gender': this.customer.gender});
+    this.registerForm.patchValue({'nif': this.customer.nif});
+    this.childModal.show();
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
-      this.getCostumer();
-      this.getCostumers();
+      this.getCustomer();
+      this.getCustomers();
       this.getSalesHistory();
-    });
-    this.route.params.forEach((params: Params) => {
-      this.clientId = +params['id'];
     });
     // Create Form
     this.registerForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      address: this.formBuilder.group({
-        street: '',
-        zip: '',
-        city: ''
-      }),
+      id: '',
+      name: '',
+      address: '',
       phoneNumber: '',
+      birthDate: '',
       email: '',
       nif: '',
-      nationality: ''
+      nationality: '',
+      gender: '',
+      labels: '',
+      notes: ''
     });
   }
 
-  @ViewChild('childModal') public childModal: ModalDirective;
+  @ViewChild('smModal') public childModal: ModalDirective;
 
   public showChildModal(): void {
     this.childModal.show();
@@ -106,8 +119,7 @@ export class ClientComponent implements OnInit {
   }
 
   public createNewClient(): void {
-
-    console.log("leeel");
+    console.error("TODO submit form to create new client. Waiting for the API correct implementation");
   }
 
 }

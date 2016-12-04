@@ -71,7 +71,7 @@ export class Service {
                     .catch(this.handleError);
   }
 
-  getCostumer(id: string): Observable<JSON[]>{
+  getCustomer(id: string): Observable<JSON>{
     return this.http.get(this.baseUrl + this.customerPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
