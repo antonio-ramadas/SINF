@@ -17,8 +17,8 @@ export class Service {
   private searchPath = '/search';
 
   constructor (private http: Http) {}
-  getSalesHistoryByCustomer (id: string): Observable<JSON[]> {
-    return this.http.get(this.baseUrl + this.salesPath + this.customerPath + '/' + id)
+  getSalesHistoryByCustomer (id: string, total: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.salesPath + this.customerPath + '/' + id + '/' + total)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
