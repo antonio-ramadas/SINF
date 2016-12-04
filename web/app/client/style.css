@@ -79,7 +79,9 @@ ul {
   border-bottom: 1px solid #EEEEEE;
 }
 
-
+.mouse-click {
+  cursor: pointer;
+}
 
 /* Client Detail */
 
@@ -151,12 +153,49 @@ ul {
 
 /* Order History */
 
-#order-history-list {
+/*.order-history-list {
+  max-height: 75%;
   overflow-y: scroll;
 }
 
-#order-history-list > li{
+.order-history-list > li{
   font-size: 2rem;
   padding: 0.5rem;
   border-bottom: solid 1px #EEEEEE;
+}*/
+
+.sales-line {
+  cursor: pointer;
+}
+
+#table-scroll {
+  overflow-y: scroll;
+  max-height: 75%;
+}
+
+#table-wrapper {
+  position:relative;
+}
+
+table {
+  width:100%;
+  overflow-y: scroll;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+table tr:nth-child(odd) {
+   background-color:#fff;
+}
+table th {
+    background-color: black;
+    color: white;
 }

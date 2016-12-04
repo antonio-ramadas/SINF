@@ -13,9 +13,16 @@ export class Service {
   private productPath = '/product';
   private categoryPath = '/category';
   private historyPath = '/sales/history';
+  private salesPath = '/sales';
   private searchPath = '/search';
 
   constructor (private http: Http) {}
+  getSalesHistoryByCustomer (id: string, total: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.salesPath + this.customerPath + '/' + id + '/' + total)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getSalesHistoryByProduct (id: string, total: string): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.historyPath + '/' + id + '/' + total)
                     .map(this.extractData)
@@ -64,7 +71,7 @@ export class Service {
                     .catch(this.handleError);
   }
 
-  getCostumer(id: string): Observable<JSON[]>{
+  getCustomer(id: string): Observable<JSON>{
     return this.http.get(this.baseUrl + this.customerPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
