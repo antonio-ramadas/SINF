@@ -1163,7 +1163,7 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static List<Model.SalesOrder> GetSalesOrderByRep(string salesRepId)
+        public static List<Model.SalesOrder> GetSalesOrderByRep(string salesRepId, string number)
         {
             StdBELista objListCab;
             StdBELista objListLin;
@@ -1174,7 +1174,10 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.isOpen())
             {
-                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "'";
+                string st;
+                if(Int32.Parse(number) < 0)
+                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "'";
+                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
                 while (!objListCab.NoFim())
                 {
@@ -1214,7 +1217,7 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static List<Model.SalesOrder> GetSalesOrderByCustomer(string costumerId)
+        public static List<Model.SalesOrder> GetSalesOrderByCustomer(string costumerId, string number)
         {
             StdBELista objListCab;
             StdBELista objListLin;
@@ -1225,7 +1228,10 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.isOpen() == true)
             {
-                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "'";
+                string st;
+                if (Int32.Parse(number) < 0)
+                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "'";
+                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
                 while (!objListCab.NoFim())
                 {
