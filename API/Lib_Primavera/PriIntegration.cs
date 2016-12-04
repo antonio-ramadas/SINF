@@ -106,7 +106,7 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.isOpen())
                 {
-                    string query = "SELECT DISTINCT Cliente, Nome FROM CLIENTES WHERE Nome LIKE '%" + name + "%'";
+                    string query = "SELECT DISTINCT Cliente, Nome FROM CLIENTES WHERE Nome LIKE '%" + name + "%' OR Cliente LIKE '%" + name + "%' ORDER BY Cliente";
                     StdBELista objList = PriEngine.Engine.Consulta(query);
 
                     while (!objList.NoFim())
