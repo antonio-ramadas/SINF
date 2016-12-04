@@ -1176,8 +1176,8 @@ namespace SFA_REST.Lib_Primavera
             {
                 string st;
                 if(Int32.Parse(number) < 0)
-                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "'";
-                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "'";
+                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "' ORDER BY Data DESC";
+                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "' ORDER BY Data DESC";
                 objListCab = PriEngine.Engine.Consulta(st);
                 while (!objListCab.NoFim())
                 {
@@ -1230,8 +1230,8 @@ namespace SFA_REST.Lib_Primavera
             {
                 string st;
                 if (Int32.Parse(number) < 0)
-                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "'";
-                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "'";
+                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "' ORDER BY Data DESC";
+                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "' ORDER BY Data DESC";
                 objListCab = PriEngine.Engine.Consulta(st);
                 while (!objListCab.NoFim())
                 {
