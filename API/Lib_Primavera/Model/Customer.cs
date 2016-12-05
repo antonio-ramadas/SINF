@@ -27,6 +27,8 @@ namespace SFA_REST.Lib_Primavera.Model
 
         public string nif { get; set; }
 
+        public string notes { get; set; }
+
         public List<string> labels { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id))
                 {
-                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, NumContrib as NIF, Pais, CDU_CampoVar1, CDU_CampoVar2, CDU_CampoVar3 FROM CLIENTES WHERE Cliente = '" + id + "'";
+                    string query = "SELECT Cliente, Nome, Fac_Tel, Fac_Mor as Morada, B2BEnderecoMail as Mail, NumContrib as NIF, Pais, Notas, CDU_CampoVar1, CDU_CampoVar2, CDU_CampoVar3 FROM CLIENTES WHERE Cliente = '" + id + "'";
                     StdBELista objCli = PriEngine.Engine.Consulta(query);
                     List<string> labelsList;
 
@@ -88,6 +88,7 @@ namespace SFA_REST.Lib_Primavera
                             email = objCli.Valor("Mail"),
                             nationality = objCli.Valor("Pais"),
                             nif = objCli.Valor("NIF"),
+                            notes = objCli.Valor("Notas"),
                             labels = labelsList
                         };
                         return myCli;
@@ -154,6 +155,7 @@ namespace SFA_REST.Lib_Primavera
                         objCli.set_Telefone(customer.phoneNumber);
                         objCli.set_NumContribuinte(customer.nif);
                         objCli.set_Pais(customer.nationality);
+                        objCli.set_Observacoes(customer.notes);
                         PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
 
                         erro.Erro = 0;
@@ -1278,7 +1280,7 @@ namespace SFA_REST.Lib_Primavera
             {
                 if (PriEngine.isOpen())
                 {
-                    string st = "SELECT Nome, s.Id, s.Entidade, s.Data FROM CLIENTES INNER JOIN (SELECT DISTINCT TOP " + number +"  CABECDOC.Id, CABECDOC.Entidade, LINHASDOC.Data FROM CABECDOC, LINHASDOC WHERE LINHASDOC.IdCabecDoc = CABECDOC.Id AND LINHASDOC.Artigo = '" + productID + "' ORDER BY LINHASDOC.Data DESC) s on s.Entidade = CLIENTES.Cliente";
+                    string st = "SELECT Nome, s.Id, s.Entidade, s.NumDoc, s.Data FROM CLIENTES INNER JOIN (SELECT DISTINCT TOP " + number + "  CABECDOC.Id, CABECDOC.NumDoc, CABECDOC.Entidade, LINHASDOC.Data FROM CABECDOC, LINHASDOC WHERE LINHASDOC.IdCabecDoc = CABECDOC.Id AND LINHASDOC.Artigo = '" + productID + "' ORDER BY LINHASDOC.Data DESC) s on s.Entidade = CLIENTES.Cliente";
 
                     objListLinhas = PriEngine.Engine.Consulta(st);
 
@@ -1290,7 +1292,8 @@ namespace SFA_REST.Lib_Primavera
                             name = objListLinhas.Valor("Nome"),
                             date = objListLinhas.Valor("Data").ToString(),
                             customerID = objListLinhas.Valor("Entidade"),
-                            salesID = objListLinhas.Valor("Id")
+                            salesID = objListLinhas.Valor("Id"),
+                            numDoc = objListLinhas.Valor("NumDoc").ToString()
                         });
 
                         objListLinhas.Seguinte();

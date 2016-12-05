@@ -14,5 +14,7 @@ namespace SFA_REST.Lib_Primavera.Model
         public string customerID { get; set; }
 
         public string salesID { get; set; }
+
+        public string numDoc { get; set; }
     }
 }
