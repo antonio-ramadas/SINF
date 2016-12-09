@@ -1,0 +1,32 @@
+.sfa-panel {
+  position: relative;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  border-radius: 1rem;
+  padding: 2rem;
+  background-color: white;
+  margin: 0.5rem;
+  overflow: scroll;
+}
+
+.main {
+  margin-top: 10rem;
+}
+
+.image {
+  width: 2rem;
+  height: 2rem;
+}
+
+#search-bar-group {
+  z-index: 0;
+}
+
+#category-title {
+  color: white;
+}
+
+#pagination {
+  text-align: center;
+}
