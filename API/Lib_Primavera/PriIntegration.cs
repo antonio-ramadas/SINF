@@ -1588,7 +1588,7 @@ namespace SFA_REST.Lib_Primavera
 
         #region Paises
 
-        internal static IEnumerable<Model.Country> GetCountries()
+        public static IEnumerable<Model.Country> GetCountries()
         {
             List<Lib_Primavera.Model.Country> countries = new List<Model.Country>();
 
@@ -1615,6 +1615,93 @@ namespace SFA_REST.Lib_Primavera
             }
 
         }
+
+        #endregion Paises
+
+
+        #region Stats
+
+        public static IEnumerable<Model.Stats.SalesYear> GetIncomeStatBySalesRep(string salesRepId)
+        {
+            int initYear = 2008;
+            List<Model.Stats.SalesYear> list = new List<Model.Stats.SalesYear>();
+            Model.Stats.SalesYear year;
+
+            if (PriEngine.isOpen())
+            {
+                for (int i = initYear; i <= DateTime.Now.Year; i++)
+                {
+                    year = GetIncomeStatByYear(salesRepId, i);
+                    list.Add(year);
+                }
+                
+
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
+        public static Model.Stats.SalesYear GetIncomeStatByYear(string salesRepId, int year)
+        {
+            Model.Stats.SalesYear yearStat = new Model.Stats.SalesYear();
+            Model.Stats.SalesMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.sales = new List<Model.Stats.SalesMonth>();
+                yearStat.totalIncome = 0;
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetIncomeStatByMonth(salesRepId, year, i);
+                    yearStat.totalIncome += monthStat.income;
+                    yearStat.sales.Add(monthStat);
+                }
+               
+                
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.SalesMonth GetIncomeStatByMonth(string salesRepId, int year, int month)
+        {
+            Model.Stats.SalesMonth monthStat = new Model.Stats.SalesMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                string query = "SELECT SUM(TotalMerc) as Total FROM CabecDoc WHERE TipoDoc='ECL' AND Responsavel = '" + salesRepId+"' AND Month(Data)=" + month + " AND Year(Data)="+year;
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                string incomeStr
+
+                if (objList.Valor("Total") is DBNull || "".Equals(objList.Valor("Total")))
+                {
+                    monthStat.income = 0;
+                }
+                else
+                {
+                    monthStat.income = objList.Valor("Total");
+                }
+                
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion Stats
     }
-        #endregion paises
+     
+
 }
