@@ -8,6 +8,7 @@ export class Customer {
   dateOfBirth: string;
   gender: string;
   nif: string;
+  notes: string;
 
   constructor(data: JSON) {
     this.phone = data['phoneNumber'];
@@ -19,5 +20,6 @@ export class Customer {
     this.dateOfBirth = data['dateOfBirth'];
     this.gender = data['gender'];
     this.nif = data['nif'];
+    this.notes = data['notes'];
   }
 }

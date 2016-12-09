@@ -74,7 +74,8 @@
             <div class="col-xs-5">
               <div id="notes">
                 <strong> Notes: </strong>
-                <textarea id="note-area">TODO Falta implementar isto na base de dados. Não vai ser necessário botão porque as informações vão ser automaticamente guardadas.</textarea>
+                <textarea id="note-area" [(ngModel)]="customer.notes"></textarea>
+                <button class="btn btn-success" type="button" (click)="updateNotes()">Update notes</button>
               </div>
             </div>
           </div>

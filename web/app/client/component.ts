@@ -84,6 +84,10 @@ export class ClientComponent implements OnInit {
     this.childModal.show();
   }
 
+  updateNotes() {
+    this.service.updateCustomerNotes(this.customer.id, this.customer.notes);
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
