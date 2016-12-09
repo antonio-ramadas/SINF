@@ -21,7 +21,7 @@ export class ClientComponent implements OnInit {
   registerForm: FormGroup;
   id: string;
   errorMessage: string;
-  customer = {};
+  customer: Customer = new Customer(JSON.parse('{}'));
   customers = [];
   salesHistory = [];
   hint = '';
@@ -72,7 +72,6 @@ export class ClientComponent implements OnInit {
   }
 
   editInfo() {
-    //não tem mal apresentar erros aqui
     this.registerForm.patchValue({'id': this.customer.id});
     this.registerForm.patchValue({'phoneNumber': this.customer.phone});
     this.registerForm.patchValue({'name': this.customer.name});
