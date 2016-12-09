@@ -76,5 +76,38 @@ namespace SFA_REST.Controllers
         {
             return Lib_Primavera.PriIntegration.GetSalesStatByMonth(id, year, month);
         }
+
+        /// <summary>
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/stats/income-per-sale/{id}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Stats.IncomePerYear> GetIncomePerSalesByRep(string id)
+        {
+            return Lib_Primavera.PriIntegration.GetIncomePerYearBySalesRep(id);
+        }
+
+        /// <summary>
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/stats/income-per-sale/{id}/{year}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.IncomePerYear GetIncomePerSalesByYear(string id, int year)
+        {
+            return Lib_Primavera.PriIntegration.GetIncomePerYear(id, year);
+        }
+
+        /// <summary>
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/stats/income-per-sale/{id}/{year}/{month}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.IncomePerMonth GetIncomePerSalesByMonth(string id, int year, int month)
+        {
+            return Lib_Primavera.PriIntegration.GetIncomePerMonth(id, year, month);
+        }
     }
 }

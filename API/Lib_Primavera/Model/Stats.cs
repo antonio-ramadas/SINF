@@ -33,5 +33,18 @@ namespace SFA_REST.Lib_Primavera.Model
             public double salesNumber { get; set; }
         }
 
+        public class IncomePerMonth
+        {
+            public int month { get; set; }
+            public double incomePerMonth { get; set; }
+        }
+
+        public class IncomePerYear
+        {
+            public int year { get; set; }
+            public List<IncomePerMonth> monthRates { get; set; }
+            public double incomePerYear { get; set; }
+        }
+
     }
 }

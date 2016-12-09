@@ -1729,6 +1729,72 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static IEnumerable<Model.Stats.IncomePerYear> GetIncomePerYearBySalesRep(string salesRepId)
+        {
+            int initYear = 2015;
+            List<Model.Stats.IncomePerYear> list = new List<Model.Stats.IncomePerYear>();
+            Model.Stats.IncomePerYear year;
+
+            if (PriEngine.isOpen())
+            {
+                for (int i = initYear; i <= DateTime.Now.Year; i++)
+                {
+                    year = GetIncomePerYear(salesRepId, i);
+                    list.Add(year);
+                }
+
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.IncomePerYear GetIncomePerYear(string salesRepId, int year)
+        {
+            Model.Stats.IncomePerYear yearStat = new Model.Stats.IncomePerYear();
+            Model.Stats.IncomePerMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.monthRates = new List<Model.Stats.IncomePerMonth>();
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetIncomePerMonth(salesRepId, year, i);
+                    yearStat.incomePerYear = GetIncomeStatByYear(salesRepId,year).totalIncome/GetSalesStatByYear(salesRepId,year).salesNumber;
+                    yearStat.monthRates.Add(monthStat);
+                }
+
+
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.IncomePerMonth GetIncomePerMonth(string salesRepId, int year, int month)
+        {
+            Model.Stats.IncomePerMonth monthStat = new Model.Stats.IncomePerMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                double rate = GetIncomeStatByMonth(salesRepId, year, month).income / GetSalesStatByMonth(salesRepId, year, month).salesNumber;
+                monthStat.incomePerMonth = rate;
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         #endregion Stats
     }
      
