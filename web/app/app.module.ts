@@ -24,6 +24,8 @@ import { FormsModule }                    from '@angular/forms';
 import { ReactiveFormsModule }            from '@angular/forms';
 import { ModalModule }                    from 'ng2-bootstrap/ng2-bootstrap';
 import { PaginationModule }               from 'ng2-bootstrap/ng2-bootstrap';
+import { ProductSearchComponent }         from './product-search/component';
+import { ClientSearchComponent }          from './client-search/component';
 
 @NgModule({
   imports:      [
@@ -45,6 +47,8 @@ import { PaginationModule }               from 'ng2-bootstrap/ng2-bootstrap';
   declarations: [
                   AppComponent,
                   SearchComponent,
+                  ProductSearchComponent,
+                  ClientSearchComponent,
                   LoginComponent,
                   SalesOrderComponent,
                   ClientComponent,

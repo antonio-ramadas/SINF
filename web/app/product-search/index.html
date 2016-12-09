@@ -1,0 +1,57 @@
+<div class="main container">
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="sfa-panel">
+        <div class="">
+          Categoria #1
+        </div>
+        <ul>
+          <li> SubCategoria </li>
+          <li> SubCategoria </li>
+          <li> SubCategoria </li>
+        </ul>
+        <div class="">
+          Categoria #2
+        </div>
+        <ul>
+          <li> SubCategoria </li>
+          <li> SubCategoria </li>
+          <li> SubCategoria </li>
+        </ul>
+        <div class="">
+          Categoria #3
+        </div>
+        <ul>
+          <li> SubCategoria </li>
+          <li> SubCategoria </li>
+          <li> SubCategoria </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-xs-9">
+      <div id="search-bar-group" class="input-group input-group-md">
+        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+        <input type="text" [(ngModel)]="hint" (keyup)="eventHandler($event)" class="form-control" placeholder="Search for Product" aria-describedby="sizing-addon1">
+      </div>
+      <div class="row">
+        <div id="category-title" class="col-xs-12">
+          <h3>Category</h3>
+        </div>
+        <div *ngFor="let product of products" class="col-xs-4">
+          <div class="sfa-panel">
+            <img class="{{product.src}}" src="a0001.jpg" alt="">
+            <div class="">
+              {{product.name}}
+            </div>
+            <div class="">
+              {{product.info}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="pagination">
+        <pagination class="pagination-lg" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+      </div>
+    </div>
+  </div>
+</div>
