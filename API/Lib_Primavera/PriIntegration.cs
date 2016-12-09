@@ -182,6 +182,53 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
+        public static Lib_Primavera.Model.ErrorResponse UpdateCustomerNotes(String id, Lib_Primavera.Model.Customer customer)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            GcpBECliente objCli = new GcpBECliente();
+
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+                    if (!PriEngine.Engine.Comercial.Clientes.Existe(id))
+                    {
+                        erro.Erro = 1;
+                        erro.Descricao = "O cliente não existe";
+                        return erro;
+                    }
+                    else
+                    {
+                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(id);
+                        objCli.set_EmModoEdicao(true);
+
+                        objCli.set_Observacoes(customer.notes);
+                        PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
+
+                        erro.Erro = 0;
+                        erro.Descricao = "Sucesso";
+                        return erro;
+                    }
+                }
+                else
+                {
+                    erro.Erro = 1;
+                    erro.Descricao = "Erro ao abrir a empresa";
+                    return erro;
+
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                erro.Erro = 1;
+                erro.Descricao = ex.Message;
+                return erro;
+            }
+
+        }
+
         public static Lib_Primavera.Model.ErrorResponse CreateCustomer(Model.Customer customer)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();

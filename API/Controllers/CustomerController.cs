@@ -83,6 +83,31 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
+        ///     PUT method edit a customer's notes
+        /// </summary>
+        /// <returns> HttpResponse with the output from the server </returns>
+        [Route("api/customer/notes/{id}")]
+        [HttpPut]
+        public HttpResponseMessage UpdateCustomerNotes(string id, Lib_Primavera.Model.Customer cliente)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
+
+            try
+            {
+                erro = Lib_Primavera.PriIntegration.UpdateCustomerNotes(id, cliente);
+
+                if (erro.Erro == 0)
+                    return Request.CreateResponse(HttpStatusCode.OK, erro.Descricao);
+                else
+                    return Request.CreateResponse(HttpStatusCode.NotFound, erro.Descricao);
+            }
+            catch (Exception exc)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
+            }
+        }
+
+        /// <summary>
         ///     GET method to get a list of all the costumers with a label
         /// </summary>
         /// <returns> List with all the customers in the system with a specific tag </returns>
