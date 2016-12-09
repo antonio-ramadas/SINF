@@ -9,6 +9,7 @@ import { ProductComponent }     from './product/component';
 import { SearchComponent } from './search/search.component';
 import { ProductSearchComponent } from './product-search/component';
 import { ClientSearchComponent } from './client-search/component';
+import { RepSearchComponent }     from './rep-search/component';
 import { SalesOrderComponent } from './salesorder/component';
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'salesorder', component: SalesOrderComponent },
   { path: 'product-search', component: ProductSearchComponent },
   { path: 'client-search', component: ClientSearchComponent },
+  { path: 'rep-search', component: RepSearchComponent },
   { path: '**', redirectTo: '/login'}
 ];
 

@@ -26,6 +26,7 @@ import { ModalModule }                    from 'ng2-bootstrap/ng2-bootstrap';
 import { PaginationModule }               from 'ng2-bootstrap/ng2-bootstrap';
 import { ProductSearchComponent }         from './product-search/component';
 import { ClientSearchComponent }          from './client-search/component';
+import { RepSearchComponent }             from './rep-search/component';
 
 @NgModule({
   imports:      [
@@ -49,6 +50,7 @@ import { ClientSearchComponent }          from './client-search/component';
                   SearchComponent,
                   ProductSearchComponent,
                   ClientSearchComponent,
+                  RepSearchComponent,
                   LoginComponent,
                   SalesOrderComponent,
                   ClientComponent,

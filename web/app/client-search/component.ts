@@ -9,17 +9,17 @@ import { Component } from '@angular/core';
 
 export class ClientSearchComponent {
   list = ['1','2','3','4','5','6','7'];
-  clients: { name: string, info: string, label: string }[] = [
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" },
-    { "name": "Pedro Romano Barbosa", "info": "Client Information", "label": "Client Label" }
+  clients: { name: string, info: string, sub: string }[] = [
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" },
+    { "name": "Pedro Romano Barbosa", "info": "Client Information", "sub": "Client SubGroup" }
   ];
   groups = ['Subgroup #1','Subgroup #2','Subgroup #3'];
 
