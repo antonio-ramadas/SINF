@@ -1,0 +1,31 @@
+<div class="main container">
+  <div class="row">
+    <div id="search-bar-group" class="input-group input-group-md">
+      <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+      <input type="text" [(ngModel)]="hint" (keyup)="eventHandler($event)" class="form-control" placeholder="Search for Representative" aria-describedby="sizing-addon1">
+    </div>
+    <div id="table">
+      <table style="width:100%">
+        <tr>
+          <th>
+            representatives Name
+          </th>
+          <th>
+            Representative Information
+          </th>
+        </tr>
+        <tr *ngFor="let rep of reps">
+          <td>
+            <a href="#">{{rep.name}}</a>
+          </td>
+          <td>
+            {{rep.info}}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="pagination">
+      <pagination class="pagination-lg" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+  </div>
+</div>
