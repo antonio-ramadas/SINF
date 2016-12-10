@@ -20,6 +20,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'product/:id', component: ProductComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'salesorder/:id', component: SalesOrderComponent },
   { path: 'salesorder', component: SalesOrderComponent },
   { path: 'product-search', component: ProductSearchComponent },
   { path: 'client-search', component: ClientSearchComponent },

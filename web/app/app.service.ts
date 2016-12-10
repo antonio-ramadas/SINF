@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 
 import { Product } from './class/product';
@@ -12,14 +12,30 @@ export class Service {
   private customerPath = '/customer';  // Path to web API
   private productPath = '/product';
   private categoryPath = '/category';
+  private notesPath = '/notes';
   private historyPath = '/sales/history';
+  private salesPath = '/sales';
   private searchPath = '/search';
 
   constructor (private http: Http) {}
+  getSalesHistoryByCustomer (id: string, total: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.salesPath + this.customerPath + '/' + id + '/' + total)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getSalesHistoryByProduct (id: string, total: string): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.historyPath + '/' + id + '/' + total)
                     .map(this.extractData)
                     .catch(this.handleError);
+  }
+
+  updateCustomerNotes(id: string, text: string): void {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.put(this.baseUrl + this.customerPath + this.notesPath + '/' + id, JSON.stringify({'notes' : text}), {headers: headers})
+                    .catch(this.handleError)
+                    .subscribe();
   }
 
   getCustomers (): Observable<JSON[]> {
@@ -64,7 +80,7 @@ export class Service {
                     .catch(this.handleError);
   }
 
-  getCostumer(id: string): Observable<JSON[]>{
+  getCustomer(id: string): Observable<JSON>{
     return this.http.get(this.baseUrl + this.customerPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);

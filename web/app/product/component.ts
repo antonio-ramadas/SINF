@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Item } from './Item';
 import { Service } from './../app.service';
 import { Customer } from './../class/customer';
 import { Product } from './../class/product';
+import { SalesOrder } from './../class/salesorder';
 
 @Component({
   selector: 'product',
@@ -25,7 +26,7 @@ export class ProductComponent {
   total = '';
   errorMessage: string;
 
-  constructor(private service: Service, private route: ActivatedRoute){
+  constructor(private service: Service, private router: Router, private route: ActivatedRoute){
   }
 
   ngOnInit() {
@@ -56,5 +57,9 @@ export class ProductComponent {
                     .subscribe(
                        product => {this.product = new Product(product);},
                        error =>  this.errorMessage = <any>error);
+  }
+
+  goToSalesOrder(salesId) {
+    this.router.navigate(["/salesorder/" + salesId]);
   }
 }
