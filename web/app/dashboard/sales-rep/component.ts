@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { BarChartDemoComponent } from './graph-test3';
 import { Service } from './../../app.service';
 
 @Component({
@@ -13,7 +12,6 @@ import { Service } from './../../app.service';
 
 export class SalesRepComponent {
   id: string;
-  foo = 1;
 
   constructor(private route: ActivatedRoute, private service: Service) {
   }
