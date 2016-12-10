@@ -19,29 +19,29 @@
         <div class="content">
           <div class="row" id="performance-graphs">
             <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-4">
-              <doughnut-chart-demo></doughnut-chart-demo>
+              <doughnut-chart-demo [method]="0" [idSalesRep]="id"></doughnut-chart-demo>
             </div>
             <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-4">
-              <line-chart-demo></line-chart-demo>
+              <line-chart-demo [method]="0" [idSalesRep]="id"></line-chart-demo>
             </div>
             <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-offset-0 col-md-4">
-              <bar-chart-demo></bar-chart-demo>
+              <bar-chart-demo [method]="0" [idSalesRep]="id"></bar-chart-demo>
             </div>
           </div>
           <div class="row" id="performance-statistics">
             <div class="col-xs-4 lol">
               <div class="background-color-6">
-                Statistic #1
+                Top categories
               </div>
             </div>
             <div class="col-xs-4 lol ">
               <div class="background-color-7">
-                Statistic #2
+                Performance
               </div>
             </div>
             <div class="col-xs-4 lol">
               <div class="background-color-8">
-                Statistic #3
+                Sales flow by year
               </div>
             </div>
           </div>

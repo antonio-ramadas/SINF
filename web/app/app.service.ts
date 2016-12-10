@@ -16,6 +16,10 @@ export class Service {
   private historyPath = '/sales/history';
   private salesPath = '/sales';
   private searchPath = '/search';
+  private statsPath = '/stats';
+  private incomePath = '/income';
+  private incomePerSalesPath = '/income-per-sale';
+  private topCategoriesPath = '/category-top';
 
   constructor (private http: Http) {}
   getSalesHistoryByCustomer (id: string, total: string): Observable<JSON[]> {
@@ -88,6 +92,36 @@ export class Service {
 
   getCostumers(): Observable<JSON[]>{
     return this.http.get(this.baseUrl + this.customerPath)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getIncomeBySalesRepresentative(id: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.incomePath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getIncomePerSaleBySalesRepresentative(id: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.incomePerSalesPath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getIncomeBySalesRepresentativeByYear(id: string, year: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.incomePath + '/' + id + '/' + year)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getIncomePerSaleBySalesRepresentativeByYear(id: string, year: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.incomePerSalesPath + '/' + id + '/' + year)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getTopCategoriesBySalesRepresentative(id: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.topCategoriesPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
