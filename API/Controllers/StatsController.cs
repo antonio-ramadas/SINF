@@ -12,9 +12,9 @@ namespace SFA_REST.Controllers
     public class StatsController : ApiController
     {
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for income registered in the ERP for a given sales representative since 2015
         /// </summary>
-        /// <returns> List of Leads </returns>
+        /// <returns> List of IncomeYear </returns>
         [Route("api/stats/income/{id}")]
         [HttpGet]
         public IEnumerable<Lib_Primavera.Model.Stats.IncomeYear> Get(string id)
@@ -23,9 +23,9 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for income registered in the ERP for a given sales representative in a given year
         /// </summary>
-        /// <returns> List of Leads </returns>
+        /// <returns> IncomeYear </returns>
         [Route("api/stats/income/{id}/{year}")]
         [HttpGet]
         public Lib_Primavera.Model.Stats.IncomeYear GetByYear(string id, int year)
@@ -34,9 +34,9 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for income registered in the ERP for a given sales representative in a given month
         /// </summary>
-        /// <returns> List of Leads </returns>
+        /// <returns> IncomeMonth </returns>
         [Route("api/stats/income/{id}/{year}/{month}")]
         [HttpGet]
         public Lib_Primavera.Model.Stats.IncomeMonth GetByMonth(string id, int year, int month)
@@ -45,7 +45,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2015
         /// </summary>
         /// <returns> List of Leads </returns>
         [Route("api/stats/sales/{id}")]
@@ -56,7 +56,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2015
         /// </summary>
         /// <returns> List of Leads </returns>
         [Route("api/stats/sales/{id}/{year}")]
@@ -67,7 +67,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2015
         /// </summary>
         /// <returns> List of Leads </returns>
         [Route("api/stats/sales/{id}/{year}/{month}")]
@@ -78,7 +78,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for the average income for each sale in of a sales rep since 2015
         /// </summary>
         /// <returns> List of Leads </returns>
         [Route("api/stats/income-per-sale/{id}")]
@@ -89,7 +89,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for the average income for each sale in given year
         /// </summary>
         /// <returns> List of Leads </returns>
         [Route("api/stats/income-per-sale/{id}/{year}")]
@@ -100,7 +100,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for the average income for each sale in given month.
         /// </summary>
         /// <returns> List of Leads </returns>
         [Route("api/stats/income-per-sale/{id}/{year}/{month}")]
@@ -111,7 +111,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        ///   GET method for the Top Categories sold by the sales representative
         /// </summary>
         /// <returns> List of TopCategory </returns>
         [Route("api/stats/category-top/{id}")]
