@@ -303,6 +303,100 @@ namespace SFA_REST.Lib_Primavera
                 return null;
         }
 
+
+        public static List<Model.Product> ListProductsByHint(string hint)
+        {
+            StdBELista objList;
+
+            List<Model.Product> listArts = new List<Model.Product>();
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT TOP 10 ARTIGO.Artigo, ARTIGO.Descricao, ARTIGO.STKActual, ARTIGO.Marca, ARTIGO.Modelo, ARTIGO.Familia, ARTIGO.SubFamilia FROM ARTIGO, Familias WHERE Familias.Familia = artigo.familia AND Familias.Descricao LIKE '%" + hint + "%'";
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    listArts.Add(new Model.Product
+                    {
+                        id = objList.Valor("Artigo"),
+                        description = objList.Valor("Descricao"),
+                        quantity = objList.Valor("STKActual"),
+                        brand = objList.Valor("Marca"),
+                        model = objList.Valor("Modelo"),
+                        category = objList.Valor("Familia"),
+                        subCategory = objList.Valor("SubFamilia")
+                    });
+                    objList.Seguinte();
+                }
+
+                return listArts;
+            }
+            else
+                return null;
+        }
+
+        public static List<Model.Product> GetProductsByCategory(string category)
+        {
+            StdBELista objList;
+
+            List<Model.Product> listArts = new List<Model.Product>();
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT * FROM ARTIGO WHERE Familia = '" + category + "'";
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    listArts.Add(new Model.Product
+                    {
+                        id = objList.Valor("Artigo"),
+                        description = objList.Valor("Descricao"),
+                        quantity = objList.Valor("STKActual"),
+                        brand = objList.Valor("Marca"),
+                        model = objList.Valor("Modelo"),
+                        category = objList.Valor("Familia"),
+                        subCategory = objList.Valor("SubFamilia")
+                    });
+                    objList.Seguinte();
+                }
+
+                return listArts;
+            }
+            else
+                return null;
+        }
+
+        public static List<Model.Product> GetProductsBySubCategory(string subCategory)
+        {
+            StdBELista objList;
+
+            List<Model.Product> listArts = new List<Model.Product>();
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT * FROM ARTIGO WHERE SubFamilia = '" + subCategory + "'";
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    listArts.Add(new Model.Product
+                    {
+                        id = objList.Valor("Artigo"),
+                        description = objList.Valor("Descricao"),
+                        quantity = objList.Valor("STKActual"),
+                        brand = objList.Valor("Marca"),
+                        model = objList.Valor("Modelo"),
+                        category = objList.Valor("Familia"),
+                        subCategory = objList.Valor("SubFamilia")
+                    });
+                    objList.Seguinte();
+                }
+
+                return listArts;
+            }
+            else
+                return null;
+        }
+
         public static Lib_Primavera.Model.Product GetProduct(string productId)
         {
             string CURRENCY = "EUR";
