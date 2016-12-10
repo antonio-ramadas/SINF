@@ -1,0 +1,28 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+      <div id="main">
+        <div id="search-result-title">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search Results
+        </div>
+        <ul>
+          <li *ngFor="let item of list">
+            <a *ngIf="isProduct" class="product">
+              <img src="" alt="">
+              <div class=""> Product Name </div>
+              <div class=""> Other stuff </div>
+            </a>
+            <a *ngIf="!isProduct" class="representative">
+              <div class=""> Sales Representative Name </div>
+              <div class=""> Other stuff </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="pagination">
+    <pagination [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+  </div>
+</div>

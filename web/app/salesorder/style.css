@@ -1,0 +1,85 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul > li {
+  border: solid 0.2rem #CCCCCC;
+  border-top: 0;
+}
+
+ul > li:first-child {
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-top: solid 0.2rem #CCCCCC;
+}
+
+ul > li:last-child {
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+ul > li > div > div {
+  height: 5rem;
+  overflow: scroll;
+  text-align: center;
+  border-right: solid 0.2rem #CCCCCC;
+}
+
+ul > li > div > div:last-child {
+  border: 0;
+}
+
+.row {
+  margin: 0;
+}
+
+.table-header {
+  background-color: #EEEEEE;
+}
+
+.property {
+  font-size: 2rem;
+}
+
+.sfa-panel {
+  position: relative;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  border-radius: 1rem;
+  padding: 2rem;
+  background-color: white;
+  margin-top: 10rem;
+}
+
+#top-information {
+  border-bottom: solid #EEEEEE;
+  margin-bottom: 2rem;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  border-right: solid #EEEEEE;
+  border-top-right-radius: 1rem;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+#footer {
+  height: 5rem;
+  position: relative;
+}
+
+#footer > button {
+  font-size: 2rem;
+  position: absolute;
+  right: 0;
+  top: 1rem;
+}
+
+#total {
+  position: absolute;
+  font-size: 3rem;
+  left: 0;
+  top: 1rem;
+}
