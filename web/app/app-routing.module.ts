@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'client/:id',  component: ClientComponent },
   { path: 'dashboard/manager', component: ManagerComponent },
-  { path: 'dashboard/sales-rep', component: SalesRepComponent },
+  { path: 'dashboard/sales-rep/:id', component: SalesRepComponent },
   { path: 'login', component: LoginComponent },
   { path: 'product/:id', component: ProductComponent },
   { path: 'search', component: SearchComponent },
