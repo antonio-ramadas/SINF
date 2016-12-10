@@ -1,0 +1,78 @@
+h3{
+  margin: 0;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.title{
+  color: white;
+  font-size: 200%;
+  margin: 1rem;
+}
+
+#tree{
+  font-size: 2rem;
+}
+
+#product{
+  margin: 1rem;
+  margin-top: 10rem;
+}
+
+#image-pagination{
+  margin: 0;
+  padding: 0;
+}
+
+#description{
+  max-height: 10rem;
+  overflow: scroll;
+}
+
+#features{
+  max-height: 10rem;
+  overflow: scroll;
+}
+
+#image-panel{
+  text-align: center;
+}
+
+#order-button{
+  padding: 1rem;
+  white-space: normal;
+}
+
+#client-search-bar{
+  margin-bottom: 1rem;
+}
+
+#product-footer{
+  padding: 2rem;
+}
+
+#product-panel{
+  max-height: 100%;
+}
+
+#catalogue-panel{
+  height: 50rem;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+
+#order-history-panel{
+  height: 50rem;
+  overflow-y: scroll;
+}
+
+.order-history-item{
+  border: solid rgb(200,200,200) 1px;
+  border-radius: 2px;
+  margin: 1rem;
+  padding: 1rem;
+}
