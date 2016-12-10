@@ -35,6 +35,17 @@ namespace SFA_REST.Controllers
             return Lib_Primavera.PriIntegration.GetSalesRepresentative(id);
         }
 
+        /// <summary>
+        ///   GET method for a sales representative of the ERP, with a given id represented as a String
+        /// </summary>
+        /// <returns> JSON with sales representative information or null, in case the sales representative with the given id doesn't exist </returns>
+        [Route("api/salesrep/topCustomers/{id}/{number}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Customer> Get(string id, string number)
+        {
+            return Lib_Primavera.PriIntegration.GetTopCustomersBySalesRepresentative(id, number);
+        }
+
         
         /// <summary>
         ///   POST method for creation of a sales representative class

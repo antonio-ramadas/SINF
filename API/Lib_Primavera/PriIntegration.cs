@@ -526,6 +526,39 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static List<Model.Customer> GetTopCustomersBySalesRepresentative(string id, string number)
+        {
+            List<Model.Customer> listCustomers = new List<Model.Customer>();
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+
+                    string query = "SELECT TOP " + number + " Cliente, Nome, s.Number FROM CLIENTES INNER JOIN (SELECT Entidade, count(*) as Number FROM CabecDoc WHERE CabecDoc.Responsavel = '" + id + "' GROUP BY Entidade) s ON s.Entidade = Cliente ORDER BY s.Number DESC";
+                    StdBELista objList = PriEngine.Engine.Consulta(query);
+                    while (!objList.NoFim())
+                    {
+                        listCustomers.Add(new Model.Customer
+                        {
+                            id = objList.Valor("Cliente"),
+                            name = objList.Valor("Nome")
+                        });
+                        objList.Seguinte();
+
+                    }
+
+                    return listCustomers;
+                }
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
         public static Lib_Primavera.Model.ErrorResponse CreateSalesRepresentative(Model.SalesRepresentative salesRepresentative)
         {
             System.Diagnostics.Debug.WriteLine("entrou na funcao de criaçao");
