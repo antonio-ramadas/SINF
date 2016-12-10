@@ -46,5 +46,12 @@ namespace SFA_REST.Lib_Primavera.Model
             public double incomePerYear { get; set; }
         }
 
+        public class TopCategory
+        {
+            public int numSales { get; set; }
+            public double percent { get; set; }
+            public Category category { get; set; }
+        }
+
     }
 }

@@ -109,5 +109,16 @@ namespace SFA_REST.Controllers
         {
             return Lib_Primavera.PriIntegration.GetIncomePerMonth(id, year, month);
         }
+
+        /// <summary>
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+        /// </summary>
+        /// <returns> List of TopCategory </returns>
+        [Route("api/stats/category-top/{id}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Stats.TopCategory> GetTopCategories(string id)
+        {
+            return Lib_Primavera.PriIntegration.GetSalesTopCategories(id);
+        }
     }
 }

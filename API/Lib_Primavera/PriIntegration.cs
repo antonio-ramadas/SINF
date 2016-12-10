@@ -1842,8 +1842,76 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        #endregion Stats
-    }
-     
+        public static int GetTotalSalesNumByCategories(string salesRepId)
+        {
+            
 
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT Count(Familias.Familia) as Contagem "+
+                                "FROM PRIDEMOSINF.dbo.Artigo, PRIDEMOSINF.dbo.Familias, PRIDEMOSINF.dbo.CabecDoc, PRIDEMOSINF.dbo.LinhasDoc "+ 
+                                "WHERE		CabecDoc.TipoDoc = 'ECL' "+
+		                                "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc "+
+		                                "AND LinhasDoc.Artigo = Artigo.Artigo "+
+		                                "AND Artigo.Familia = Familias.Familia "+
+		                                "AND CabecDoc.Responsavel = '1' ";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                return objList.Valor("Contagem");
+                
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static IEnumerable<Model.Stats.TopCategory> GetSalesTopCategories(string salesRepId)
+        {
+            int total = GetTotalSalesNumByCategories(salesRepId);
+            List<Model.Stats.TopCategory> list = new List<Model.Stats.TopCategory>();
+            Model.Stats.TopCategory topCategory;
+            Model.Category category;
+
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT Familias.Familia as Familia, Familias.Descricao as Descricao, Count(Familias.Familia) as Contagem " +
+                                "FROM PRIDEMOSINF.dbo.Artigo, PRIDEMOSINF.dbo.Familias, PRIDEMOSINF.dbo.CabecDoc, PRIDEMOSINF.dbo.LinhasDoc " +
+                                "WHERE		CabecDoc.TipoDoc = 'ECL' " +
+                                        "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc " +
+                                        "AND LinhasDoc.Artigo = Artigo.Artigo " +
+                                        "AND Artigo.Familia = Familias.Familia " +
+                                        "AND CabecDoc.Responsavel = '1' " +
+                                "GROUP BY Familias.Familia, Familias.Descricao " +
+                                "ORDER BY Contagem DESC";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    topCategory = new Model.Stats.TopCategory();
+                    topCategory.numSales = (int) objList.Valor("Contagem");
+                    topCategory.percent = topCategory.numSales / (double) total;
+                    category = new Model.Category();
+                    category.family = objList.Valor("Familia");
+                    category.description = objList.Valor("Descricao");
+                    topCategory.category = category;
+                    list.Add(topCategory);
+                    objList.Seguinte();
+                }
+
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+
+
+        #endregion Stats
+
+
+
+    }
 }

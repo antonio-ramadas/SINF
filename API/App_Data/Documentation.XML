@@ -649,6 +649,66 @@
             </summary>
             <returns> HttpResponse with the output from the server </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.StatsController.Get(System.String)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetByYear(System.String,System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetByMonth(System.String,System.Int32,System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetSales(System.String)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetSalesByYear(System.String,System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetSalesByMonth(System.String,System.Int32,System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByRep(System.String)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByYear(System.String,System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByMonth(System.String,System.Int32,System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetTopCategories(System.String)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+            </summary>
+            <returns> List of TopCategory </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.VisitsController.Get">
             <summary>
               GET method to retrieve all the tasks in the ERP
