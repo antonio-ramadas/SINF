@@ -33,6 +33,17 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
+        ///     GET method for the customers with more sales on the ERP
+        /// </summary>
+        /// <returns> List of the top customers </returns>
+        [Route("api/customer/top/{number}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Customer> GetTopCustomers(string number)
+        {
+            return Lib_Primavera.PriIntegration.GetTopCustomers(number);
+        }
+
+        /// <summary>
         ///     GET method for a customer of the ERP, with a given string represented his name as a String
         /// </summary>
         /// <returns> Customer with the given name </returns>
