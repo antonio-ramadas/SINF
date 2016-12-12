@@ -36,16 +36,26 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   GET method for a sales representative of the ERP, with a given id represented as a String
+        ///   GET method for for the top customers of a given sales representative
         /// </summary>
-        /// <returns> JSON with sales representative information or null, in case the sales representative with the given id doesn't exist </returns>
+        /// <returns> JSON with the number of top clients of a certain sales representative </returns>
         [Route("api/salesrep/topCustomers/{id}/{number}")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Customer> Get(string id, string number)
+        public IEnumerable<Lib_Primavera.Model.Customer> GetTopCustomers(string id, string number)
         {
             return Lib_Primavera.PriIntegration.GetTopCustomersBySalesRepresentative(id, number);
         }
 
+        /// <summary>
+        ///   GET method for for the most sold items from a given sales representative
+        /// </summary>
+        /// <returns> JSON with the number of top products of a certain sales representative </returns>
+        [Route("api/salesrep/topProducts/{id}/{number}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Product> GetTopProducts(string id, string number)
+        {
+            return Lib_Primavera.PriIntegration.GetTopProductsBySalesRepresentative(id, number);
+        }
         
         /// <summary>
         ///   POST method for creation of a sales representative class

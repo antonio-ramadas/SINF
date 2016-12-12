@@ -79,5 +79,11 @@ namespace SFA_REST.Lib_Primavera.Model
             get;
             set;
         }
+
+        public string amountSold
+        {
+            get;
+            set;
+        }
     }
 }

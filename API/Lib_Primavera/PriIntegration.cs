@@ -514,7 +514,8 @@ namespace SFA_REST.Lib_Primavera
                     listArts.Add(new Model.Product
                     {
                         id = objList.Valor("Artigo"),
-                        description = objList.Valor("Descricao")
+                        description = objList.Valor("Descricao"),
+                        amountSold = objList.Valor("Number").ToString()
                     });
                     objList.Seguinte();
                 }
@@ -698,6 +699,40 @@ namespace SFA_REST.Lib_Primavera
                     }
 
                     return listCustomers;
+                }
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public static List<Model.Product> GetTopProductsBySalesRepresentative(string id, string number)
+        {
+            List<Model.Product> list = new List<Model.Product>();
+            try
+            {
+                if (PriEngine.isOpen())
+                {
+
+                    string query = "SELECT TOP " + number + " Artigo, Descricao, s.Number FROM ARTIGO INNER JOIN (SELECT Artigo AS Code, count(*) as Number FROM LINHASDOC WHERE LINHASDOC.Vendedor = '" + id + "' GROUP BY Artigo) s ON s.Code = Artigo ORDER BY s.Number DESC";
+                    StdBELista objList = PriEngine.Engine.Consulta(query);
+                    while (!objList.NoFim())
+                    {
+                        list.Add(new Model.Product
+                        {
+                            id = objList.Valor("Artigo"),
+                            description = objList.Valor("Descricao"),
+                            amountSold = objList.Valor("Number").ToString()
+                        });
+                        objList.Seguinte();
+
+                    }
+
+                    return list;
                 }
                 else
                     return null;
