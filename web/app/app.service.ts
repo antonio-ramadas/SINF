@@ -17,11 +17,24 @@ export class Service {
   private salesPath = '/sales';
   private searchPath = '/search';
   private statsPath = '/stats';
+  private salesRepPath = '/salesrep';
   private incomePath = '/income';
   private incomePerSalesPath = '/income-per-sale';
   private topCategoriesPath = '/category-top';
 
   constructor (private http: Http) {}
+  getSalesRepresentative(id: string): Observable<JSON> {
+    return this.http.get(this.baseUrl + this.salesRepPath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getSalesOrder (id: string): Observable<JSON> {
+    return this.http.get(this.baseUrl + this.salesPath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getSalesHistoryByCustomer (id: string, total: string): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.salesPath + this.customerPath + '/' + id + '/' + total)
                     .map(this.extractData)
