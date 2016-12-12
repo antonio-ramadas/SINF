@@ -20,6 +20,12 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
+        public string address
+        {
+            get;
+            set;
+        }
+
         public int numDoc
         {
             get;

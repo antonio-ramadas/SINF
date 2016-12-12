@@ -1298,6 +1298,7 @@ namespace SFA_REST.Lib_Primavera
                     myEnc.set_Serie(dv.serie);
                     myEnc.set_Tipodoc("ECL");
                     myEnc.set_TipoEntidade("C");
+                    myEnc.set_Morada(dv.address);
                     // Linhas do documento para a lista de linhas
                     lstlindv = dv.LinhasDoc;
                     PriEngine.Engine.Comercial.Vendas.PreencheDadosRelacionados(myEnc);
@@ -1346,12 +1347,13 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.isOpen() == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT id, Entidade, Data, NumDoc, TotalMerc, Responsavel, Serie From CabecDoc where TipoDoc='ECL'");
+                objListCab = PriEngine.Engine.Consulta("SELECT id, Entidade, Data, NumDoc, TotalMerc, Responsavel, Serie, Morada From CabecDoc where TipoDoc='ECL'");
                 while (!objListCab.NoFim())
                 {
                     dv = new Model.SalesOrder();
                     dv.id = objListCab.Valor("id");
                     dv.entity = objListCab.Valor("Entidade");
+                    dv.address = objListCab.Valor("Morada");
                     dv.numDoc = objListCab.Valor("NumDoc");
                     dv.date = objListCab.Valor("Data");
                     dv.totalMerc = objListCab.Valor("TotalMerc");
@@ -1395,11 +1397,12 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.isOpen())
             {
-                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel From CabecDoc where TipoDoc='ECL' and NumDoc='" + numdoc + "'";
+                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel, Morada From CabecDoc where TipoDoc='ECL' and NumDoc='" + numdoc + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
                 dv = new Model.SalesOrder();
                 dv.id = objListCab.Valor("id");
                 dv.entity = objListCab.Valor("Entidade");
+                dv.address = objListCab.Valor("Morada");
                 dv.numDoc = objListCab.Valor("NumDoc");
                 dv.date = objListCab.Valor("Data");
                 dv.totalMerc = objListCab.Valor("TotalMerc");
@@ -1443,14 +1446,15 @@ namespace SFA_REST.Lib_Primavera
             {
                 string st;
                 if(Int32.Parse(number) < 0)
-                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "' ORDER BY Data DESC";
-                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "' ORDER BY Data DESC";
+                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc, Morada where TipoDoc='ECL' and Responsavel='" + salesRepId + "' ORDER BY Data DESC";
+                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie, Morada From CabecDoc where TipoDoc='ECL' and Responsavel='" + salesRepId + "' ORDER BY Data DESC";
                 objListCab = PriEngine.Engine.Consulta(st);
                 while (!objListCab.NoFim())
                 {
                     dv = new Model.SalesOrder();
                     dv.id = objListCab.Valor("id");
                     dv.entity = objListCab.Valor("Entidade");
+                    dv.address = objListCab.Valor("Morada");
                     dv.numDoc = objListCab.Valor("NumDoc");
                     dv.date = objListCab.Valor("Data");
                     dv.totalMerc = objListCab.Valor("TotalMerc");
@@ -1497,14 +1501,15 @@ namespace SFA_REST.Lib_Primavera
             {
                 string st;
                 if (Int32.Parse(number) < 0)
-                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "' ORDER BY Data DESC";
-                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "' ORDER BY Data DESC";
+                    st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Morada From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "' ORDER BY Data DESC";
+                else st = "SELECT TOP " + number + " id, Entidade, Data, NumDoc, TotalMerc, Serie, Morada From CabecDoc where TipoDoc='ECL' and Entidade='" + costumerId + "' ORDER BY Data DESC";
                 objListCab = PriEngine.Engine.Consulta(st);
                 while (!objListCab.NoFim())
                 {
                     dv = new Model.SalesOrder();
                     dv.id = objListCab.Valor("id");
                     dv.entity = objListCab.Valor("Entidade");
+                    dv.address = objListCab.Valor("Morada");
                     dv.numDoc = objListCab.Valor("NumDoc");
                     dv.date = objListCab.Valor("Data");
                     dv.totalMerc = objListCab.Valor("TotalMerc");
