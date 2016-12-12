@@ -1713,7 +1713,7 @@ namespace SFA_REST.Lib_Primavera
         #endregion Labels
 
 
-        #region Paises
+        #region Countries
 
         public static IEnumerable<Model.Country> GetCountries()
         {
@@ -1743,7 +1743,7 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        #endregion Paises
+        #endregion Countries
 
 
         #region Stats
@@ -2037,8 +2037,6 @@ namespace SFA_REST.Lib_Primavera
 
 
         #endregion Stats
-
-
 
     }
 }
