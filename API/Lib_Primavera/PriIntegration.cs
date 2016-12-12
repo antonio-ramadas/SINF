@@ -15,6 +15,7 @@ namespace SFA_REST.Lib_Primavera
 {
     public class PriIntegration
     {
+
         #region Customer
 
         public static List<Model.Customer> ListCustomers()
@@ -335,7 +336,6 @@ namespace SFA_REST.Lib_Primavera
                 return null;
         }
 
-
         public static List<Model.Product> ListProductsByHint(string hint)
         {
             StdBELista objList;
@@ -499,6 +499,32 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
+        public static List<Model.Product> GetTopProducts(string number)
+        {
+            StdBELista objList;
+
+            List<Model.Product> listArts = new List<Model.Product>();
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT TOP " + number + " Artigo, Descricao, s.Number FROM ARTIGO INNER JOIN (SELECT Artigo AS Code, count(*) as Number FROM LinhasDoc GROUP BY Artigo) s ON s.Code = Artigo ORDER BY s.Number DESC";
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    listArts.Add(new Model.Product
+                    {
+                        id = objList.Valor("Artigo"),
+                        description = objList.Valor("Descricao")
+                    });
+                    objList.Seguinte();
+                }
+
+                return listArts;
+            }
+            else
+                return null;
+        }
+
         public static double GetSalesCount(string productId)
         {
             StdBELista objList;
@@ -520,8 +546,6 @@ namespace SFA_REST.Lib_Primavera
                 return 0;
             }
         }
-
-        
 
         #endregion Product
 

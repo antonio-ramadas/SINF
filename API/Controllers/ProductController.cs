@@ -66,6 +66,17 @@ namespace SFA_REST.Controllers
         {
             return Lib_Primavera.PriIntegration.GetProductsBySubCategory(id);
         }
+
+        /// <summary>
+        ///   Get method to retrieve the most sold products in the ERP
+        /// </summary>
+        /// <returns> List with the number of specified top products </returns>
+        [Route("api/product/top/{number}")]
+        [HttpGet]
+        public List<SFA_REST.Lib_Primavera.Model.Product> GetTopProducts(string number)
+        {
+            return Lib_Primavera.PriIntegration.GetTopProducts(number);
+        }
     }
 }
 
