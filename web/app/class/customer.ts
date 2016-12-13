@@ -22,4 +22,8 @@ export class Customer {
     this.nif = data['nif'];
     this.notes = data['notes'];
   }
+
+  isSimilar(hint: string) : boolean {
+    return this.name.toLowerCase().indexOf(hint) >= 0;
+  }
 }
