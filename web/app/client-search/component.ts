@@ -13,10 +13,10 @@ import { Customer } from './../class/customer';
 })
 
 export class ClientSearchComponent {
-  list = ['1','2','3','4','5','6','7'];
   groups = ['Subgroup #1','Subgroup #2','Subgroup #3'];
 
   customers = [];
+  customersSearch = [];
   customersTotal = [];
   id: string;
   errorMessage: string;
@@ -29,6 +29,8 @@ export class ClientSearchComponent {
   eventHandler(event) {
    //console.log(event, event.keyCode, event.keyIdentifier);
    //console.log(this.hint);
+   this.hint = this.hint.toLowerCase();
+   this.searchCustomer();
   }
 
   public pageChanged(event:any):void {
@@ -38,7 +40,11 @@ export class ClientSearchComponent {
     this.customersToDisplay();
   };
 
-  constructor(private route: ActivatedRoute, private service: Service) {
+  redirect(path: string) {
+    this.router.navigate([path]);
+  }
+
+  constructor(private route: ActivatedRoute, private router: Router, private service: Service) {
 
   }
 
@@ -49,6 +55,18 @@ export class ClientSearchComponent {
     });
   }
 
+  searchCustomer() {
+    this.customers = [];
+    this.customersSearch = [];
+
+    for (let c of this.customersTotal)
+      if (c.isSimilar(this.hint))
+        this.customersSearch.push(c);
+
+    let start = (this.currentPage-1)*this.itemsPerPage;
+    this.customers = this.customersSearch.slice(start, start+this.itemsPerPage);
+  }
+
   getCustomers() {
     this.service.getCostumers()
       .subscribe(
@@ -57,11 +75,6 @@ export class ClientSearchComponent {
   }
 
   customersToDisplay() {
-    this.list = [];
-    for (var i = 0; i < this.customersTotal.length; i++) {
-      this.list.push(i.toString());
-    }
-    console.log(this.currentPage);
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.customers = this.customersTotal.slice(start, start+this.itemsPerPage);
   }

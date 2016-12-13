@@ -27,7 +27,7 @@
           </tr>
           <tr *ngFor="let customer of customers">
             <td>
-              <a href="/client/{{customer.id}}">{{customer.name}}</a>
+              <a (click)="redirect('/client/' + customer.id)">{{customer.name}}</a>
             </td>
             <td>
               {{customer.nationality}}
