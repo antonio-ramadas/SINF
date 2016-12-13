@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Service } from './../app.service';
@@ -15,8 +15,8 @@ import { Product } from './../class/product';
 })
 
 export class ProductSearchComponent {
-  list = [];
   hint = '';
+  category = '';
 
   public totalItems:number = 30;
   public currentPage:number = 1;
@@ -30,15 +30,23 @@ export class ProductSearchComponent {
   id: string;
   errorMessage: string;
   products = [];
+  productSearch = [];
   productsTotal = [];
   categories = [];
 
   eventHandler(event) {
    //console.log(event, event.keyCode, event.keyIdentifier);
    //console.log(this.hint);
+   this.hint = this.hint.toLowerCase();
+   this.searchProduct();
   }
 
-  constructor(private route: ActivatedRoute, private service: Service) {
+  selectCategory(id: string) {
+    this.category = id;
+    this.searchProduct();
+  }
+
+  constructor(private router: Router, private route: ActivatedRoute, private service: Service) {
   }
 
   ngOnInit(): void {
@@ -49,11 +57,29 @@ export class ProductSearchComponent {
     });
   }
 
+  redirect(path: string) {
+    this.router.navigate([path]);
+  }
+
   getCategories() {
     this.service.getCategoriesList()
                     .subscribe(
                        categories => this.categories = categories,
                        error =>  this.errorMessage = <any>error);
+  }
+
+  searchProduct() {
+    this.products = [];
+    this.productSearch = [];
+
+    for (let p of this.productsTotal) {
+      if (p.isSimilar(this.hint, this.category)) {
+        this.productSearch.push(p);
+      }
+    }
+
+    let start = (this.currentPage-1)*this.itemsPerPage;
+    this.products = this.productSearch.slice(start, start+this.itemsPerPage);
   }
 
   getProducts() {
@@ -64,10 +90,6 @@ export class ProductSearchComponent {
   }
 
   productsToDisplay() {
-    this.list = [];
-    for (var i = 0; i < this.productsTotal.length; i++) {
-      this.list.push(i.toString());
-    }
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.products = this.productsTotal.slice(start, start+this.itemsPerPage);
   }
