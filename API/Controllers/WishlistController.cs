@@ -8,17 +8,17 @@ using SFA_REST.Lib_Primavera.Model;
 
 namespace SFA_REST.Controllers
 {
-    public class LeadsController : ApiController
+    public class WishlistController : ApiController
     {
         /// <summary>
         ///   GET method for the all the leads registered in the ERP  
         /// </summary>
         /// <returns> List of Leads </returns>
-        [Route("api/leads")]
+        [Route("api/wishlist")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Lead> Get()
+        public IEnumerable<Lib_Primavera.Model.WishList> Get()
         {
-            return Lib_Primavera.PriIntegration.ListLeads();
+            return Lib_Primavera.PriIntegration.ListWishes();
         }
 
 
@@ -26,31 +26,31 @@ namespace SFA_REST.Controllers
         ///   GET method for a lead in the ERP, with a given id represented as a String
         /// </summary>
         /// <returns> Lead with the respective specified id </returns>
-        [Route("api/leads/{id}")]
+        [Route("api/wishlist/{id}")]
         [HttpGet]
-        public Lead Get(string id)
+        public WishList Get(string id)
         {
-            return Lib_Primavera.PriIntegration.GetLead(id);
+            return Lib_Primavera.PriIntegration.GetWish(id);
         }
 
         /// <summary>
         ///   GET method for a lead in the ERP, with a given id represented as a String
         /// </summary>
         /// <returns> Lead with the respective specified id </returns>
-        [Route("api/leads/customer/{id}")]
+        [Route("api/wishlist/customer/{id}")]
         [HttpGet]
-        public IEnumerable<Lead> GetByCustomer(string id)
+        public IEnumerable<WishList> GetWishByCustomer(string id)
         {
-            return Lib_Primavera.PriIntegration.ListLeadsByCustomer(id);
+            return Lib_Primavera.PriIntegration.ListWishesByCustomer(id);
         }
 
         /// <summary>
         ///   POST method for the creation of a given lead
         /// </summary>
         /// <returns> HttpResponse with the output from the server </returns>
-        [Route("api/leads")]
+        [Route("api/wishlist")]
         [HttpPost]
-        public HttpResponseMessage Post(Lib_Primavera.Model.Lead lead)
+        public HttpResponseMessage Post(Lib_Primavera.Model.WishList lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.CreateLead(lead);
@@ -66,7 +66,7 @@ namespace SFA_REST.Controllers
         ///   DELETE method to erase a certain lead
         /// </summary>
         /// <returns> HttpResponse with the output from the server </returns>
-        [Route("api/leads/{id}")]
+        [Route("api/wishlist/{id}")]
         [HttpDelete]
         public HttpResponseMessage Delete(string id)
         {
