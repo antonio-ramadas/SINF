@@ -23,4 +23,13 @@ export class Product {
     this.vat = product['vat'];
     this.warehouses = product['warehouses'];
   }
+
+  isSimilar(hint: string, category: string) : boolean {
+    let sameCategory = true;
+    if (category != null && category != '') {
+      sameCategory = category == this.category || category == this.subCategory;
+    }
+
+    return sameCategory && this.description.toLowerCase().indexOf(hint) >= 0;
+  }
 }
