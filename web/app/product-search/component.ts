@@ -23,6 +23,7 @@ export class ProductSearchComponent {
   public itemsPerPage:number = 6;
 
   public pageChanged(event:any):void {
+    this.currentPage = event.page;
     this.productsToDisplay();
   };
 

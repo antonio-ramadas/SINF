@@ -7,19 +7,20 @@
         <div id="top-information">
           <div id="header">
             <h1> Sales Order <span class="label label-success">Open</span> </h1>
+            <h5> {{salesOrder.id}} </h5>
           </div>
           <div id="client-information">
             <div class="property">
               From: SportZone
             </div>
             <div class="property">
-              To: <a href="#"> Client </a>
+              To: <a (click)="redirect('/client/' + customer.id)"> {{customer.name}} </a>
             </div>
             <div class="property">
-              Vendor: <a href="#"> Pedro Romano </a>
+              Vendor: <a (click)="redirect('/dashboard/sales-rep/' + salesRep.id)"> {{salesRep.name}} </a>
             </div>
             <div class="property">
-              Ship To: St. Street
+              Ship To: {{salesOrder.address}}
             </div>
           </div>
         </div>
@@ -50,33 +51,9 @@
                 Edit Buttons
               </th>
             </tr>
-            <tr>
+            <tr *ngFor=" let line of salesOrder.lines">
               <td>
-                Mac Book
-              </td>
-              <td>
-                <div class="label label-primary sfa-label"> client </div>
-                <div class="label label-success sfa-label"> admin </div>
-              </td>
-              <td>
-                123
-              </td>
-              <td>
-                1300
-              </td>
-              <td>
-                <input class="form-control" type="number" name="" value="2">
-              </td>
-              <td>
-                2600
-              </td>
-              <td>
-                <button type="button" class="btn btn-danger" name="button"> X </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Mac Book
+                {{line.descArtigo}}
               </td>
               <td>
                 <div class="label label-primary sfa-label"> client </div>
@@ -84,16 +61,16 @@
                 <div class="label label-danger sfa-label"> vendor </div>
               </td>
               <td>
-                123
+                <a (click)="redirect('/product/' + line.codArtigo)">{{line.codArtigo}}</a>
               </td>
               <td>
-                1300
+                {{line.precoUnitario}}
               </td>
               <td>
-                <input class="form-control" type="number" name="" value="2">
+                <input class="form-control" type="number" name="" [(ngModel)]="line.quantidade" value="{{line.quantidade}}">
               </td>
               <td>
-                2600
+                {{line.precoUnitario * line.quantidade}}
               </td>
               <td>
                 <button type="button" class="btn btn-danger" name="button"> X </button>
@@ -106,7 +83,7 @@
         <div id="footer">
           <button type="button" name="button" class="btn btn-primary">Checkout</button>
           <div id="total">
-            <strong> Total: 7800 </strong>
+            <strong> Total: €{{salesOrder.total}} </strong>
           </div>
         </div>
 

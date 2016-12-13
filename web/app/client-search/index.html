@@ -19,24 +19,18 @@
         <table style="width:100%">
           <tr>
             <th>
-              Client Name
+              Name
             </th>
             <th>
-              Client Information
-            </th>
-            <th>
-              Client Subgroup
+              Nationality
             </th>
           </tr>
-          <tr *ngFor="let client of clients">
+          <tr *ngFor="let customer of customers">
             <td>
-              <a href="#">{{client.name}}</a>
+              <a href="/client/{{customer.id}}">{{customer.name}}</a>
             </td>
             <td>
-              {{client.info}}
-            </td>
-            <td>
-              {{client.sub}}
+              {{customer.nationality}}
             </td>
           </tr>
         </table>

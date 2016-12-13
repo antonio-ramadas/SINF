@@ -8,6 +8,7 @@ export class SalesOrder {
   salesRep: string;
   serie: string;
   total: string;
+  address: string;
   lines: SalesOrderLine[] = [];
 
   constructor(data: JSON) {
@@ -18,7 +19,9 @@ export class SalesOrder {
     this.salesRep = data['salesRep'];
     this.serie = data['serie'];
     this.total = data['totalMerc'];
-    for (let line of data['LinhasDoc'])
+    this.address = data['address'];
+    if (data['LinhasDoc'] != null)
+      for (let line of data['LinhasDoc'])
         this.lines.push(new SalesOrderLine(line));
   }
 }
