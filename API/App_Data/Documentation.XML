@@ -505,6 +505,12 @@
             </summary>
             <returns> Customer with the given id </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.CustomerController.GetTopCustomers(System.String)">
+            <summary>
+                GET method for the customers with more sales on the ERP
+            </summary>
+            <returns> List of the top customers </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.CustomerController.GetByName(System.String)">
             <summary>
                 GET method for a customer of the ERP, with a given string represented his name as a String
@@ -547,36 +553,6 @@
             </summary>
             <returns> HttpResponseMessage with the output from the server </returns>
         </member>
-        <member name="M:SFA_REST.Controllers.LeadsController.Get">
-            <summary>
-              GET method for the all the leads registered in the ERP  
-            </summary>
-            <returns> List of Leads </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.LeadsController.Get(System.String)">
-            <summary>
-              GET method for a lead in the ERP, with a given id represented as a String
-            </summary>
-            <returns> Lead with the respective specified id </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.LeadsController.GetByCustomer(System.String)">
-            <summary>
-              GET method for a lead in the ERP, with a given id represented as a String
-            </summary>
-            <returns> Lead with the respective specified id </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.LeadsController.Post(SFA_REST.Lib_Primavera.Model.Lead)">
-            <summary>
-              POST method for the creation of a given lead
-            </summary>
-            <returns> HttpResponse with the output from the server </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.LeadsController.Delete(System.String)">
-            <summary>
-              DELETE method to erase a certain lead
-            </summary>
-            <returns> HttpResponse with the output from the server </returns>
-        </member>
         <member name="M:SFA_REST.Controllers.ProductController.Get">
             <summary>
               Get method to retrieve all the products in the ERP
@@ -588,6 +564,30 @@
               Get method to retrieve a certain product in the ERP
             </summary>
             <returns> Product with the correspondind id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.ProductController.ListProductsByHint(System.String)">
+            <summary>
+              Get method to retrieve a certain set of products given a hint
+            </summary>
+            <returns> Product with the correspondind id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.ProductController.GetProductsByCategory(System.String)">
+            <summary>
+              Get method to retrieve a certain set of products given a its category
+            </summary>
+            <returns> Product with the correspondind id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.ProductController.GetProductsBySubCategory(System.String)">
+            <summary>
+              Get method to retrieve a certain set of products given its subCategory
+            </summary>
+            <returns> Product with the correspondind id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.ProductController.GetTopProducts(System.String)">
+            <summary>
+              Get method to retrieve the most sold products in the ERP
+            </summary>
+            <returns> List with the number of specified top products </returns>
         </member>
         <member name="M:SFA_REST.Controllers.SalesController.Get">
             <summary>
@@ -637,6 +637,18 @@
             </summary>
             <returns> JSON with sales representative information or null, in case the sales representative with the given id doesn't exist </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.SalesRepController.GetTopCustomers(System.String,System.String)">
+            <summary>
+              GET method for for the top customers of a given sales representative
+            </summary>
+            <returns> JSON with the number of top clients of a certain sales representative </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.SalesRepController.GetTopProducts(System.String,System.String)">
+            <summary>
+              GET method for for the most sold items from a given sales representative
+            </summary>
+            <returns> JSON with the number of top products of a certain sales representative </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.SalesRepController.Post(SFA_REST.Lib_Primavera.Model.SalesRepresentative)">
             <summary>
               POST method for creation of a sales representative class
@@ -651,61 +663,61 @@
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.Get(System.String)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for income registered in the ERP for a given sales representative since 2015
             </summary>
-            <returns> List of Leads </returns>
+            <returns> List of IncomeYear </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetByYear(System.String,System.Int32)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for income registered in the ERP for a given sales representative in a given year
             </summary>
-            <returns> List of Leads </returns>
+            <returns> IncomeYear </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetByMonth(System.String,System.Int32,System.Int32)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for income registered in the ERP for a given sales representative in a given month
             </summary>
-            <returns> List of Leads </returns>
+            <returns> IncomeMonth </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetSales(System.String)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2015
             </summary>
             <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetSalesByYear(System.String,System.Int32)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2015
             </summary>
             <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetSalesByMonth(System.String,System.Int32,System.Int32)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2015
             </summary>
             <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByRep(System.String)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for the average income for each sale in of a sales rep since 2015
             </summary>
             <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByYear(System.String,System.Int32)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for the average income for each sale in given year
             </summary>
             <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByMonth(System.String,System.Int32,System.Int32)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for the average income for each sale in given month.
             </summary>
             <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetTopCategories(System.String)">
             <summary>
-              GET method for the all the sales states registered in the ERP for a given sales representative since 2008
+              GET method for the Top Categories sold by the sales representative
             </summary>
             <returns> List of TopCategory </returns>
         </member>
@@ -724,6 +736,36 @@
         <member name="M:SFA_REST.Controllers.VisitsController.Post(SFA_REST.Lib_Primavera.Model.Visits)">
             <summary>
               POST method to create a visit task
+            </summary>
+            <returns> HttpResponse with the output from the server </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.WishlistController.Get">
+            <summary>
+              GET method for the all the leads registered in the ERP  
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.WishlistController.Get(System.String)">
+            <summary>
+              GET method for a lead in the ERP, with a given id represented as a String
+            </summary>
+            <returns> Lead with the respective specified id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.WishlistController.GetWishByCustomer(System.String)">
+            <summary>
+              GET method for a lead in the ERP, with a given id represented as a String
+            </summary>
+            <returns> Lead with the respective specified id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.WishlistController.Post(SFA_REST.Lib_Primavera.Model.WishList)">
+            <summary>
+              POST method for the creation of a given lead
+            </summary>
+            <returns> HttpResponse with the output from the server </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.WishlistController.Delete(System.String)">
+            <summary>
+              DELETE method to erase a certain lead
             </summary>
             <returns> HttpResponse with the output from the server </returns>
         </member>

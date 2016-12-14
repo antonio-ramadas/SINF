@@ -15,11 +15,10 @@ namespace SFA_REST.Lib_Primavera
 {
     public class PriIntegration
     {
-
         #region Customer
 
         public static List<Model.Customer> ListCustomers()
-        { 
+        {
             List<Model.Customer> listCustomers = new List<Model.Customer>();
             try
             {
