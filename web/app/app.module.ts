@@ -1,4 +1,4 @@
-import { NgModule, ApplicationRef }       from '@angular/core';
+import { NgModule, ApplicationRef, Injectable }       from '@angular/core';
 import { BrowserModule }                  from '@angular/platform-browser';
 import { AppRoutingModule }               from './app-routing.module';
 import { DropdownModule }                 from 'ng2-bootstrap/ng2-bootstrap';
