@@ -41,7 +41,7 @@ namespace SFA_REST.Controllers
         /// <returns> List of Task </returns>
         [Route("api/route/today/{salesRepId}")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Task> Get(string salesRepId)
+        public IEnumerable<Lib_Primavera.Model.Task> GetTDailyRoute(string salesRepId)
         {
             DateTime date = DateTime.Now;
 

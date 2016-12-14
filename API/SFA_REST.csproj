@@ -281,7 +281,9 @@
     <Compile Include="Controllers\SalesRepController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="Controllers\RouteController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\VisitsController.cs" />
     <Compile Include="Controllers\WishlistController.cs" />
     <Compile Include="Global.asax.cs">

@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SFA_REST.Lib_Primavera.Model;
 
-
 namespace SFA_REST.Controllers
 {
-    public class User : ApiController
+    public class UserController : ApiController
     {
         /// <summary>
         ///   POST method to authenticate an user
         /// </summary>
         /// <returns> true if the user and password match. False if they don't match </returns>
-        [Route("api/user")]
+        [Route("api/login")]
         [HttpPost]
         public HttpResponseMessage Login(Lib_Primavera.Model.User user)
         {
-            System.Diagnostics.Debug.WriteLine("oladbjdcdowowhiowhihio");
             if(Lib_Primavera.PriIntegration.AuthenticateUser(user))
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.Created);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
