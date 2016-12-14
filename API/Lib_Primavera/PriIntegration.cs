@@ -282,6 +282,10 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
+                    AddLabelToCostumer(customer.id, customer.labels.ElementAt(0));
+                    AddLabelToCostumer(customer.id, customer.labels.ElementAt(1));
+                    AddLabelToCostumer(customer.id, customer.labels.ElementAt(2));
+
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
