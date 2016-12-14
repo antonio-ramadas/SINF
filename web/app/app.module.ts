@@ -5,6 +5,7 @@ import { DropdownModule }                 from 'ng2-bootstrap/ng2-bootstrap';
 import { TreeViewComponent }              from './product/tree-view';
 import { ChartsModule }                   from 'ng2-charts/ng2-charts';
 import { HttpModule, JsonpModule }        from '@angular/http';
+import { ToastyModule }                     from 'ng2-toasty';
 
 import { AppComponent }                   from './app.component';
 import { ClientComponent }                from './client/component';
@@ -44,7 +45,8 @@ import { RepSearchComponent }             from './rep-search/component';
                     }),
                   HttpModule,
                   JsonpModule,
-                  FormsModule
+                  FormsModule,
+                  ToastyModule.forRoot()
                 ],
   declarations: [
                   AppComponent,

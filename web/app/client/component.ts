@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Service } from './../app.service';
 import { SalesOrder } from './../class/salesorder';
 import { Customer } from './../class/customer';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import myGlobals = require('./../globals');
 
 @Component({
@@ -29,9 +30,17 @@ export class ClientComponent implements OnInit {
   labels = [];
   createClient: boolean = false;
   hint = '';
+  toastPosition = 'top-center';
 
-  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service, private location: Location) {
-
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private formBuilder: FormBuilder, 
+    private service: Service, 
+    private location: Location,
+    private toastyService:ToastyService,
+    private toastyConfig: ToastyConfig) {
+      this.toastyConfig.theme = 'default';
   }
 
   eventHandler(event) {
@@ -115,6 +124,7 @@ export class ClientComponent implements OnInit {
 
   updateNotes() {
     this.service.updateCustomerNotes(this.customer.id, this.customer.notes);
+    this.addToast();
   }
 
   signInCustomer() {
@@ -180,5 +190,20 @@ export class ClientComponent implements OnInit {
 
     this.hideChildModal();
   }
+
+  addToast() {
+    var toastOptions: ToastOptions = {
+        title: "My title",
+        msg: "The message",
+        showClose: true,
+        timeout: 3000
+    };
+    // Add see all possible types in one shot
+    //this.toastyService.info(toastOptions);
+    this.toastyService.success(toastOptions);
+    /*this.toastyService.wait(toastOptions);
+    this.toastyService.error(toastOptions);
+    this.toastyService.warning(toastOptions);*/
+    }
 
 }
