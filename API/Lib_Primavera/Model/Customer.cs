@@ -15,15 +15,9 @@ namespace SFA_REST.Lib_Primavera.Model
 
         public string email { get; set; }
 
-        public string customerGroups { get; set; }
-
-        public string gender { get; set; }
-
         public string phoneNumber { get; set; }
 
         public string nationality { get; set; }
-
-        public string dateOfBirth { get; set; }
 
         public string nif { get; set; }
 

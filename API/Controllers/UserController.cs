@@ -18,8 +18,8 @@ namespace SFA_REST.Controllers
         [HttpPost]
         public HttpResponseMessage Login(Lib_Primavera.Model.User user)
         {
-            if(Lib_Primavera.PriIntegration.AuthenticateUser(user))
-                return Request.CreateResponse(HttpStatusCode.Created);
+            if(Lib_Primavera.PriEngine.AuthenticateUser(user))
+                return Request.CreateResponse(HttpStatusCode.Continue);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 

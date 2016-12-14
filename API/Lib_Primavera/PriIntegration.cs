@@ -10,6 +10,7 @@ using Interop.RhpBE900;
 using Interop.CrmBE900;
 using ADODB;
 using System.Globalization;
+using System.Data.SqlClient;
 
 namespace SFA_REST.Lib_Primavera
 {
@@ -277,6 +278,7 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_B2BEnderecoMail(customer.email);
                     myCli.set_NumContribuinte(customer.nif);
                     myCli.set_Pais(customer.nationality);
+                    myCli.set_Observacoes(customer.notes);
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
@@ -1168,123 +1170,6 @@ namespace SFA_REST.Lib_Primavera
         #endregion WishList
 
 
-        #region DocCompra
-
-        public static List<Model.DocCompra> VGR_List()
-        {
-                
-            StdBELista objListCab;
-            StdBELista objListLin;
-            Model.DocCompra dc = new Model.DocCompra();
-            List<Model.DocCompra> listdc = new List<Model.DocCompra>();
-            Model.LinhaDocCompra lindc = new Model.LinhaDocCompra();
-            List<Model.LinhaDocCompra> listlindc = new List<Model.LinhaDocCompra>();
-
-            if (PriEngine.isOpen() == true)
-            {
-                objListCab = PriEngine.Engine.Consulta("SELECT id, NumDocExterno, Entidade, DataDoc, NumDoc, TotalMerc, Serie From CabecCompras where TipoDoc='VGR'");
-                while (!objListCab.NoFim())
-                {
-                    dc = new Model.DocCompra();
-                    dc.id = objListCab.Valor("id");
-                    dc.NumDocExterno = objListCab.Valor("NumDocExterno");
-                    dc.Entidade = objListCab.Valor("Entidade");
-                    dc.NumDoc = objListCab.Valor("NumDoc");
-                    dc.Data = objListCab.Valor("DataDoc");
-                    dc.TotalMerc = objListCab.Valor("TotalMerc");
-                    dc.Serie = objListCab.Valor("Serie");
-                    objListLin = PriEngine.Engine.Consulta("SELECT idCabecCompras, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido, Armazem, Lote from LinhasCompras where IdCabecCompras='" + dc.id + "' order By NumLinha");
-                    listlindc = new List<Model.LinhaDocCompra>();
-
-                    while (!objListLin.NoFim())
-                    {
-                        lindc = new Model.LinhaDocCompra();
-                        lindc.IdCabecDoc = objListLin.Valor("idCabecCompras");
-                        lindc.CodArtigo = objListLin.Valor("Artigo");
-                        lindc.DescArtigo = objListLin.Valor("Descricao");
-                        lindc.Quantidade = objListLin.Valor("Quantidade");
-                        lindc.Unidade = objListLin.Valor("Unidade");
-                        lindc.Desconto = objListLin.Valor("Desconto1");
-                        lindc.PrecoUnitario = objListLin.Valor("PrecUnit");
-                        lindc.TotalILiquido = objListLin.Valor("TotalILiquido");
-                        lindc.TotalLiquido = objListLin.Valor("PrecoLiquido");
-                        lindc.Armazem = objListLin.Valor("Armazem");
-                        lindc.Lote = objListLin.Valor("Lote");
-
-                        listlindc.Add(lindc);
-                        objListLin.Seguinte();
-                    }
-
-                    dc.LinhasDoc = listlindc;
-                    
-                    listdc.Add(dc);
-                    objListCab.Seguinte();
-                }
-            }
-            return listdc;
-        }
-          
-        public static Model.ErrorResponse VGR_New(Model.DocCompra dc)
-        {
-            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
-            
-
-            GcpBEDocumentoCompra myGR = new GcpBEDocumentoCompra();
-            GcpBELinhaDocumentoCompra myLin = new GcpBELinhaDocumentoCompra();
-            GcpBELinhasDocumentoCompra myLinhas = new GcpBELinhasDocumentoCompra();
-
-            Interop.GcpBE900.PreencheRelacaoCompras rl = new Interop.GcpBE900.PreencheRelacaoCompras();
-            List<Model.LinhaDocCompra> lstlindv = new List<Model.LinhaDocCompra>();
-
-            try
-            {
-                if (PriEngine.isOpen() == true)
-                {
-                    // Atribui valores ao cabecalho do doc
-                    //myEnc.set_DataDoc(dv.Data);
-                    myGR.set_Entidade(dc.Entidade);
-                    myGR.set_NumDocExterno(dc.NumDocExterno);
-                    myGR.set_Serie(dc.Serie);
-                    myGR.set_Tipodoc("VGR");
-                    myGR.set_TipoEntidade("F");
-                    // Linhas do documento para a lista de linhas
-                    lstlindv = dc.LinhasDoc;
-                    //PriEngine.Engine.Comercial.Compras.PreencheDadosRelacionados(myGR,rl);
-                    PriEngine.Engine.Comercial.Compras.PreencheDadosRelacionados(myGR);
-                    foreach (Model.LinhaDocCompra lin in lstlindv)
-                    {
-                        PriEngine.Engine.Comercial.Compras.AdicionaLinha(myGR, lin.CodArtigo, lin.Quantidade, lin.Armazem, "", lin.PrecoUnitario, lin.Desconto);
-                    }
-
-
-                    PriEngine.Engine.IniciaTransaccao();
-                    PriEngine.Engine.Comercial.Compras.Actualiza(myGR, "Teste");
-                    PriEngine.Engine.TerminaTransaccao();
-                    erro.Erro = 0;
-                    erro.Descricao = "Sucesso";
-                    return erro;
-                }
-                else
-                {
-                    erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir empresa";
-                    return erro;
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                PriEngine.Engine.DesfazTransaccao();
-                erro.Erro = 1;
-                erro.Descricao = ex.Message;
-                return erro;
-            }
-        }
-
-        #endregion DocCompra
-
-
         #region SalesOrder
 
         public static Model.ErrorResponse CreateSalesOrder(Model.SalesOrder dv)
@@ -1672,6 +1557,7 @@ namespace SFA_REST.Lib_Primavera
 
 
         #region Labels
+
         public static IEnumerable<Model.Customer> ListCostumerByLabel(string labelId)
         {
             List<Model.Customer> listCustomers = new List<Model.Customer>();
@@ -1697,9 +1583,6 @@ namespace SFA_REST.Lib_Primavera
                         phoneNumber = objList.Valor("Fac_Tel"),
                         address = objList.Valor("Fac_Mor"),
                         email = objList.Valor("B2BEnderecoMail"),
-                        //customerGroups = objList.Valor("CDU_GruposDeClientes"),
-                        //gender = objList.Valor("CDU_Sexo"),
-                        //dateOfBirth = objList.Valor("CDU_DataNascimento").ToString(),
                         nationality = objList.Valor("Pais"),
                         nif = objList.Valor("NumContrib"),
                         labels = labelsList
@@ -2237,25 +2120,6 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion Stats
 
-
-        #region User
-
-        public static bool AuthenticateUser(Model.User user)
-        {
-            string pwd = null;
-            try
-            {
-                pwd = PriEngine.Query("SELECT Password FROM PasswordUtilizador WHERE Utilizador = '" + user.username + "'").ElementAt(1).ElementAt(1);
-            }catch(Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-            System.Diagnostics.Debug.WriteLine(pwd);
-
-            return false;
-        }
-
-        #endregion User
 
     }
 }
