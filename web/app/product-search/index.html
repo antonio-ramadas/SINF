@@ -5,8 +5,7 @@
         <div class="catalogue-header">
           <a> All Products </a>
         </div>
-        <div *ngFor="let category of categories" class="panel-body container-fluid">
-        <!--<tree-view id="tree" [root]="category"></tree-view>-->
+        <div *ngFor="let category of categories" class="panel-body">
           <div class="catalogue-header">
             <a (click)="selectCategory(category.family)"> {{category.description}} </a>
           </div>
