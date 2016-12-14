@@ -1,4 +1,4 @@
-export class Customer {
+export class SalesRepresentative {
   id: string;
   phone: string;
   name: string;
@@ -7,8 +7,7 @@ export class Customer {
   nationality: string;
   dateOfBirth: string;
   gender: string;
-  nif: string;
-  notes: string;
+  active: boolean;
 
   constructor(data: JSON) {
     this.phone = data['phoneNumber'];
@@ -19,7 +18,6 @@ export class Customer {
     this.nationality = data['nationality'];
     this.dateOfBirth = data['dateOfBirth'];
     this.gender = data['gender'];
-    this.nif = data['nif'];
-    this.notes = data['notes'];
+    this.active = data['active'];
   }
 }

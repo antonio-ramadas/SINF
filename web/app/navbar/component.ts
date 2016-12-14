@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import myGlobals = require('./../globals');
 
 @Component({
   selector: 'navbar',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: 'app/navbar/index.html'
 })
 
-export class NavbarComponent { }
+export class NavbarComponent {
+  id = myGlobals.id;
+}

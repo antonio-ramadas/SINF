@@ -2,30 +2,17 @@
   <div class="row">
     <div class="col-xs-3">
       <div class="sfa-panel">
-        <div class="">
-          Categoria #1
-        </div>
+        <div *ngFor="let category of categories" class="panel-body container-fluid">
+        <!--<tree-view id="tree" [root]="category"></tree-view>-->
         <ul>
-          <li> SubCategoria </li>
-          <li> SubCategoria </li>
-          <li> SubCategoria </li>
+          <li class="catalogue-header">
+            <a (click)="selectCategory(category.family)"> {{category.description}} </a>
+          </li>
+          <li *ngFor="let item of category.children" class="catalogue-list">
+            <a (click)="selectCategory(item.family)"> {{item.description}} </a>
+          </li>
         </ul>
-        <div class="">
-          Categoria #2
-        </div>
-        <ul>
-          <li> SubCategoria </li>
-          <li> SubCategoria </li>
-          <li> SubCategoria </li>
-        </ul>
-        <div class="">
-          Categoria #3
-        </div>
-        <ul>
-          <li> SubCategoria </li>
-          <li> SubCategoria </li>
-          <li> SubCategoria </li>
-        </ul>
+      </div>
       </div>
     </div>
     <div class="col-xs-9">
@@ -39,12 +26,12 @@
         </div>
         <div *ngFor="let product of products" class="col-xs-4">
           <div class="sfa-panel">
-            <img class="{{product.src}}" src="a0001.jpg" alt="">
+            <a (click)="redirect('/product/' + product.id)"><img class="img" height="50" width="50" src="./app/img/{{product.imageUrl}}" alt=""></a>
             <div class="">
-              {{product.name}}
+              <a (click)="redirect('/product/' + product.id)">{{product.description}}</a>
             </div>
             <div class="">
-              {{product.info}}
+              € {{product.price}}
             </div>
           </div>
         </div>
