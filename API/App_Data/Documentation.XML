@@ -733,6 +733,12 @@
             </summary>
             <returns> List of Task </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.RouteController.Get(System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+              GET method for an ordered list of tasks registered in the ERP for a given sales representative.
+            </summary>
+            <returns> List of Task </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.User.Login(SFA_REST.Lib_Primavera.Model.User)">
             <summary>
               POST method to authenticate an user

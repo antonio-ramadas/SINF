@@ -1688,6 +1688,43 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
+        public static IEnumerable<Model.Task> ListRoutesAfterDate(string salesRepId, DateTime date)
+        {
+            List<Model.Task> list = new List<Model.Task>();
+            Model.Task task;
+
+
+            if (Lib_Primavera.PriEngine.isOpen())
+            {
+                string query = "SELECT Id, Prioridade, Resumo, Descricao, EntidadePrincipal, DataInicio, DataFim, LocalRealizacao, ResponsavelPor FROM PRIDEMOSINF.dbo.Tarefas WHERE ResponsavelPor = '" + salesRepId + "' AND DataInicio >= '" + date.ToString("yyyy-MM-dd HH:mm:ss.fff") + "' ORDER BY DataInicio ASC";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    task = new Model.Task();
+                    task.id = objList.Valor("Id");
+                    task.priority = objList.Valor("Prioridade");
+                    task.summary = objList.Valor("Resumo");
+                    task.description = objList.Valor("Descricao");
+                    task.clientId = objList.Valor("EntidadePrincipal");
+                    task.beginDate = objList.Valor("DataInicio");
+                    task.endDate = objList.Valor("DataFim");
+                    task.location = objList.Valor("LocalRealizacao");
+                    task.salesmanId = objList.Valor("ResponsavelPor");
+
+                    list.Add(task);
+
+                    objList.Seguinte();
+                }
+
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         #endregion RoutesCalendar
 
 
@@ -2269,7 +2306,5 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion User
 
-
-        
     }
 }
