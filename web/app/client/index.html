@@ -12,7 +12,7 @@
           <input type="text" [(ngModel)]="hint" (keyup)="eventHandler($event)" class="form-control" placeholder="Search for Client"
             aria-describedby="sizing-addon1">
           <span class="input-group-btn">
-            <button class="btn btn-success" type="button" (click)="smModal.show()">+</button>
+            <button class="btn btn-success" type="button" (click)="openCreateClientModal()">+</button>
           </span>
         </div>
         <div id="contact-list-panel">
@@ -63,6 +63,7 @@
               <div id="content-detail">
                 <ul id="content-detail-list">
                   <li> <strong> ID: </strong> {{customer.id}} </li>
+                  <li> <strong> E-mail: </strong> {{customer.email}} </li>
                   <li> <strong> Nationality: </strong> {{customer.nationality}} </li>
                   <li> <strong> Phone number: </strong> {{customer.phone}} </li>
                   <li> <strong> NIF: </strong> {{customer.nif}} </li>
@@ -80,6 +81,8 @@
               </div>
             </div>
           </div>
+                <button class="btn btn-success" type="button" (click)="redirect('/cart/' + customer.id)">Go to customer cart</button>
+                <button class="btn btn-success" type="button" (click)="signInCustomer()">Sign in as this customer</button>
         </div>
       </div>
 
@@ -119,19 +122,13 @@
           <h4 class="modal-title">Client Details</h4>
         </div>
         <div class="modal-body">
-          <form [formGroup]="registerForm" (ngSubmit)="createNewClient()">
+          <form [formGroup]="registerForm" (ngSubmit)="handleClient()">
 
             <label>ID:</label>
             <input type="text" class="form-control" formControlName="id" required>
 
             <label>Name:</label>
             <input type="text" class="form-control" formControlName="name" required>
-
-            <label>Date of Birth:</label>
-            <input type="text" class="form-control" formControlName="birthDate" required>
-
-            <label>Gender:</label>
-            <input type="text" class="form-control" formControlName="gender" required>
 
             <label>Address:</label>
             <input type="text" class="form-control" formControlName="address" required>
@@ -140,27 +137,33 @@
             <input type="text" class="form-control" formControlName="phoneNumber" required>
 
             <label>Email:</label>
-            <input type="email" class="form-control" formControlName="email" required>
+            <input type="email" class="form-control" formControlName="email">
 
             <label>NIF:</label>
             <input type="text" class="form-control" formControlName="nif" required>
 
             <label>Nationality:</label>
             <select class="form-control" formControlName="nationality" required>
-              <option value="TODO">Falta pôr mais países. O Gui vai dar uma lista.</option>
-              <option value="PT">Portugal</option>
-              <option value="ES">Spain</option>
+              <option *ngFor="let country of countries" value="{{country.country}}">{{country.descricao}}</option>
             </select>
 
-            <label>Labels:</label>
-            <select class="form-control" formControlName="labels">
-              <option value="TODO">Falta haver uma API para obter todas as labels.</option>
-              <option value="TODO2">Podem ser criadas novas labels aqui.</option>
-              <option value="TODO3">Podem estar selecionadas zero ou mais labels.</option>
+            <label>Label 1:</label>
+            <select class="form-control" formControlName="label1">
+              <option value="" selected></option>
+              <option *ngFor="let label of labels" value="{{label}}">{{label}}</option>
             </select>
 
-            <label>Notes:</label>
-            <input type="text" class="form-control" formControlName="notes">
+            <label>Label 2:</label>
+            <select class="form-control" formControlName="label2">
+              <option value="" selected></option>
+              <option *ngFor="let label of labels" value="{{label}}">{{label}}</option>
+            </select>
+
+            <label>Label 3:</label>
+            <select class="form-control" formControlName="label3">
+              <option value="" selected></option>
+              <option *ngFor="let label of labels" value="{{label}}">{{label}}</option>
+            </select>
 
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>

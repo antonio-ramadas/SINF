@@ -12,11 +12,11 @@
         </div>
         <div *ngFor="let category of categories" class="panel-body">
           <div class="catalogue-header">
-            <a (click)="selectCategory(category.family)"> {{category.description}} </a>
+            <a (click)="redirectToProductCategory(category.family)"> {{category.description}} </a>
           </div>
           <ul>
             <li *ngFor="let item of category.children" class="catalogue-list">
-              <a (click)="selectCategory(item.family)"> {{item.description}} </a>
+              <a (click)="redirectToProductCategory(item.family)"> {{item.description}} </a>
             </li>
           </ul>
         </div>
@@ -67,7 +67,7 @@
           <div id="product-footer" class="row">
             <div class="col-xs-12 col-md-8">
             </div>
-            <form>
+            <form (ngSubmit)="addToCustomerCart()">
               <input id="input-quantity" [(ngModel)]="total" type="number" name="quantity" min="0" max="{{product.stock}}" placeholder="Quantity">
               <input type="submit" value="Add to the wishlist">
               <span>Total: €{{total * product.price}}</span>

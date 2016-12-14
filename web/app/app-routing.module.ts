@@ -11,7 +11,7 @@ import { ProductSearchComponent } from './product-search/component';
 import { ClientSearchComponent } from './client-search/component';
 import { RepSearchComponent }     from './rep-search/component';
 import { SalesOrderComponent } from './salesorder/component';
-import { WishlistComponent } from './wishlist/component';
+import { CartComponent } from './cart/component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'salesorder/:id', component: SalesOrderComponent },
   { path: 'salesorder', component: SalesOrderComponent },
-  { path: 'wishlist', component: WishlistComponent },
+  { path: 'cart/:id', component: CartComponent },
   { path: 'product-search', component: ProductSearchComponent },
   { path: 'client-search', component: ClientSearchComponent },
   { path: 'rep-search', component: RepSearchComponent },

@@ -7,6 +7,7 @@ import { Service } from './../app.service';
 import { SalesOrder } from './../class/salesorder';
 import { Customer } from './../class/customer';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import myGlobals = require('./../globals');
 
 @Component({
   moduleId: module.id,
@@ -25,6 +26,9 @@ export class ClientComponent implements OnInit {
   customer: Customer = new Customer(JSON.parse('{}'));
   customers = [];
   salesHistory = [];
+  countries = [];
+  labels = [];
+  createClient: boolean = false;
   hint = '';
   toastPosition = 'top-center';
 
@@ -49,6 +53,15 @@ export class ClientComponent implements OnInit {
         .subscribe(
         suggestions => this.customers = suggestions,
         error => this.errorMessage = <any>error);
+  }
+
+  redirect(path: string) {
+    this.router.navigate([path]);
+  }
+
+  openCreateClientModal() {
+    this.createClient = true;
+    this.showChildModal();
   }
 
   goToSalesOrder(salesId) {
@@ -80,16 +93,32 @@ export class ClientComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
 
+  getCountries() {
+    this.service.getCountries()
+      .subscribe(
+      countries => this.countries = countries,
+      error => this.errorMessage = <any>error);
+  }
+
+  getLabels() {
+    this.service.getLabels()
+          .subscribe(
+          labels => this.labels = labels,
+          error => this.errorMessage = <any>error);
+  }
+
   editInfo() {
+    this.createClient = false;
     this.registerForm.patchValue({'id': this.customer.id});
     this.registerForm.patchValue({'phoneNumber': this.customer.phone});
     this.registerForm.patchValue({'name': this.customer.name});
     this.registerForm.patchValue({'email': this.customer.email});
     this.registerForm.patchValue({'address': this.customer.address});
     this.registerForm.patchValue({'nationality': this.customer.nationality});
-    this.registerForm.patchValue({'birthDate': this.customer.dateOfBirth});
-    this.registerForm.patchValue({'gender': this.customer.gender});
     this.registerForm.patchValue({'nif': this.customer.nif});
+    this.registerForm.patchValue({'label1': this.customer.label1});
+    this.registerForm.patchValue({'label2': this.customer.label2});
+    this.registerForm.patchValue({'label3': this.customer.label3});
     this.childModal.show();
   }
 
@@ -98,12 +127,18 @@ export class ClientComponent implements OnInit {
     this.addToast();
   }
 
+  signInCustomer() {
+    myGlobals.idCustomer = this.id;
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.getCustomer();
       this.getCustomers();
       this.getSalesHistory();
+      this.getCountries();
+      this.getLabels();
     });
     // Create Form
     this.registerForm = this.formBuilder.group({
@@ -111,13 +146,12 @@ export class ClientComponent implements OnInit {
       name: '',
       address: '',
       phoneNumber: '',
-      birthDate: '',
       email: '',
       nif: '',
       nationality: '',
-      gender: '',
-      labels: '',
-      notes: ''
+      label1: '',
+      label2: '',
+      label3: ''
     });
   }
 
@@ -131,8 +165,30 @@ export class ClientComponent implements OnInit {
     this.childModal.hide();
   }
 
-  public createNewClient(): void {
-    console.error("TODO submit form to create new client. Waiting for the API correct implementation");
+  public handleClient(): void {
+    let id = this.registerForm.controls["id"].value;
+    let json;
+    json = {
+        "id": this.registerForm.controls["id"].value,
+        "name": this.registerForm.controls["name"].value,
+        "address": this.registerForm.controls["address"].value,
+        "email": this.registerForm.controls["email"].value,
+        "phoneNumber": this.registerForm.controls["phoneNumber"].value,
+        "nationality": this.registerForm.controls["nationality"].value,
+        "nif": this.registerForm.controls["nif"].value,
+        "labels": [
+          this.registerForm.controls["label1"].value,
+          this.registerForm.controls["label2"].value,
+          this.registerForm.controls["label3"].value
+        ]
+    };
+
+    if (this.createClient)
+      this.service.createCustomer(<JSON>json);
+    else
+      this.service.updateCustomer(id, <JSON>json);
+
+    this.hideChildModal();
   }
 
   addToast() {
