@@ -37,13 +37,13 @@
 /* CLASSES */
 
 .title {
-  padding: 1rem;
+  padding-bottom: 1rem;
   border-bottom: solid #EEEEEE;
 }
 
 .title > div {
   display: inline-block;
-  font-size: 3rem;
+  font-size: 2rem;
   vertical-align: middle;
   font-weight: bold;
 }
