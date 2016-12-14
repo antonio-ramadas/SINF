@@ -24,7 +24,7 @@ export class ProductSearchComponent {
 
   public pageChanged(event:any):void {
     this.currentPage = event.page;
-    this.productsToDisplay();
+    this.searchProduct();
   };
 
   id: string;
@@ -78,6 +78,7 @@ export class ProductSearchComponent {
       }
     }
 
+    this.totalItems = this.productSearch.length;
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.products = this.productSearch.slice(start, start+this.itemsPerPage);
   }
@@ -90,6 +91,7 @@ export class ProductSearchComponent {
   }
 
   productsToDisplay() {
+    this.totalItems = this.productsTotal.length;
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.products = this.productsTotal.slice(start, start+this.itemsPerPage);
   }
