@@ -26,6 +26,15 @@ export class Service {
   private topCategoriesPath = '/category-top';
 
   constructor (private http: Http) {}
+
+  addProductToCustomerCart(json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(this.baseUrl + this.wishlistPath, json, {headers: headers})
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getLabels() : Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.customerPath + this.labelsPath)
                     .map(this.extractData)

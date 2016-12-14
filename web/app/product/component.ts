@@ -5,6 +5,7 @@ import { Service } from './../app.service';
 import { Customer } from './../class/customer';
 import { Product } from './../class/product';
 import { SalesOrder } from './../class/salesorder';
+import myGlobals = require('./../globals');
 
 @Component({
   selector: 'product',
@@ -21,9 +22,9 @@ export class ProductComponent {
   categories = [];
   history = [];
   search = [];
-  product = {'imageUrl': 'default.jpg'};
+  product: Product = new Product(JSON.parse("{}"));
   hint = '';
-  total = '';
+  total = 1;
   errorMessage: string;
 
   constructor(private service: Service, private router: Router, private route: ActivatedRoute){
@@ -36,6 +37,32 @@ export class ProductComponent {
       this.getProduct();
       this.getHistory();
     });
+  }
+
+  addToCustomerCart() {
+    let json;
+    json = {
+      "customerID": myGlobals.idCustomer,
+      "description": this.product.description,
+      "expirationDate": "15-12-2016 00:00:00", //TODO
+      "salesRepID": myGlobals.idSales,
+      "lines": [{
+        "productID": this.product.id,
+        "description": this.product.description,
+        "quantity": this.total.toString(),
+        "costPrice": this.product.price.toString(),
+        "sellingPrice": this.product.price.toString()
+      }]
+    };
+
+    console.log(json);
+
+    this.service.addProductToCustomerCart(<JSON>json);
+  }
+
+  redirectToProductCategory(cat: string) {
+    myGlobals.productCategory = cat;
+    this.router.navigate(["/product-search"]);
   }
 
   getHistory() {

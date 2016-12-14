@@ -4,6 +4,7 @@ import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Service } from './../app.service';
 import { Product } from './../class/product';
+import myGlobals = require('./../globals');
 
 @Component({
   selector: 'product-search',
@@ -86,8 +87,17 @@ export class ProductSearchComponent {
   getProducts() {
     this.service.getProductsList()
                 .subscribe(
-                       prod => {this.productsTotal = []; for (let obj of prod) this.productsTotal.push(new Product(obj)); this.productsToDisplay();},
+                       prod => {this.productsTotal = []; for (let obj of prod) this.productsTotal.push(new Product(obj)); this.showProducts();},
                        error =>  this.errorMessage = <any>error);
+  }
+
+  showProducts() {
+    if (myGlobals.productCategory == null) {
+       this.productsToDisplay();
+    } else {
+      this.selectCategory(myGlobals.productCategory);
+      myGlobals.productCategory = null;
+    }
   }
 
   productsToDisplay() {
