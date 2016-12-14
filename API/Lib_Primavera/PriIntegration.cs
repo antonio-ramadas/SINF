@@ -278,6 +278,7 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_B2BEnderecoMail(customer.email);
                     myCli.set_NumContribuinte(customer.nif);
                     myCli.set_Pais(customer.nationality);
+                    myCli.set_Observacoes(customer.notes);
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
@@ -1673,6 +1674,7 @@ namespace SFA_REST.Lib_Primavera
 
 
         #region Labels
+
         public static IEnumerable<Model.Customer> ListCostumerByLabel(string labelId)
         {
             List<Model.Customer> listCustomers = new List<Model.Customer>();
