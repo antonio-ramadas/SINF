@@ -998,7 +998,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static List<Model.WishList> ListWishesByCustomer(string customerId)
+        public static List<Model.WishList.WishLine> ListWishesByCustomer(string customerId)
         {
             StdBELista obj;
 
@@ -1010,7 +1010,7 @@ namespace SFA_REST.Lib_Primavera
 
                     string query = "SELECT * FROM CabecOportunidadesVenda WHERE Entidade = '"+customerId+"'";
                     obj = PriEngine.Engine.Consulta(query);
-
+                    List<Model.WishList.WishLine> lines = new List<Model.WishList.WishLine>();
                     while (!obj.NoFim())
                     {
                         Model.WishList wish = new Model.WishList();
@@ -1026,7 +1026,7 @@ namespace SFA_REST.Lib_Primavera
 
                         string subQuery = "SELECT * FROM LINHASPROPOSTASOPV WHERE IdOportunidade = '" + wish.id + "'";
                         StdBELista subObj = PriEngine.Engine.Consulta(subQuery);
-                        List<Model.WishList.WishLine> lines = new List<Model.WishList.WishLine>();
+                        
 
                         while (!subObj.NoFim())
                         {
@@ -1044,7 +1044,7 @@ namespace SFA_REST.Lib_Primavera
                         obj.Seguinte();
                     }
 
-                    return listWishes;
+                    return lines;
                 }
                 else
                     return null;
@@ -2198,5 +2198,11 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion Stats
 
+
+        #region User
+
+
+
+        #endregion User
     }
 }
