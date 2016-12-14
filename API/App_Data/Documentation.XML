@@ -721,6 +721,18 @@
             </summary>
             <returns> List of TopCategory </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.User.Login(SFA_REST.Lib_Primavera.Model.User)">
+            <summary>
+              POST method to authenticate an user
+            </summary>
+            <returns> true if the user and password match. False if they don't match </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.User.Register(System.String,System.String,System.String,System.String)">
+            <summary>
+              PUT method to register an user
+            </summary>
+            <returns> true if the user and password match. False if they don't match </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.VisitsController.Get">
             <summary>
               GET method to retrieve all the tasks in the ERP
@@ -738,12 +750,6 @@
               POST method to create a visit task
             </summary>
             <returns> HttpResponse with the output from the server </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.Get">
-            <summary>
-              GET method for the all the leads registered in the ERP  
-            </summary>
-            <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.WishlistController.Get(System.String)">
             <summary>
@@ -763,7 +769,7 @@
             </summary>
             <returns> HttpResponse with the output from the server </returns>
         </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.Delete(System.String)">
+        <member name="M:SFA_REST.Controllers.WishlistController.Delete(SFA_REST.Lib_Primavera.Model.WishList.WishLine)">
             <summary>
               DELETE method to erase a certain lead
             </summary>

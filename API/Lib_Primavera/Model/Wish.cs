@@ -27,6 +27,12 @@ namespace SFA_REST.Lib_Primavera.Model
 
         public class WishLine
         {
+            public string id { get; set; }
+
+            public string numberProposal { get; set; }
+
+            public string numberLine { get; set; }
+
             public string productID { get; set; }
 
             public string description { get; set; }

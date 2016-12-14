@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SFA_REST.Lib_Primavera.Model;
+
 
 namespace SFA_REST.Controllers
 {
@@ -14,11 +16,14 @@ namespace SFA_REST.Controllers
         ///   POST method to authenticate an user
         /// </summary>
         /// <returns> true if the user and password match. False if they don't match </returns>
-        [Route("api/login")]
+        [Route("api/user")]
         [HttpPost]
-        public bool Login(Lib_Primavera.Model.User user)
+        public HttpResponseMessage Login(Lib_Primavera.Model.User user)
         {
-            return true;
+            System.Diagnostics.Debug.WriteLine("oladbjdcdowowhiowhihio");
+            if(Lib_Primavera.PriIntegration.AuthenticateUser(user))
+                return Request.CreateResponse(HttpStatusCode.OK);
+            else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
         /// <summary>
