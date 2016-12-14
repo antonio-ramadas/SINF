@@ -12,6 +12,7 @@ import { ManagerComponent }               from './dashboard/manager/component';
 import { SalesRepComponent }              from './dashboard/sales-rep/component';
 import { LoginComponent }                 from './login/component';
 import { SalesOrderComponent }            from './salesorder/component';
+import { WishlistComponent }            from './wishlist/component';
 import { ProductComponent }               from './product/component';
 import { NavbarComponent }                from './navbar/component';
 import { SearchComponent }                from './search/search.component';
@@ -53,6 +54,7 @@ import { RepSearchComponent }             from './rep-search/component';
                   RepSearchComponent,
                   LoginComponent,
                   SalesOrderComponent,
+                  WishlistComponent,
                   ClientComponent,
                   ManagerComponent,
                   SalesRepComponent,
