@@ -27,7 +27,7 @@ namespace SFA_REST.Controllers
         ///   GET method for an ordered list of tasks registered in the ERP for a given sales representative after the given date.
         /// </summary>
         /// <returns> List of Task </returns>
-        [Route("api/route/{salesRepId}/{year}/{month}/{day}")]
+        [Route("api/route/{salesRepId}/date/{year}/{month}/{day}")]
         [HttpGet]
         public IEnumerable<Lib_Primavera.Model.Task> Get(string salesRepId, int year, int month, int day)
         {
@@ -39,7 +39,7 @@ namespace SFA_REST.Controllers
         ///   GET method for an ordered list of tasks registered in the ERP for a given sales representative for today onwards.
         /// </summary>
         /// <returns> List of Task </returns>
-        [Route("api/route/today/{salesRepId}")]
+        [Route("api/route/{salesRepId}/today")]
         [HttpGet]
         public IEnumerable<Lib_Primavera.Model.Task> GetTDailyRoute(string salesRepId)
         {
