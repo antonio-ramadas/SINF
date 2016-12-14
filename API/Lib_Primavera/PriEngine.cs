@@ -98,7 +98,7 @@ namespace SFA_REST.Lib_Primavera
             List<List<string>> result = new List<List<string>>();
             try
             {
-                SqlCommand com = new SqlCommand(string, SupportDB);
+                SqlCommand com = new SqlCommand(query, SupportDB);
                 SqlDataReader reader = com.ExecuteReader();
                 while (reader.Read())
                 {

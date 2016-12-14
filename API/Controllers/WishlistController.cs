@@ -39,7 +39,7 @@ namespace SFA_REST.Controllers
         /// <returns> Lead with the respective specified id </returns>
         [Route("api/wishlist/customer/{id}")]
         [HttpGet]
-        public IEnumerable<WishList> GetWishByCustomer(string id)
+        public IEnumerable<WishList.WishLine> GetWishByCustomer(string id)
         {
             return Lib_Primavera.PriIntegration.ListWishesByCustomer(id);
         }
