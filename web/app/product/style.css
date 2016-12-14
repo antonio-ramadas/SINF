@@ -1,12 +1,85 @@
-h3{
+h3 {
   margin: 0;
 }
 
-ul{
+ul {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
+
+.sfa-panel {
+  position: relative;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  border-radius: 1rem;
+  padding: 2rem;
+  background-color: white;
+  margin: 0.5rem;
+}
+
+/* CATALOGUE */
+
+.catalogue-header {
+  border-bottom: solid 0.2rem #EEEEEE;
+}
+
+.catalogue-header a {
+  font-size: 2rem;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.catalogue-header a:hover{
+  color: #71A4FC;
+  cursor: pointer;
+}
+
+#category-panel .panel-body {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+#category-panel {
+  overflow: scroll;
+  overflow-x: hidden;
+  max-height: 60rem;
+}
+
+#category-panel ul {
+  margin: 0;
+  padding-left: 2rem;
+}
+
+#category-panel li {
+  list-style: disc;
+  font-size: 1.5rem;
+}
+
+#category-panel li a {
+  text-decoration: none;
+  color: black;
+}
+
+#category-panel li:hover a {
+  cursor: pointer;
+  color: #71A4FC;
+}
+
+#category-title h3 {
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+}
+
+#catalogue-panel{
+  height: 50rem;
+  overflow-y: scroll;
+}
+
+/* \CATALOGUE */
 
 .title{
   color: white;
@@ -36,9 +109,8 @@ ul{
   width: 8rem;
 }
 
-img{
-    width: 350px; /* you can use % */
-    height: 350px;
+.thumbnail {
+    width: 100%;
 }
 
 .catalogue-header{
@@ -77,19 +149,18 @@ tr:nth-child(even) {
   padding: 2rem;
 }
 
-#product-panel{
-  max-height: 100%;
-}
-
-#catalogue-panel{
-  height: 50rem;
-  overflow-x: scroll;
-  overflow-y: scroll;
+#product-panel {
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
 }
 
 #order-history-panel{
   height: 50rem;
   overflow-y: scroll;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
 }
 
 .order-history-item{
