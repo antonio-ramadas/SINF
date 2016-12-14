@@ -280,10 +280,7 @@
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SalesRepController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="Controllers\RouteController.cs" />
->>>>>>> 6d5a5fa276809b2dd35f0ec3fd4bed68f9f657e4
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\VisitsController.cs" />
     <Compile Include="Controllers\WishlistController.cs" />
@@ -293,21 +290,13 @@
     <Compile Include="Lib_Primavera\Model\Category.cs" />
     <Compile Include="Lib_Primavera\Model\Country.cs" />
     <Compile Include="Lib_Primavera\Model\ErrorResponse.cs" />
-<<<<<<< HEAD
-    <Compile Include="Lib_Primavera\Model\SalesOrder.cs" />
-=======
     <Compile Include="Lib_Primavera\Model\Lead.cs" />
->>>>>>> 6d5a5fa276809b2dd35f0ec3fd4bed68f9f657e4
     <Compile Include="Lib_Primavera\Model\Stats.cs" />
     <Compile Include="Lib_Primavera\Model\User.cs" />
     <Compile Include="Lib_Primavera\Model\WarehouseProduct.cs" />
     <Compile Include="Lib_Primavera\Model\Product.cs" />
-<<<<<<< HEAD
-    <Compile Include="Lib_Primavera\Model\RoutesCalendar.cs" />
-=======
     <Compile Include="Lib_Primavera\Model\Task.cs" />
     <Compile Include="Lib_Primavera\Model\SalesOrder.cs" />
->>>>>>> 6d5a5fa276809b2dd35f0ec3fd4bed68f9f657e4
     <Compile Include="Lib_Primavera\Model\SalesOrderHistory.cs" />
     <Compile Include="Lib_Primavera\Model\SalesRepresentative.cs" />
     <Compile Include="Lib_Primavera\Model\Visits.cs" />
