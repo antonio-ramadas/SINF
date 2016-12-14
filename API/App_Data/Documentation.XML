@@ -721,6 +721,24 @@
             </summary>
             <returns> List of TopCategory </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.User.Login(System.String,System.String)">
+            <summary>
+              POST method to authenticate an user
+            </summary>
+            <returns> true if the user and password match. False if they don't match </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.User.Register(System.String,System.String,System.String,System.String)">
+            <summary>
+              PUT method to register an user
+            </summary>
+            <returns> true if the user and password match. False if they don't match </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.RouteController.Get(System.String)">
+            <summary>
+              GET method for an ordered list of tasks registered in the ERP for a given sales representative.
+            </summary>
+            <returns> List of Task </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.VisitsController.Get">
             <summary>
               GET method to retrieve all the tasks in the ERP
