@@ -28,7 +28,8 @@
       'moment': 'node_modules/moment/moment.js',
       'ng2-bootstrap/ng2-bootstrap': 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.js',
       'ng2-charts': 'npm:ng2-charts',
-      'angular2-google-maps/core': 'npm:angular2-google-maps/core/core.umd.js'
+      'angular2-google-maps/core': 'npm:angular2-google-maps/core/core.umd.js',
+      'ng2-toasty': 'node_modules/ng2-toasty'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -41,6 +42,10 @@
         defaultExtension: 'js'
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      'ng2-toasty':  { 
+        main: 'index.js',
         defaultExtension: 'js'
       }
     }

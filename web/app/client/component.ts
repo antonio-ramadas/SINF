@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Service } from './../app.service';
 import { SalesOrder } from './../class/salesorder';
 import { Customer } from './../class/customer';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 
 @Component({
   moduleId: module.id,
@@ -25,9 +26,17 @@ export class ClientComponent implements OnInit {
   customers = [];
   salesHistory = [];
   hint = '';
+  toastPosition = 'top-center';
 
-  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service, private location: Location) {
-
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private formBuilder: FormBuilder, 
+    private service: Service, 
+    private location: Location,
+    private toastyService:ToastyService,
+    private toastyConfig: ToastyConfig) {
+      this.toastyConfig.theme = 'default';
   }
 
   eventHandler(event) {
@@ -86,6 +95,7 @@ export class ClientComponent implements OnInit {
 
   updateNotes() {
     this.service.updateCustomerNotes(this.customer.id, this.customer.notes);
+    this.addToast();
   }
 
   ngOnInit(): void {
@@ -124,5 +134,20 @@ export class ClientComponent implements OnInit {
   public createNewClient(): void {
     console.error("TODO submit form to create new client. Waiting for the API correct implementation");
   }
+
+  addToast() {
+    var toastOptions: ToastOptions = {
+        title: "My title",
+        msg: "The message",
+        showClose: true,
+        timeout: 3000
+    };
+    // Add see all possible types in one shot
+    //this.toastyService.info(toastOptions);
+    this.toastyService.success(toastOptions);
+    /*this.toastyService.wait(toastOptions);
+    this.toastyService.error(toastOptions);
+    this.toastyService.warning(toastOptions);*/
+    }
 
 }
