@@ -19,10 +19,39 @@ export class Service {
   private statsPath = '/stats';
   private salesRepPath = '/salesrep';
   private incomePath = '/income';
+  private wishlistPath = '/wishlist';
+  private countriesPath = '/country';
+  private labelsPath = '/label';
   private incomePerSalesPath = '/income-per-sale';
   private topCategoriesPath = '/category-top';
 
   constructor (private http: Http) {}
+
+  addProductToCustomerCart(json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(this.baseUrl + this.wishlistPath, json, {headers: headers})
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getLabels() : Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.customerPath + this.labelsPath)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  
+  getCountries() : Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.countriesPath)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  getWishlist(id: string) : Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.wishlistPath + this.customerPath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getSalesRepresentative(id: string): Observable<JSON> {
     return this.http.get(this.baseUrl + this.salesRepPath + '/' + id)
                     .map(this.extractData)
@@ -45,6 +74,22 @@ export class Service {
     return this.http.get(this.baseUrl + this.historyPath + '/' + id + '/' + total)
                     .map(this.extractData)
                     .catch(this.handleError);
+  }
+
+  createCustomer(json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.post(this.baseUrl + this.customerPath, json, {headers: headers})
+                    .catch(this.handleError)
+                    .subscribe();
+  }
+
+  updateCustomer(id: string, json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.put(this.baseUrl + this.customerPath + '/' + id, json, {headers: headers})
+                    .catch(this.handleError)
+                    .subscribe();
   }
 
   updateCustomerNotes(id: string, text: string): void {
