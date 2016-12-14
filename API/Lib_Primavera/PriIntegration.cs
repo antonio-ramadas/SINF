@@ -444,7 +444,7 @@ namespace SFA_REST.Lib_Primavera
             GcpBEArtigo objArtigo = new GcpBEArtigo();
             GcpBEArtigoMoeda objArtigoMoeda = new GcpBEArtigoMoeda();
             Model.Product myProd = new Model.Product();
-
+            double iva;
             if (PriEngine.isOpen())
             {
                 if (PriEngine.Engine.Comercial.Artigos.Existe(productId) == false)
@@ -461,6 +461,7 @@ namespace SFA_REST.Lib_Primavera
                     myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
 
                     myProd.salesCount = GetSalesCount(productId);
+                    
 
                     //GET PRODUCT PRICE
                     if (PriEngine.Engine.Comercial.ArtigosPrecos.Existe(productId, CURRENCY, UNIT)==false)
@@ -471,6 +472,8 @@ namespace SFA_REST.Lib_Primavera
                     {
                         objArtigoMoeda = PriEngine.Engine.Comercial.ArtigosPrecos.Edita(productId, CURRENCY, UNIT);
                         myProd.price = objArtigoMoeda.get_PVP1();
+                        iva = PriEngine.Engine.Comercial.Iva.Edita(objArtigo.get_IVA()).get_Taxa();
+                        myProd.priceWithVat = objArtigoMoeda.get_PVP1IvaIncluido() ? objArtigoMoeda.get_PVP1() : (objArtigoMoeda.get_PVP1() * (1 + iva/100 ) );
                     }
 
                     myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
