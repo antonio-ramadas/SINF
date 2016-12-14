@@ -27,7 +27,7 @@
         <div id="category-title" class="col-xs-12">
           <h3>Category</h3>
         </div>
-        <div *ngFor="let product of products" class="col-md-4 col-sm-6">
+        <div *ngFor="let product of products" class="col-md-4 col-xs-6">
           <div class="product-panel sfa-panel" (click)="redirect('/product/' + product.id)">
             <a class="product-image"><img class="img" src="./app/img/{{product.imageUrl}}" alt=""></a>
             <div class="product-name">
