@@ -44,7 +44,6 @@ export class ProductComponent {
     json = {
       "customerID": myGlobals.idCustomer,
       "description": this.product.description,
-      "expirationDate": "15-12-2016 00:00:00", //TODO
       "salesRepID": myGlobals.idSales,
       "lines": [{
         "productID": this.product.id,
@@ -54,8 +53,6 @@ export class ProductComponent {
         "sellingPrice": this.product.price.toString()
       }]
     };
-
-    console.log(json);
 
     this.service.addProductToCustomerCart(<JSON>json);
   }

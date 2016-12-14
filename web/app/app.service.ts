@@ -32,7 +32,8 @@ export class Service {
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.baseUrl + this.wishlistPath, json, {headers: headers})
                     .map(this.extractData)
-                    .catch(this.handleError);
+                    .catch(this.handleError)
+                    .subscribe();
   }
 
   getLabels() : Observable<JSON[]> {
