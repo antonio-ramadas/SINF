@@ -956,48 +956,6 @@ namespace SFA_REST.Lib_Primavera
 
         #region WishList
 
-        public static List<Model.WishList> ListWishes()
-        {
-            StdBELista obj;
-
-            List<Model.WishList> listWishes = new List<Model.WishList>();
-            try
-            {
-                if (PriEngine.isOpen() == true)
-                {
-
-                    string query = "SELECT * FROM CabecOportunidadesVenda";
-                    obj = PriEngine.Engine.Consulta(query);
-
-                    while (!obj.NoFim())
-                    {
-                        listWishes.Add(new Model.WishList
-                        {
-                            id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", ""),
-                            customerID = obj.Valor("Entidade"),
-                            creationDate = obj.Valor("DataCriacao").ToString(),
-                            expirationDate = obj.Valor("DataExpiracao").ToString(),
-                            description = obj.Valor("Descricao"),
-                            summary = obj.Valor("Resumo"),
-                            value = obj.Valor("ValorTotalOV").ToString(),
-                            salesRepID = obj.Valor("Vendedor"),
-                            type = obj.Valor("Oportunidade")
-                        });
-                        obj.Seguinte();
-                    }
-
-                    return listWishes;
-                }
-                else
-                    return null;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-                return null;
-            }
-        }
-
         public static List<Model.WishList.WishLine> ListWishesByCustomer(string customerId)
         {
             StdBELista obj;
@@ -1013,25 +971,15 @@ namespace SFA_REST.Lib_Primavera
                     List<Model.WishList.WishLine> lines = new List<Model.WishList.WishLine>();
                     while (!obj.NoFim())
                     {
-                        Model.WishList wish = new Model.WishList();
-                        wish.id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", "");
-                        wish.customerID = obj.Valor("Entidade");
-                        wish.creationDate = obj.Valor("DataCriacao").ToString();
-                        wish.expirationDate = obj.Valor("DataExpiracao").ToString();
-                        wish.description = obj.Valor("Descricao");
-                        wish.summary = obj.Valor("Resumo");
-                        wish.value = obj.Valor("ValorTotalOV").ToString();
-                        wish.salesRepID = obj.Valor("Vendedor");
-                        wish.type = obj.Valor("Oportunidade");
-
-                        string subQuery = "SELECT * FROM LINHASPROPOSTASOPV WHERE IdOportunidade = '" + wish.id + "'";
+                        string subQuery = "SELECT * FROM LINHASPROPOSTASOPV WHERE IdOportunidade = '" + ((obj.Valor("ID")).Replace("{", "")).Replace("}", "") + "'";
                         StdBELista subObj = PriEngine.Engine.Consulta(subQuery);
                         
-
                         while (!subObj.NoFim())
                         {
                             Model.WishList.WishLine line = new Model.WishList.WishLine();
                             line.productID = subObj.Valor("Artigo");
+                            line.numberProposal = subObj.Valor("NumProposta");
+                            line.numberLine = subObj.Valor("Linha");
                             line.description = subObj.Valor("Descricao");
                             line.quantity = subObj.Valor("Quantidade").ToString();
                             line.costPrice = (subObj.Valor("PrecoCusto").ToString()).Replace(".", ",");
@@ -1039,8 +987,6 @@ namespace SFA_REST.Lib_Primavera
                             lines.Add(line);
                             subObj.Seguinte();
                         }
-                        wish.lines = lines;
-                        listWishes.Add(wish);
                         obj.Seguinte();
                     }
 
@@ -1109,7 +1055,7 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static Lib_Primavera.Model.ErrorResponse CreateLead(Model.WishList lead)
+        public static Lib_Primavera.Model.ErrorResponse CreateWish(Model.WishList lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
@@ -1180,11 +1126,12 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.ErrorResponse DeleteLead(string id)
+        public static Lib_Primavera.Model.ErrorResponse DeleteWish(Model.WishList.WishLine line)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
-            string ID = "{" + id + "}";
+            string ID = "{" + line.id + "}";
+            PriEngine.Engine.CRM.PropostasOPV.EditaLinhas(line.id, 1);
 
             try
             {
@@ -1357,12 +1304,11 @@ namespace SFA_REST.Lib_Primavera
                 if (PriEngine.isOpen())
                 {
                     // Atribui valores ao cabecalho do doc
-                    //myEnc.set_DataDoc(dv.Data);
                     myEnc.set_Entidade(dv.entity);
-                    myEnc.set_Serie(dv.serie);
+
+                    myEnc.set_Serie("A");
                     myEnc.set_Tipodoc("ECL");
                     myEnc.set_TipoEntidade("C");
-                    myEnc.set_Morada(dv.address);
                     // Linhas do documento para a lista de linhas
                     lstlindv = dv.LinhasDoc;
                     PriEngine.Engine.Comercial.Vendas.PreencheDadosRelacionados(myEnc);
@@ -1370,9 +1316,6 @@ namespace SFA_REST.Lib_Primavera
                     {
                         PriEngine.Engine.Comercial.Vendas.AdicionaLinha(myEnc, lin.CodArtigo, lin.Quantidade, "", "", lin.PrecoUnitario, lin.Desconto);
                     }
-
-
-                    // PriEngine.Engine.Comercial.Compras.TransformaDocumento(
 
                     PriEngine.Engine.IniciaTransaccao();
                     PriEngine.Engine.Comercial.Vendas.Actualiza(myEnc, "Teste");
@@ -2297,9 +2240,11 @@ namespace SFA_REST.Lib_Primavera
 
         #region User
 
-        public static bool AuthenticateUser(Model.User User)
+        public static bool AuthenticateUser(Model.User user)
         {
+            string password = PriEngine.Query("SELECT Password FROM PasswordUtilizador WHERE Utilizador = '" + user.username + "'").ElementAt(0).ElementAt(0);
 
+            System.Diagnostics.Debug.WriteLine(password);
 
             return false;
         }

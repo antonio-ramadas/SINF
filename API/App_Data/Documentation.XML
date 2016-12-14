@@ -769,12 +769,6 @@
             </summary>
             <returns> HttpResponse with the output from the server </returns>
         </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.Get">
-            <summary>
-              GET method for the all the leads registered in the ERP  
-            </summary>
-            <returns> List of Leads </returns>
-        </member>
         <member name="M:SFA_REST.Controllers.WishlistController.Get(System.String)">
             <summary>
               GET method for a lead in the ERP, with a given id represented as a String
@@ -793,7 +787,7 @@
             </summary>
             <returns> HttpResponse with the output from the server </returns>
         </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.Delete(System.String)">
+        <member name="M:SFA_REST.Controllers.WishlistController.Delete(SFA_REST.Lib_Primavera.Model.WishList.WishLine)">
             <summary>
               DELETE method to erase a certain lead
             </summary>
