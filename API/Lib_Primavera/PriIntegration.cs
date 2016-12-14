@@ -984,8 +984,8 @@ namespace SFA_REST.Lib_Primavera
                         {
                             Model.WishList.WishLine line = new Model.WishList.WishLine();
                             line.productID = subObj.Valor("Artigo");
-                            line.numberProposal = subObj.Valor("NumProposta");
-                            line.numberLine = subObj.Valor("Linha");
+                            line.numberProposal = subObj.Valor("NumProposta").ToString();
+                            line.numberLine = subObj.Valor("Linha").ToString();
                             line.description = subObj.Valor("Descricao");
                             line.quantity = subObj.Valor("Quantidade").ToString();
                             line.costPrice = (subObj.Valor("PrecoCusto").ToString()).Replace(".", ",");
@@ -1071,12 +1071,18 @@ namespace SFA_REST.Lib_Primavera
                 {
                     CrmBEOportunidadeVenda myLead = new CrmBEOportunidadeVenda();
                     myLead.set_ID(Guid.NewGuid().ToString());
-                    myLead.set_Oportunidade(lead.type);
+                    StdBELista list = PriEngine.Engine.Consulta("SELECT COUNT(*) AS N FROM CABECOPORTUNIDADESVENDA");
+                    StdBELista check;
+                    int number = list.Valor("N");
+                    do
+                    {
+                        number += 1;
+                        check = PriEngine.Engine.Consulta("SELECT * FROM CABECOPORTUNIDADESVENDA WHERE Oportunidade='" + number.ToString() + "'");
+                    } while (!check.Vazia());
+                    myLead.set_Oportunidade(number.ToString());
                     myLead.set_Descricao(lead.description);
                     myLead.set_Entidade(lead.customerID);
                     myLead.set_TipoEntidade("C");
-                    myLead.set_ValorTotalOV(Convert.ToDouble(lead.value));
-                    myLead.set_Resumo(lead.summary);
                     myLead.set_Vendedor(lead.salesRepID);
                     myLead.set_CicloVenda("CV_HW");
                     myLead.set_DataCriacao(DateTime.Now);
