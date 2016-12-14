@@ -84,8 +84,7 @@
         </div>
         <div class="modal-body">
           <form class="form-horizontal" [formGroup]="checkout" (ngSubmit)="smModal.hide()">
-            <fieldset formGroupName="address">
-              <div class="">
+            <div class="">
                 <h3>Delivery Address: </h3>
                 <div class="form-group">
                   <label class="control-label col-xs-2">address:</label>
@@ -94,10 +93,7 @@
                   </div>
                 </div>
               </div>
-            </fieldset>
-
-            <fieldset formGroupName="fiscaladdress">
-              <div class="">
+            <div class="">
                 <h3>Fiscal Address: </h3>
                 <div class="form-group">
                   <label class="control-label col-xs-2">address:</label>
@@ -106,7 +102,6 @@
                   </div>
                 </div>
               </div>
-            </fieldset>
             <strong> Total: € {{total}} </strong>
             <button type="submit" class="btn btn-success">Confirm</button>
           </form>

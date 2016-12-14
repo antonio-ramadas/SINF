@@ -27,12 +27,8 @@ export class CartComponent {
   // Create Form
   ngOnInit(): void {
     this.checkout = this.formBuilder.group({
-      address: this.formBuilder.group({
-        street: this.customer.address
-      }),
-      fiscaladdress: this.formBuilder.group({
-        fiscalstreet: this.customer.address
-      })
+        street: '',
+        fiscalstreet: ''
     });
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
@@ -66,7 +62,7 @@ export class CartComponent {
   getCustomer() {
     this.service.getCustomer(this.id)
         .subscribe(
-        client => {this.customer = new Customer(client); this.checkout.controls['address'].controls.street = this.customer.address;},
+        client => {this.customer = new Customer(client); this.checkout.patchValue({'street': this.customer.address}); this.checkout.patchValue({'fiscalstreet': this.customer.address});},
         error => this.errorMessage = <any>error);
   }
 
