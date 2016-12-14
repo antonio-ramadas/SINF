@@ -2205,9 +2205,15 @@ namespace SFA_REST.Lib_Primavera
 
         public static bool AuthenticateUser(Model.User user)
         {
-            string password = PriEngine.Query("SELECT Password FROM PasswordUtilizador WHERE Utilizador = '" + user.username + "'").ElementAt(0).ElementAt(0);
-
-            System.Diagnostics.Debug.WriteLine(password);
+            string pwd = null;
+            try
+            {
+                pwd = PriEngine.Query("SELECT Password FROM PasswordUtilizador WHERE Utilizador = '" + user.username + "'").ElementAt(1).ElementAt(1);
+            }catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            System.Diagnostics.Debug.WriteLine(pwd);
 
             return false;
         }
