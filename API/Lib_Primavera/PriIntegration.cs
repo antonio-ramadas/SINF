@@ -1591,13 +1591,44 @@ namespace SFA_REST.Lib_Primavera
 
         #region RoutesCalendar
 
-        public static List<Model.RoutesCalendar> ListRoutes()
+        public static IEnumerable<Model.Task> ListRoutes(string salesRepId)
         {
-            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            
 
-            List<Model.RoutesCalendar> lstlindv = new List<Model.RoutesCalendar>();
+            List<Model.Task> list = new List<Model.Task>();
+            Model.Task task;
 
-            return lstlindv;
+
+            if (Lib_Primavera.PriEngine.isOpen())
+            {
+                string query = "SELECT Id, Prioridade, Resumo, Descricao, EntidadePrincipal, DataInicio, DataFim, LocalRealizacao, ResponsavelPor FROM PRIDEMOSINF.dbo.Tarefas WHERE ResponsavelPor = '"+salesRepId+"' ORDER BY DataInicio ASC";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    task = new Model.Task();
+                    task.id = objList.Valor("Id");
+                    task.priority = objList.Valor("Prioridade");
+                    task.summary = objList.Valor("Resumo");
+                    task.description = objList.Valor("Descricao");
+                    task.clientId = objList.Valor("EntidadePrincipal");
+                    task.beginDate = objList.Valor("DataInicio");
+                    task.endDate = objList.Valor("DataFim");
+                    task.location = objList.Valor("LocalRealizacao");
+                    task.salesmanId = objList.Valor("ResponsavelPor");
+
+                    list.Add(task);
+                                                
+                    objList.Seguinte();
+                }
+
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         #endregion RoutesCalendar
@@ -1810,6 +1841,34 @@ namespace SFA_REST.Lib_Primavera
                 erro.Erro = 1;
                 erro.Descricao = ex.Message;
                 return erro;
+            }
+        }
+
+        public static IEnumerable<string> ListLabels()
+        {
+            List<string> list = new List<string>();
+
+            if(Lib_Primavera.PriEngine.isOpen()){
+
+
+                string query = "SELECT CDU_CampoVar1 AS Label FROM PRIDEMOSINF.dbo.Clientes WHERE NOT CDU_CampoVar1 IS NULL " +
+                                "UNION " +
+                                "SELECT CDU_CampoVar2 AS Label FROM PRIDEMOSINF.dbo.Clientes WHERE NOT CDU_CampoVar2 IS NULL " +
+                                "UNION " +
+                                "SELECT CDU_CampoVar3 AS Label FROM PRIDEMOSINF.dbo.Clientes WHERE NOT CDU_CampoVar3 IS NULL " +
+                                "ORDER BY label ";
+
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while(!objList.NoFim()){
+                    list.Add(objList.Valor("Label"));
+                    objList.Seguinte();
+                }
+
+                return list;
+
+            }else{
+                return null;
             }
         }
 
@@ -2155,5 +2214,7 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion User
 
+
+        
     }
 }
