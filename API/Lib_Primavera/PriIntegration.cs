@@ -315,23 +315,18 @@ namespace SFA_REST.Lib_Primavera
             StdBELista objList;
 
             List<Model.Product> listArts = new List<Model.Product>();
+            Model.Product product;
+            string id;
             if (PriEngine.isOpen())
             {
-                string query = "SELECT * FROM ARTIGO";
+                string query = "SELECT Artigo FROM ARTIGO";
                 objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim())
                 {
-                    listArts.Add(new Model.Product
-                    {
-                        id = objList.Valor("Artigo"),
-                        description = objList.Valor("Descricao"),
-                        quantity = objList.Valor("STKActual"),
-                        brand = objList.Valor("Marca"),
-                        model = objList.Valor("Modelo"),
-                        category = objList.Valor("Familia"),
-                        subCategory = objList.Valor("SubFamilia")
-                    });
+                    id = objList.Valor("Artigo");
+                    product = GetProduct(id);
+                    listArts.Add(product);
                     objList.Seguinte();
                 }
 
@@ -458,7 +453,7 @@ namespace SFA_REST.Lib_Primavera
                     myProd.brand = objArtigo.get_Marca();
                     myProd.category = objArtigo.get_Familia();
                     myProd.subCategory = objArtigo.get_SubFamilia();
-                    myProd.vat = float.Parse(objArtigo.get_IVA(), CultureInfo.InvariantCulture.NumberFormat);
+                    myProd.vat = PriEngine.Engine.Comercial.Iva.Edita(objArtigo.get_IVA()).get_Taxa();
 
                     myProd.salesCount = GetSalesCount(productId);
                     
@@ -472,8 +467,7 @@ namespace SFA_REST.Lib_Primavera
                     {
                         objArtigoMoeda = PriEngine.Engine.Comercial.ArtigosPrecos.Edita(productId, CURRENCY, UNIT);
                         myProd.price = objArtigoMoeda.get_PVP1();
-                        iva = PriEngine.Engine.Comercial.Iva.Edita(objArtigo.get_IVA()).get_Taxa();
-                        myProd.priceWithVat = objArtigoMoeda.get_PVP1IvaIncluido() ? objArtigoMoeda.get_PVP1() : (objArtigoMoeda.get_PVP1() * (1 + iva/100 ) );
+                        myProd.priceWithVat = objArtigoMoeda.get_PVP1IvaIncluido() ? objArtigoMoeda.get_PVP1() : (objArtigoMoeda.get_PVP1() * (1 + myProd.vat/100 ) );
                     }
 
                     myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
@@ -546,6 +540,14 @@ namespace SFA_REST.Lib_Primavera
 
                 string query = "SELECT SUM(Quantidade) as salesCount FROM LinhasDoc WHERE Artigo ='" + productId + "'";
                 objList = PriEngine.Engine.Consulta(query);
+
+
+                if (objList.Valor("salesCount") is DBNull)
+                {
+                    return 0;
+                }else if(objList.Valor("salesCount") is string){
+                    return 0;
+                }
 
                 return objList.Valor("salesCount");
                 
