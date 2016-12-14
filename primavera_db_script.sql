@@ -1,0 +1,13 @@
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'rico', CDU_CampoVar2 = 'forreta' WHERE Cliente = 'ALCAD';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'pobre', CDU_CampoVar2 = 'complicado' WHERE Cliente = 'INFORSHOW';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'ingénuo', CDU_CampoVar2 = 'compreensível' WHERE Cliente = 'J.M.F.';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'ingénuo', CDU_CampoVar2 = 'compreensível' WHERE Cliente = 'LIMA';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'ingénuo', CDU_CampoVar2 = 'compreensível' WHERE Cliente = 'MICROAVI';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'ingénuo', CDU_CampoVar2 = 'compreensível' WHERE Cliente = 'NW-CORP.';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'ingénuo', CDU_CampoVar2 = 'compreensível' WHERE Cliente = 'PROPOSTA';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'rico', CDU_CampoVar2 = 'compreensível' WHERE Cliente = 'S.V.M.';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'rico', CDU_CampoVar2 = 'compreensível',CDU_CampoVar3 = 'ingénuo' WHERE Cliente = 'SOFRIO';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'rico', CDU_CampoVar2 = 'compreensível',CDU_CampoVar3 = 'ingénuo' WHERE Cliente = 'SILVA';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'rico', CDU_CampoVar2 = 'compreensível',CDU_CampoVar3 = 'ingénuo' WHERE Cliente = 'SSE';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'temperamental', CDU_CampoVar2 = 'rico',CDU_CampoVar3 = 'ingénuo' WHERE Cliente = 'VD';
+UPDATE PRIDEMOSINF.dbo.Clientes SET CDU_CampoVar1 = 'temperamental', CDU_CampoVar2 = 'rico',CDU_CampoVar3 = 'ingénuo' WHERE Cliente = 'VIDRO-Z';
