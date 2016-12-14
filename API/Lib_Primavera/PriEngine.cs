@@ -43,7 +43,7 @@ namespace SFA_REST.Lib_Primavera
             // Opem platform.
             try
             {
-                Plataforma.AbrePlataformaEmpresa(ref Company, ref objStdTransac, ref objAplConf, ref objTipoPlataforma,"");
+                Plataforma.AbrePlataformaEmpresa(ref Company, ref objStdTransac, ref objAplConf, ref objTipoPlataforma, "");
             }
             catch (Exception ex)
             {
@@ -66,18 +66,10 @@ namespace SFA_REST.Lib_Primavera
                 // Returns the engine.
                 Engine = MotorLE;
 
-                SupportDB = new SqlConnection("server=.\\PRIMAVERA;uid=sa;pwd=Feup2014;database=Support;");
                 try
                 {
+                    SupportDB = new SqlConnection("server=.\\PRIMAVERA;uid=sa;pwd=Feup2014;database=Support;");
                     SupportDB.Open();
-                    SqlCommand com = new SqlCommand("SELECT * FROM PasswordVendedor", SupportDB);
-                    SqlDataReader reader = com.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        System.Diagnostics.Debug.WriteLine(reader.GetString(0));
-                    }
-                    reader.Close();
-                    SupportDB.Close();
                 }
                 catch (Exception e)
                 {
@@ -97,8 +89,38 @@ namespace SFA_REST.Lib_Primavera
         {
             if (!Platform.Inicializada)
                 InitializeCompany(SFA_REST.Properties.Settings.Default.Company.Trim(), SFA_REST.Properties.Settings.Default.User.Trim(), SFA_REST.Properties.Settings.Default.Password.Trim());
-            
+
             return true;
+        }
+
+        public static List<List<string>> Query(string query)
+        {
+            List<List<string>> result = new List<List<string>>();
+            try
+            {
+                SqlCommand com = new SqlCommand(string, SupportDB);
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    List<string> row = new List<string>();
+                    int i = 0;
+                    while (reader.GetString(i) != null)
+                    {
+                        row.Add(reader.GetString(i));
+                        i++;
+                    }
+                    result.Add(row);
+                    
+                }
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+
+            return result;
         }
 
     }
