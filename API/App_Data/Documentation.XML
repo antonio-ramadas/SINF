@@ -535,6 +535,12 @@
             </summary>
             <returns> HttpResponse with the output from the server </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.CustomerController.GetLabel">
+            <summary>
+                GET method to get a list of all the labels
+            </summary>
+            <returns> List all the labels</returns>
+        </member>
         <member name="M:SFA_REST.Controllers.CustomerController.GetCostumersByLabel(System.String)">
             <summary>
                 GET method to get a list of all the costumers with a label
@@ -721,7 +727,13 @@
             </summary>
             <returns> List of TopCategory </returns>
         </member>
-        <member name="M:SFA_REST.Controllers.User.Login(System.String,System.String)">
+        <member name="M:SFA_REST.Controllers.RouteController.Get(System.String)">
+            <summary>
+              GET method for an ordered list of tasks registered in the ERP for a given sales representative.
+            </summary>
+            <returns> List of Task </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.User.Login(SFA_REST.Lib_Primavera.Model.User)">
             <summary>
               POST method to authenticate an user
             </summary>
@@ -732,12 +744,6 @@
               PUT method to register an user
             </summary>
             <returns> true if the user and password match. False if they don't match </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.RouteController.Get(System.String)">
-            <summary>
-              GET method for an ordered list of tasks registered in the ERP for a given sales representative.
-            </summary>
-            <returns> List of Task </returns>
         </member>
         <member name="M:SFA_REST.Controllers.VisitsController.Get">
             <summary>

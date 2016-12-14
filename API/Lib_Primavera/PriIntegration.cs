@@ -1901,6 +1901,34 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static IEnumerable<string> ListLabels()
+        {
+            List<string> list = new List<string>();
+
+            if(Lib_Primavera.PriEngine.isOpen()){
+
+
+                string query = "SELECT CDU_CampoVar1 AS Label FROM PRIDEMOSINF.dbo.Clientes WHERE NOT CDU_CampoVar1 IS NULL " +
+                                "UNION " +
+                                "SELECT CDU_CampoVar2 AS Label FROM PRIDEMOSINF.dbo.Clientes WHERE NOT CDU_CampoVar2 IS NULL " +
+                                "UNION " +
+                                "SELECT CDU_CampoVar3 AS Label FROM PRIDEMOSINF.dbo.Clientes WHERE NOT CDU_CampoVar3 IS NULL " +
+                                "ORDER BY label ";
+
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while(!objList.NoFim()){
+                    list.Add(objList.Valor("Label"));
+                    objList.Seguinte();
+                }
+
+                return list;
+
+            }else{
+                return null;
+            }
+        }
+
         #endregion Labels
 
 
@@ -2241,5 +2269,7 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion User
 
+
+        
     }
 }
