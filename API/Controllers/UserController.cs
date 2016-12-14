@@ -16,9 +16,9 @@ namespace SFA_REST.Controllers
         /// <returns> true if the user and password match. False if they don't match </returns>
         [Route("api/login")]
         [HttpPost]
-        public bool Login(string user, string password)
+        public bool Login(Lib_Primavera.Model.User user)
         {
-            return false;
+            return true;
         }
 
         /// <summary>

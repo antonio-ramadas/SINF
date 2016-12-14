@@ -1034,8 +1034,8 @@ namespace SFA_REST.Lib_Primavera
                             line.productID = subObj.Valor("Artigo");
                             line.description = subObj.Valor("Descricao");
                             line.quantity = subObj.Valor("Quantidade").ToString();
-                            line.costPrice = subObj.Valor("PrecoCusto").ToString();
-                            line.sellingPrice = subObj.Valor("PrecoVenda").ToString();
+                            line.costPrice = (subObj.Valor("PrecoCusto").ToString()).Replace(".", ",");
+                            line.sellingPrice = (subObj.Valor("PrecoVenda").ToString()).Replace(".", ",");
                             lines.Add(line);
                             subObj.Seguinte();
                         }
@@ -2201,8 +2201,14 @@ namespace SFA_REST.Lib_Primavera
 
         #region User
 
+        public static bool AuthenticateUser(Model.User User)
+        {
 
+
+            return false;
+        }
 
         #endregion User
+
     }
 }
