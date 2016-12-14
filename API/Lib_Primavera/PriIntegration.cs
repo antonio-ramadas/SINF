@@ -1297,7 +1297,7 @@ namespace SFA_REST.Lib_Primavera
             return listdv;
         }
 
-        public static Model.SalesOrder Encomenda_Get(string numdoc)
+        public static Model.SalesOrder Encomenda_Get(string idCabecDoc)
         {
             StdBELista objListCab;
             StdBELista objListLin;
@@ -1307,7 +1307,7 @@ namespace SFA_REST.Lib_Primavera
 
             if (PriEngine.isOpen())
             {
-                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel, Morada From CabecDoc where TipoDoc='ECL' and NumDoc='" + numdoc + "'";
+                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel, Morada From CabecDoc where TipoDoc='ECL' and Id='" + idCabecDoc + "'";
                 objListCab = PriEngine.Engine.Consulta(st);
                 dv = new Model.SalesOrder();
                 dv.id = objListCab.Valor("id");
