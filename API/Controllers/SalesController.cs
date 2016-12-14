@@ -48,7 +48,7 @@ namespace SFA_REST.Controllers
             erro = Lib_Primavera.PriIntegration.CreateSalesOrder(dv);
 
             if (erro.Erro == 0)
-                return  Request.CreateResponse(HttpStatusCode.Created, dv.id);
+                return Request.CreateResponse(HttpStatusCode.Created, dv.id);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 

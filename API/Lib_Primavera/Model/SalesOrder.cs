@@ -57,12 +57,11 @@ namespace SFA_REST.Lib_Primavera.Model
         }
 
         public List<Model.LinhaDocVenda> LinhasDoc
-
         {
             get;
             set;
         }
- 
+
 
     }
 }

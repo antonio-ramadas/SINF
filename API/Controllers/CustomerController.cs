@@ -119,6 +119,17 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
+        ///     GET method to get a list of all the labels
+        /// </summary>
+        /// <returns> List all the labels</returns>
+        [Route("api/customer/label")]
+        [HttpGet]
+        public IEnumerable<string> GetLabel()
+        {
+            return Lib_Primavera.PriIntegration.ListLabels();
+        }
+
+        /// <summary>
         ///     GET method to get a list of all the costumers with a label
         /// </summary>
         /// <returns> List with all the customers in the system with a specific tag </returns>
