@@ -19,10 +19,17 @@ export class Service {
   private statsPath = '/stats';
   private salesRepPath = '/salesrep';
   private incomePath = '/income';
+  private wishlistath = '/wishlist';
   private incomePerSalesPath = '/income-per-sale';
   private topCategoriesPath = '/category-top';
 
   constructor (private http: Http) {}
+  getWishlist(id: string) : Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.wishlistath + this.customerPath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getSalesRepresentative(id: string): Observable<JSON> {
     return this.http.get(this.baseUrl + this.salesRepPath + '/' + id)
                     .map(this.extractData)

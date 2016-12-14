@@ -4,7 +4,7 @@
       <div class="sfa-panel">
 
         <!-- Top Information -->
-        <h1>Wishlist</h1>
+        <h1>Shopping Cart</h1>
 
         <!-- Product Table -->
         <div id="table">
@@ -15,9 +15,6 @@
               </th>
               <th>
                 Product Name
-              </th>
-              <th>
-                Source
               </th>
               <th>
                 Product ID
@@ -35,62 +32,29 @@
                 Edit Buttons
               </th>
             </tr>
-            <tr>
+            <tr *ngFor="let cart of carts">
               <td>
                 <div class="checkbox">
-                  <label><input type="checkbox" value=""></label>
+                  <label><input type="checkbox" [(ngModel)]="cart.active"></label>
                 </div>
               </td>
               <td>
-                Mac Book
+                {{cart.description}}
               </td>
               <td>
-                <div class="label label-primary sfa-label"> manager </div>
-                <div class="label label-success sfa-label"> vendor </div>
+                {{cart.productID}}
               </td>
               <td>
-                123
+                € {{cart.sellingPrice}}
               </td>
               <td>
-                1300
+                {{cart.quantity}}
               </td>
               <td>
-                <input class="form-control" type="number" name="" value="2">
+                € {{cart.sellingPrice * cart.quantity}}
               </td>
               <td>
-                2600
-              </td>
-              <td>
-                <button type="button" class="btn btn-danger" name="button"> X </button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="checkbox">
-                  <label><input type="checkbox" value=""></label>
-                </div>
-              </td>
-              <td>
-                Mac Book
-              </td>
-              <td>
-                <div class="label label-primary sfa-label"> manager </div>
-                <div class="label label-success sfa-label"> vendor </div>
-              </td>
-              <td>
-                123
-              </td>
-              <td>
-                1300
-              </td>
-              <td>
-                <input class="form-control" type="number" name="" value="2">
-              </td>
-              <td>
-                2600
-              </td>
-              <td>
-                <button type="button" class="btn btn-danger" name="button"> X </button>
+                <button type="button" (click)="removeLine(cart.productID)" class="btn btn-danger" name="button"> X </button>
               </td>
             </tr>
           </table>
@@ -98,9 +62,9 @@
 
         <!-- Sales Order Footer -->
         <div id="footer">
-          <button type="button" name="button" (click)="smModal.show()" class="btn btn-primary">Checkout</button>
+          <button *ngIf="carts.length > 0" type="button" name="button" (click)="updateTotal(); smModal.show();" class="btn btn-primary">Checkout</button>
           <div id="total">
-            <strong> Total: 5200 </strong>
+            <!--<strong> Total: 5200 </strong>-->
           </div>
         </div>
 
@@ -129,18 +93,6 @@
                     <input type="text" class="form-control" formControlName="street">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="control-label col-xs-2">ZIP:</label>
-                  <div class="col-xs-10">
-                    <input type="text" class="form-control" formControlName="zip">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-xs-2">addcityress:</label>
-                  <div class="col-xs-10">
-                    <input type="text" class="form-control" formControlName="city">
-                  </div>
-                </div>
               </div>
             </fieldset>
 
@@ -153,20 +105,9 @@
                     <input type="text" class="form-control" formControlName="fiscalstreet">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="control-label col-xs-2">ZIP:</label>
-                  <div class="col-xs-10">
-                    <input type="text" class="form-control" formControlName="fiscalzip">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-xs-2">City:</label>
-                  <div class="col-xs-10">
-                    <input type="text" class="form-control" formControlName="fiscalcity">
-                  </div>
-                </div>
               </div>
             </fieldset>
+            <strong> Total: € {{total}} </strong>
             <button type="submit" class="btn btn-success">Confirm</button>
           </form>
         </div>
