@@ -40,7 +40,7 @@ export class ClientComponent implements OnInit {
     private location: Location,
     private toastyService:ToastyService,
     private toastyConfig: ToastyConfig) {
-      this.toastyConfig.theme = 'default';
+    this.toastyConfig.theme = 'default';
   }
 
   eventHandler(event) {
@@ -103,7 +103,7 @@ export class ClientComponent implements OnInit {
   getLabels() {
     this.service.getLabels()
           .subscribe(
-          labels => this.labels = labels,
+          labels => {this.labels = labels; console.log(labels);},
           error => this.errorMessage = <any>error);
   }
 

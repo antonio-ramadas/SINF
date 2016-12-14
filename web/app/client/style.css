@@ -136,10 +136,6 @@ ul {
   padding: 1rem;
 }
 
-#content-detail-list > li {
-
-}
-
 #note-area {
   border-radius: 0.5rem;
   border: solid 1px;
@@ -181,21 +177,31 @@ table {
   width:100%;
   overflow-y: scroll;
 }
+
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid #222222;
     border-collapse: collapse;
 }
+
 th, td {
     padding: 5px;
     text-align: left;
 }
-table tr:nth-child(even) {
-    background-color: #eee;
-}
-table tr:nth-child(odd) {
-   background-color:#fff;
-}
+
 table th {
     background-color: black;
     color: white;
+}
+
+#order-table td:last-child {
+  text-align: right;
+}
+
+#order-table th {
+  background-color: #222222;
+}
+
+#order-table tr:hover td{
+  cursor: pointer;
+  background-color: #EEEEEE;
 }
