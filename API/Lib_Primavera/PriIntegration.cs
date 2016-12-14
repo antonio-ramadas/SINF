@@ -1155,8 +1155,11 @@ namespace SFA_REST.Lib_Primavera
                         erro.Descricao = "The Lead doesn't exist.";
                         return erro;
                     }
-                    PriEngine.Engine.CRM.OportunidadesVenda.RemoveID(ID);
-
+                    CrmBELinhasPropostaOPV linhas = PriEngine.Engine.CRM.PropostasOPV.EditaLinhas(line.id, short.Parse(line.numberProposal));
+                    linhas.Remove(short.Parse(line.numberLine));
+                    CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(line.id, short.Parse(line.numberProposal), true);
+                    prop.set_Linhas(linhas);
+                    PriEngine.Engine.CRM.PropostasOPV.Actualiza(prop);
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
