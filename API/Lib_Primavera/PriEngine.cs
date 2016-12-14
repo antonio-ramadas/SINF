@@ -69,7 +69,6 @@ namespace SFA_REST.Lib_Primavera
                 try
                 {
                     SupportDB = new SqlConnection("server=.\\PRIMAVERA;uid=sa;pwd=Feup2014;database=Support;");
-                    SupportDB.Open();
                 }
                 catch (Exception e)
                 {
@@ -93,34 +92,28 @@ namespace SFA_REST.Lib_Primavera
             return true;
         }
 
-        public static List<List<string>> Query(string query)
+
+        public static bool AuthenticateUser(Model.User user)
         {
-            List<List<string>> result = new List<List<string>>();
+            SqlDataReader data = null;
             try
             {
+                SupportDB.Open();
+                string query = "SELECT Password FROM PasswordUtilizador WHERE Utilizador = '" + user.username + "'";
                 SqlCommand com = new SqlCommand(query, SupportDB);
-                SqlDataReader reader = com.ExecuteReader();
-                while (reader.Read())
-                {
-                    List<string> row = new List<string>();
-                    int i = 0;
-                    while (reader.GetString(i) != null)
-                    {
-                        row.Add(reader.GetString(i));
-                        i++;
-                    }
-                    result.Add(row);
-                    
-                }
-                reader.Close();
+                SqlDataReader result = com.ExecuteReader();
+                result.Read();
+                if (user.password == result.GetString(0))
+                    return true;
+                else return false;
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
-                return null;
+                return false;
             }
 
-            return result;
+            return false;
         }
 
     }

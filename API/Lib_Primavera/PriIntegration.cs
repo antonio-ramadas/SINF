@@ -10,6 +10,7 @@ using Interop.RhpBE900;
 using Interop.CrmBE900;
 using ADODB;
 using System.Globalization;
+using System.Data.SqlClient;
 
 namespace SFA_REST.Lib_Primavera
 {
@@ -1697,9 +1698,6 @@ namespace SFA_REST.Lib_Primavera
                         phoneNumber = objList.Valor("Fac_Tel"),
                         address = objList.Valor("Fac_Mor"),
                         email = objList.Valor("B2BEnderecoMail"),
-                        //customerGroups = objList.Valor("CDU_GruposDeClientes"),
-                        //gender = objList.Valor("CDU_Sexo"),
-                        //dateOfBirth = objList.Valor("CDU_DataNascimento").ToString(),
                         nationality = objList.Valor("Pais"),
                         nif = objList.Valor("NumContrib"),
                         labels = labelsList
@@ -2237,25 +2235,6 @@ namespace SFA_REST.Lib_Primavera
 
         #endregion Stats
 
-
-        #region User
-
-        public static bool AuthenticateUser(Model.User user)
-        {
-            string pwd = null;
-            try
-            {
-                pwd = PriEngine.Query("SELECT Password FROM PasswordUtilizador WHERE Utilizador = '" + user.username + "'").ElementAt(1).ElementAt(1);
-            }catch(Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-            System.Diagnostics.Debug.WriteLine(pwd);
-
-            return false;
-        }
-
-        #endregion User
 
     }
 }
