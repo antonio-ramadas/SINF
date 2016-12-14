@@ -7,6 +7,7 @@ using Interop.ErpBS900;         // Use Primavera interop's [Path em C:\Program F
 using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using ADODB;
+using System.Data.SqlClient;
 
 namespace SFA_REST.Lib_Primavera
 {
@@ -15,6 +16,7 @@ namespace SFA_REST.Lib_Primavera
         //Business Service - BS
         public static StdPlatBS Platform { get; set; }
         public static ErpBS Engine { get; set; }
+        public static SqlConnection SupportDB { get; set; }
 
 
         public static bool InitializeCompany(string Company, string User, string Password)
@@ -64,7 +66,23 @@ namespace SFA_REST.Lib_Primavera
                 // Returns the engine.
                 Engine = MotorLE;
 
-
+                SupportDB = new SqlConnection("server=.\\PRIMAVERA;uid=sa;pwd=Feup2014;database=Support;");
+                try
+                {
+                    SupportDB.Open();
+                    SqlCommand com = new SqlCommand("SELECT * FROM PasswordVendedor", SupportDB);
+                    SqlDataReader reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        System.Diagnostics.Debug.WriteLine(reader.GetString(0));
+                    }
+                    reader.Close();
+                    SupportDB.Close();
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                }
                 return true;
             }
             else

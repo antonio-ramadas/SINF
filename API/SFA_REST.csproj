@@ -276,27 +276,28 @@
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LeadsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SalesRepController.cs" />
     <Compile Include="Controllers\StatsController.cs" />
     <Compile Include="Controllers\VisitsController.cs" />
+    <Compile Include="Controllers\WishlistController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Lib_Primavera\Model\Category.cs" />
     <Compile Include="Lib_Primavera\Model\Country.cs" />
     <Compile Include="Lib_Primavera\Model\ErrorResponse.cs" />
+    <Compile Include="Lib_Primavera\Model\Lead.cs" />
     <Compile Include="Lib_Primavera\Model\Stats.cs" />
     <Compile Include="Lib_Primavera\Model\WarehouseProduct.cs" />
-    <Compile Include="Lib_Primavera\Model\Lead.cs" />
     <Compile Include="Lib_Primavera\Model\Product.cs" />
     <Compile Include="Lib_Primavera\Model\RoutesCalendar.cs" />
     <Compile Include="Lib_Primavera\Model\SalesOrder.cs" />
     <Compile Include="Lib_Primavera\Model\SalesOrderHistory.cs" />
     <Compile Include="Lib_Primavera\Model\SalesRepresentative.cs" />
     <Compile Include="Lib_Primavera\Model\Visits.cs" />
+    <Compile Include="Lib_Primavera\Model\Wish.cs" />
     <Compile Include="Lib_Primavera\PriIntegration.cs" />
     <Compile Include="Lib_Primavera\Model\Customer.cs" />
     <Compile Include="Lib_Primavera\Model\DocCompra.cs" />
