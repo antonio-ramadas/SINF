@@ -1124,7 +1124,7 @@ namespace SFA_REST.Lib_Primavera
         public static Lib_Primavera.Model.ErrorResponse CreateCart(Model.Cart lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
-            PriEngine.Engine.IniciaTransaccao();
+
             try 
             {
                 if (PriEngine.isOpen() == true)
@@ -1178,7 +1178,6 @@ namespace SFA_REST.Lib_Primavera
                     PriEngine.Engine.CRM.PropostasOPV.Actualiza(proposta);
 
                     PriEngine.Engine.CRM.OportunidadesVenda.ActualizaValorAtributo(myLead.get_ID(), "ValorTotalOV", value);
-                    PriEngine.Engine.TerminaTransaccao();
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -1188,7 +1187,6 @@ namespace SFA_REST.Lib_Primavera
                     erro.Erro = 1;
                     erro.Descricao = "Error Accessing the Company";
                     return erro;
-                    PriEngine.Engine.DesfazTransaccao();
                 }
             }
             catch (Exception ex)
@@ -1197,7 +1195,6 @@ namespace SFA_REST.Lib_Primavera
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
-                PriEngine.Engine.DesfazTransaccao();
             }
         }
 
@@ -1237,10 +1234,10 @@ namespace SFA_REST.Lib_Primavera
                         }
                     }
                     size = linhas.NumItens;
+
                     linhita.set_Linhas(linhas);
-                    //CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal), true);
-                    
                     PriEngine.Engine.CRM.PropostasOPV.Actualiza(linhita);
+                    
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -1255,7 +1252,6 @@ namespace SFA_REST.Lib_Primavera
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                throw ex;
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
@@ -1282,8 +1278,6 @@ namespace SFA_REST.Lib_Primavera
                     cartLine.id = id;
                     cartLine.numberProposal = numProposta;
                     cartLine.numberLine = line;
-
-                    //query = "DELETE FROM PRIDEMOSINF.dbo.LinhasPropostas WHERE IdOportunidade ='"+id+"' AND NumProposta = '"+numProposta+"' AND Linha = '"+line+"'";
 
                     erro = DeleteCartLine(cartLine);
 
@@ -1376,42 +1370,15 @@ namespace SFA_REST.Lib_Primavera
             Model.LinhaDocVenda lindv = new Model.LinhaDocVenda();
             List<Model.LinhaDocVenda> listlindv = new
             List<Model.LinhaDocVenda>();
-
+            string id;
             if (PriEngine.isOpen() == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT id, Entidade, Data, NumDoc, TotalMerc, Responsavel, Serie, Morada From CabecDoc where TipoDoc='ECL'");
+                objListCab = PriEngine.Engine.Consulta("SELECT Id, Entidade, Data, NumDoc, TotalMerc, Responsavel, Serie, Morada From CabecDoc where TipoDoc='ECL'");
                 while (!objListCab.NoFim())
                 {
-                    dv = new Model.SalesOrder();
-                    dv.id = objListCab.Valor("id");
-                    dv.entity = objListCab.Valor("Entidade");
-                    dv.address = objListCab.Valor("Morada");
-                    dv.numDoc = objListCab.Valor("NumDoc");
-                    dv.date = objListCab.Valor("Data");
-                    dv.totalMerc = objListCab.Valor("TotalMerc");
-                    dv.serie = objListCab.Valor("Serie");
-                    dv.salesRep = objListCab.Valor("Responsavel");
-                    objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
-                    listlindv = new List<Model.LinhaDocVenda>();
-
-                    while (!objListLin.NoFim())
-                    {
-                        lindv = new Model.LinhaDocVenda();
-                        lindv.IdCabecDoc = objListLin.Valor("idCabecDoc");
-                        lindv.CodArtigo = objListLin.Valor("Artigo");
-                        lindv.DescArtigo = objListLin.Valor("Descricao");
-                        lindv.Quantidade = objListLin.Valor("Quantidade");
-                        lindv.Unidade = objListLin.Valor("Unidade");
-                        lindv.Desconto = objListLin.Valor("Desconto1");
-                        lindv.PrecoUnitario = objListLin.Valor("PrecUnit");
-                        lindv.TotalILiquido = objListLin.Valor("TotalILiquido");
-                        lindv.TotalLiquido = objListLin.Valor("PrecoLiquido");
-
-                        listlindv.Add(lindv);
-                        objListLin.Seguinte();
-                    }
-
-                    dv.LinhasDoc = listlindv;
+                    
+                    id = objListCab.Valor("Id");
+                    dv = Encomenda_Get(id);
                     listdv.Add(dv);
                     objListCab.Seguinte();
                 }
@@ -2058,6 +2025,60 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static Model.Stats.IncomeMonth GetIncomeStatByMonth(int year, int month)
+        {
+            Model.Stats.IncomeMonth monthStat = new Model.Stats.IncomeMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                string query = "SELECT SUM(TotalMerc) as Total FROM CabecDoc WHERE TipoDoc='ECL' AND Month(Data)=" + month + " AND Year(Data)=" + year;
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                if (objList.Valor("Total") is DBNull || "".Equals(objList.Valor("Total")))
+                {
+                    monthStat.income = 0;
+                }
+                else
+                {
+                    monthStat.income = objList.Valor("Total");
+                }
+
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.IncomeYear GetIncomeStatByYear(int year)
+        {
+            Model.Stats.IncomeYear yearStat = new Model.Stats.IncomeYear();
+            Model.Stats.IncomeMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.sales = new List<Model.Stats.IncomeMonth>();
+                yearStat.totalIncome = 0;
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetIncomeStatByMonth(year, i);
+                    yearStat.totalIncome += monthStat.income;
+                    yearStat.sales.Add(monthStat);
+                }
+
+
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static IEnumerable<Model.Stats.SalesYear> GetSalesStatBySalesRep(string salesRepId)
         {
             int initYear = 2015;
@@ -2136,11 +2157,66 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static IEnumerable<Model.Stats.IncomePerYear> GetIncomePerYearBySalesRep(string salesRepId)
+        public static Model.Stats.SalesMonth GetSalesStatByMonth(int year, int month)
+        {
+            Model.Stats.SalesMonth monthStat = new Model.Stats.SalesMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                string query = "SELECT count(*) as Total FROM CabecDoc WHERE TipoDoc='ECL' AND Month(Data)=" + month + " AND Year(Data)=" + year;
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                if (objList.Valor("Total") is DBNull || "".Equals(objList.Valor("Total")))
+                {
+                    monthStat.salesNumber = 0;
+                }
+                else
+                {
+                    monthStat.salesNumber = objList.Valor("Total");
+                }
+
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.SalesYear GetSalesStatByYear(int year)
+        {
+            Model.Stats.SalesYear yearStat = new Model.Stats.SalesYear();
+            Model.Stats.SalesMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.sales = new List<Model.Stats.SalesMonth>();
+                yearStat.salesNumber = 0;
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetSalesStatByMonth(year, i);
+                    yearStat.salesNumber += monthStat.salesNumber;
+                    yearStat.sales.Add(monthStat);
+                }
+
+
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static IEnumerable<Model.Stats.IncomePerSaleYear> GetIncomePerYearBySalesRep(string salesRepId)
         {
             int initYear = 2015;
-            List<Model.Stats.IncomePerYear> list = new List<Model.Stats.IncomePerYear>();
-            Model.Stats.IncomePerYear year;
+            List<Model.Stats.IncomePerSaleYear> list = new List<Model.Stats.IncomePerSaleYear>();
+            Model.Stats.IncomePerSaleYear year;
 
             if (PriEngine.isOpen())
             {
@@ -2158,14 +2234,14 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Model.Stats.IncomePerYear GetIncomePerYear(string salesRepId, int year)
+        public static Model.Stats.IncomePerSaleYear GetIncomePerYear(string salesRepId, int year)
         {
-            Model.Stats.IncomePerYear yearStat = new Model.Stats.IncomePerYear();
-            Model.Stats.IncomePerMonth monthStat;
+            Model.Stats.IncomePerSaleYear yearStat = new Model.Stats.IncomePerSaleYear();
+            Model.Stats.IncomePerSaleMonth monthStat;
             if (PriEngine.isOpen())
             {
                 yearStat.year = year;
-                yearStat.monthRates = new List<Model.Stats.IncomePerMonth>();
+                yearStat.monthRates = new List<Model.Stats.IncomePerSaleMonth>();
 
                 for (int i = 1; i <= 12; i++)
                 {
@@ -2184,14 +2260,58 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Model.Stats.IncomePerMonth GetIncomePerMonth(string salesRepId, int year, int month)
+        public static Model.Stats.IncomePerSaleYear GetIncomePerYear(int year)
         {
-            Model.Stats.IncomePerMonth monthStat = new Model.Stats.IncomePerMonth();
+            Model.Stats.IncomePerSaleYear yearStat = new Model.Stats.IncomePerSaleYear();
+            Model.Stats.IncomePerSaleMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.monthRates = new List<Model.Stats.IncomePerSaleMonth>();
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetIncomePerMonth(year, i);
+                    yearStat.incomePerYear = GetIncomeStatByYear(year).totalIncome / GetSalesStatByYear(year).salesNumber;
+                    yearStat.monthRates.Add(monthStat);
+                }
+
+
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.IncomePerSaleMonth GetIncomePerMonth(string salesRepId, int year, int month)
+        {
+            Model.Stats.IncomePerSaleMonth monthStat = new Model.Stats.IncomePerSaleMonth();
 
             if (PriEngine.isOpen())
             {
 
                 double rate = GetIncomeStatByMonth(salesRepId, year, month).income / GetSalesStatByMonth(salesRepId, year, month).salesNumber;
+                monthStat.incomePerMonth = rate;
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.IncomePerSaleMonth GetIncomePerMonth(int year, int month)
+        {
+            Model.Stats.IncomePerSaleMonth monthStat = new Model.Stats.IncomePerSaleMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                double rate = GetIncomeStatByMonth(year, month).income / GetSalesStatByMonth(year, month).salesNumber;
                 monthStat.incomePerMonth = rate;
                 monthStat.month = month;
                 return monthStat;
@@ -2212,10 +2332,30 @@ namespace SFA_REST.Lib_Primavera
 		                                "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc "+
 		                                "AND LinhasDoc.Artigo = Artigo.Artigo "+
 		                                "AND Artigo.Familia = Familias.Familia "+
-		                                "AND CabecDoc.Responsavel = '1' ";
+		                                "AND CabecDoc.Responsavel = '"+salesRepId+"' ";
                 StdBELista objList = PriEngine.Engine.Consulta(query);
                 return objList.Valor("Contagem");
                 
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int GetTotalSalesNumByCategories()
+        {
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT Count(Familias.Familia) as Contagem " +
+                                "FROM PRIDEMOSINF.dbo.Artigo, PRIDEMOSINF.dbo.Familias, PRIDEMOSINF.dbo.CabecDoc, PRIDEMOSINF.dbo.LinhasDoc " +
+                                "WHERE		CabecDoc.TipoDoc = 'ECL' " +
+                                        "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc " +
+                                        "AND LinhasDoc.Artigo = Artigo.Artigo " +
+                                        "AND Artigo.Familia = Familias.Familia ";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                return objList.Valor("Contagem");
+
             }
             else
             {
@@ -2238,7 +2378,7 @@ namespace SFA_REST.Lib_Primavera
                                         "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc " +
                                         "AND LinhasDoc.Artigo = Artigo.Artigo " +
                                         "AND Artigo.Familia = Familias.Familia " +
-                                        "AND CabecDoc.Responsavel = '1' " +
+                                        "AND CabecDoc.Responsavel = '"+ salesRepId +"' " +
                                 "GROUP BY Familias.Familia, Familias.Descricao " +
                                 "ORDER BY Contagem DESC";
                 StdBELista objList = PriEngine.Engine.Consulta(query);
@@ -2248,6 +2388,47 @@ namespace SFA_REST.Lib_Primavera
                     topCategory = new Model.Stats.TopCategory();
                     topCategory.numSales = (int) objList.Valor("Contagem");
                     topCategory.percent = topCategory.numSales / (double) total;
+                    category = new Model.Category();
+                    category.family = objList.Valor("Familia");
+                    category.description = objList.Valor("Descricao");
+                    topCategory.category = category;
+                    list.Add(topCategory);
+                    objList.Seguinte();
+                }
+
+                return list;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public static IEnumerable<Model.Stats.TopCategory> GetSalesTopCategories()
+        {
+            int total = GetTotalSalesNumByCategories();
+            List<Model.Stats.TopCategory> list = new List<Model.Stats.TopCategory>();
+            Model.Stats.TopCategory topCategory;
+            Model.Category category;
+
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT Familias.Familia as Familia, Familias.Descricao as Descricao, Count(Familias.Familia) as Contagem " +
+                                "FROM PRIDEMOSINF.dbo.Artigo, PRIDEMOSINF.dbo.Familias, PRIDEMOSINF.dbo.CabecDoc, PRIDEMOSINF.dbo.LinhasDoc " +
+                                "WHERE		CabecDoc.TipoDoc = 'ECL' " +
+                                        "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc " +
+                                        "AND LinhasDoc.Artigo = Artigo.Artigo " +
+                                        "AND Artigo.Familia = Familias.Familia " +
+                                "GROUP BY Familias.Familia, Familias.Descricao " +
+                                "ORDER BY Contagem DESC";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    topCategory = new Model.Stats.TopCategory();
+                    topCategory.numSales = (int)objList.Valor("Contagem");
+                    topCategory.percent = topCategory.numSales / (double)total;
                     category = new Model.Category();
                     category.family = objList.Valor("Familia");
                     category.description = objList.Valor("Descricao");
@@ -2292,18 +2473,26 @@ namespace SFA_REST.Lib_Primavera
                 return null;
         }
 
-        public static int getYearTotalMerc(string year)
+        public static Model.Stats.IncomeYear getYearTotalMerc(string yearString)
         {
-            if(PriEngine.isOpen())
+            try
             {
-                string query = "SELECT SUM(TotalMerc) AS Soma FROM (SELECT TotalMerc FROM CabecDOC WHERE year(Data) = '" + year + "') As SUP";
-                StdBELista objList = PriEngine.Engine.Consulta(query);
-                return objList.Valor("Soma");
-                
+                if (PriEngine.isOpen())
+                {
+                    string query = "SELECT SUM(TotalMerc) AS SOMA FROM (SELECT TotalMerc FROM CabecDOC WHERE year(Data) = '" + yearString + "') As SUP";
+                    StdBELista objList = PriEngine.Engine.Consulta(query);
+                    double soma = objList.Valor("SOMA");
+                    return new Model.Stats.IncomeYear { year = Int32.Parse(yearString), totalIncome = soma };
+                }
+                else
+                {
+                    return new Model.Stats.IncomeYear { year = Int32.Parse(yearString), totalIncome = 0 };
+                }
             }
-            else
+            catch (Exception e)
             {
-                return 0;
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return new Model.Stats.IncomeYear { year = Int32.Parse(yearString), totalIncome = 0 };
             }
         }
 

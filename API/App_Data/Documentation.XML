@@ -751,17 +751,53 @@
             </summary>
             <returns> List of TopCategory </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetTopCategories">
+            <summary>
+              GET method for the Top Categories sold by the sales representative
+            </summary>
+            <returns> List of TopCategory </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetTopSalesRep(System.String)">
             <summary>
               GET method for the Top SalesRepresentative of the company
             </summary>
             <returns> List of Top SalesRepresentative </returns>
         </member>
-        <member name="M:SFA_REST.Controllers.StatsController.getYearTotalMerc(System.String)">
+        <member name="M:SFA_REST.Controllers.StatsController.getYearTotalMerc(System.Int32)">
             <summary>
               GET method for the the profits of a year
             </summary>
             <returns> Money made in a year </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.getYearTotalMerc(System.Int32,System.Int32)">
+            <summary>
+              GET method for the the profits of a month
+            </summary>
+            <returns> Money made in a year </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetSalesByYear(System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2015
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetSalesByMonth(System.Int32,System.Int32)">
+            <summary>
+              GET method for the all the sales states registered in the ERP for a given sales representative since 2015
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByYear(System.Int32)">
+            <summary>
+              GET method for the average income for each sale in given year
+            </summary>
+            <returns> List of Leads </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetIncomePerSalesByMonth(System.Int32,System.Int32)">
+            <summary>
+              GET method for the average income for each sale in given month.
+            </summary>
+            <returns> List of Leads </returns>
         </member>
         <member name="M:SFA_REST.Controllers.RouteController.Get(System.String)">
             <summary>
