@@ -19,7 +19,7 @@ export class Service {
   private statsPath = '/stats';
   private salesRepPath = '/salesrep';
   private incomePath = '/income';
-  private wishlistPath = '/wishlist';
+  private wishlistPath = '/cart';
   private countriesPath = '/country';
   private labelsPath = '/label';
   private incomePerSalesPath = '/income-per-sale';

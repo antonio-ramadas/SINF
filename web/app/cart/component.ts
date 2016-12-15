@@ -27,10 +27,7 @@ export class CartComponent {
 
   // Create Form
   ngOnInit(): void {
-    this.checkout = this.formBuilder.group({
-        street: '',
-        fiscalstreet: ''
-    });
+    this.checkout = this.formBuilder.group({});
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.getWishlist();
@@ -61,6 +58,11 @@ export class CartComponent {
     this.service.removeWish(<JSON> json);
   }
 
+  handleSalesOrder() {
+    this.createSalesOrder();
+    //this.hideChildModal(); //TODO
+  }
+
   createSalesOrder() {
     let json;
     let arr = [];
@@ -68,7 +70,7 @@ export class CartComponent {
       if (cart.active) {
         arr.push({
           "CodArtigo": cart.productID,
-          "Quantidade": cart.quantity,
+          "Quantidade": cart.quantity.toString(),
           "PrecoUnitario": cart.sellingPrice,
           "Desconto": "0"
         });
@@ -77,10 +79,10 @@ export class CartComponent {
     json = {
       "entity": this.id,
       "salesRep": myGlobals.idSales,
-      "LinhasDoc" : arr
+      "LinhasDoc": arr
     };
 
-    this.service.createSalesOrder(<JSON> json);
+    this.service.createSalesOrder(JSON.parse(JSON.stringify(json)));
   }
 
   updateTotal() {
@@ -95,7 +97,7 @@ export class CartComponent {
   getCustomer() {
     this.service.getCustomer(this.id)
         .subscribe(
-        client => {this.customer = new Customer(client); this.checkout.patchValue({'street': this.customer.address}); this.checkout.patchValue({'fiscalstreet': this.customer.address});},
+        client => this.customer = new Customer(client),
         error => this.errorMessage = <any>error);
   }
 

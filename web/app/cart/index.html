@@ -83,25 +83,7 @@
           <h4 class="modal-title">Checkout</h4>
         </div>
         <div class="modal-body">
-          <form class="form-horizontal" [formGroup]="checkout" (ngSubmit)="smModal.hide()">
-            <div class="">
-                <h3>Delivery Address: </h3>
-                <div class="form-group">
-                  <label class="control-label col-xs-2">address:</label>
-                  <div class="col-xs-10">
-                    <input type="text" class="form-control" formControlName="street">
-                  </div>
-                </div>
-              </div>
-            <div class="">
-                <h3>Fiscal Address: </h3>
-                <div class="form-group">
-                  <label class="control-label col-xs-2">address:</label>
-                  <div class="col-xs-10">
-                    <input type="text" class="form-control" formControlName="fiscalstreet">
-                  </div>
-                </div>
-              </div>
+          <form class="form-horizontal" [formGroup]="checkout" (ngSubmit)="handleSalesOrder()">
             <strong> Total: € {{total}} </strong>
             <button type="submit" class="btn btn-success">Confirm</button>
           </form>

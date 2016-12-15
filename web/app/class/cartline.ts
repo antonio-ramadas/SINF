@@ -10,7 +10,7 @@ export class CartLine {
         this.active = false;
         this.costPrice = wishlist['costPrice'];
         this.description = wishlist['description'];
-        this.productID = wishlist['productID'];
+        this.productID = wishlist['productId'];
         this.quantity = Number(wishlist['quantity']);
         this.sellingPrice = wishlist['sellingPrice'].replace(',', '.');
     }
