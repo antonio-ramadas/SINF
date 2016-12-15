@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Service } from './../../app.service';
 
 @Component({
   moduleId: module.id,
@@ -6,11 +8,53 @@ import { Component } from '@angular/core';
   templateUrl: 'graph-test2.html'
 })
 export class LineChartDemoComponent {
+  @Input() method;
+  @Input() idSalesRep;
+  errorMessage = "";
+
+  constructor(private route: ActivatedRoute, private service: Service) {
+  }
+
+  ngAfterViewInit() {
+    switch(this.method) {
+      case 0:
+         this.incomeChart(this.idSalesRep);
+         break;
+    }  
+  }
+
+  incomeChart(id: string):void {
+    this.lineChartLabels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.service.getIncomeBySalesRepresentativeByYear(id, '2016')
+      .subscribe(
+      chart => { this.getIncomePerSales(id, chart); },
+      error => this.errorMessage = <any>error);
+  }
+
+  private getIncomePerSales(id: string, incomeChart: any[]):void {
+    this.service.getIncomePerSaleBySalesRepresentativeByYear(id, '2016')
+      .subscribe(
+      chart => { this.parseIncome(incomeChart, chart); },
+      error => this.errorMessage = <any>error);
+  }
+
+  private parseIncome(incomeChart: any[], incomePerSalesChart: any[]):void {
+    let chartData = [];
+    for (let month of incomeChart['sales']) {
+      chartData.push(month.income);
+    }
+    this.lineChartData = [{data: chartData, label: 'Income'}];
+
+    let chartDataPerSale = [];
+    for (let month of incomePerSalesChart['monthRates']) {
+      chartDataPerSale.push(month.incomePerMonth);
+    }
+    this.lineChartData.push({data: chartDataPerSale, label: 'Income Per Sale'});
+  }
+
   // lineChart
   public lineChartData:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
-    {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
+    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'}
   ];
   public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions:any = {
@@ -59,10 +103,10 @@ export class LineChartDemoComponent {
 
   // events
   public chartClicked(e:any):void {
-    console.log(e);
+    //console.log(e);
   }
 
   public chartHovered(e:any):void {
-    console.log(e);
+    //console.log(e);
   }
 }

@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Location } from '@angular/common';
 import { Service } from './../app.service';
+import { SalesOrder } from './../class/salesorder';
+import { Customer } from './../class/customer';
 
 @Component({
   moduleId: module.id,
@@ -16,67 +19,110 @@ export class ClientComponent implements OnInit {
   clientId: number;
   public singleModel: string = '1';
   registerForm: FormGroup;
-  id : string;
+  id: string;
   errorMessage: string;
-  customer = {};
+  customer: Customer = new Customer(JSON.parse('{}'));
   customers = [];
+  salesHistory = [];
+  hint = '';
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service) {
+  constructor(private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder, private service: Service, private location: Location) {
 
   }
 
-  getCostumer() {
-    this.service.getCostumer(this.id)
-                    .subscribe(
-                       customer => this.customer = customer,
-                       error =>  this.errorMessage = <any>error);
+  eventHandler(event) {
+    //console.log(event, event.keyCode, event.keyIdentifier);
+    //console.log(this.hint);
+    if (this.hint.length <= 0)
+      this.getCustomers();
+    else
+      this.service.getCustomerByName(this.hint)
+        .subscribe(
+        suggestions => this.customers = suggestions,
+        error => this.errorMessage = <any>error);
   }
 
-  getCostumers() {
+  goToSalesOrder(salesId) {
+    this.router.navigate(["/salesorder/" + salesId]);
+  }
+
+  changeCustomer(newId) {
+    this.router.navigate(["/client/" + newId]);
+  }
+
+  getSalesHistory() {
+    this.service.getSalesHistoryByCustomer(this.id, '30')
+      .subscribe(
+      sales => { this.salesHistory = []; for (let sale of sales) this.salesHistory.push(new SalesOrder(sale)); },
+      error => this.errorMessage = <any>error);
+  }
+
+  getCustomer() {
+    this.service.getCustomer(this.id)
+      .subscribe(
+      customer => this.customer = new Customer(customer),
+      error => this.errorMessage = <any>error);
+  }
+
+  getCustomers() {
     this.service.getCostumers()
-                    .subscribe(
-                       customers => this.customers = customers,
-                       error =>  this.errorMessage = <any>error);
+      .subscribe(
+      customers => { this.customers = []; for (let customer of customers) this.customers.push(new Customer(customer)); },
+      error => this.errorMessage = <any>error);
   }
 
-  ngOnInit(): void {
-    this.route.params.subscribe((params : Params) => {
-      this.id = params['id'];
-      this.getCostumer();
-      this.getCostumers();
-    });
-    this.route.params.forEach((params: Params) => {
-      this.clientId = +params['id'];
-    });
-    // Create Form
-    this.registerForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
-      address: this.formBuilder.group({
-        street: '',
-        zip: '',
-        city: ''
-      }),
-      phoneNumber: '',
-      email: '',
-      nif: '',
-      nationality: ''
-    });
-  }
-
-  @ViewChild('childModal') public childModal:ModalDirective;
-
-  public showChildModal():void {
+  editInfo() {
+    this.registerForm.patchValue({'id': this.customer.id});
+    this.registerForm.patchValue({'phoneNumber': this.customer.phone});
+    this.registerForm.patchValue({'name': this.customer.name});
+    this.registerForm.patchValue({'email': this.customer.email});
+    this.registerForm.patchValue({'address': this.customer.address});
+    this.registerForm.patchValue({'nationality': this.customer.nationality});
+    this.registerForm.patchValue({'birthDate': this.customer.dateOfBirth});
+    this.registerForm.patchValue({'gender': this.customer.gender});
+    this.registerForm.patchValue({'nif': this.customer.nif});
     this.childModal.show();
   }
 
-  public hideChildModal():void {
+  updateNotes() {
+    this.service.updateCustomerNotes(this.customer.id, this.customer.notes);
+  }
+
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.id = params['id'];
+      this.getCustomer();
+      this.getCustomers();
+      this.getSalesHistory();
+    });
+    // Create Form
+    this.registerForm = this.formBuilder.group({
+      id: '',
+      name: '',
+      address: '',
+      phoneNumber: '',
+      birthDate: '',
+      email: '',
+      nif: '',
+      nationality: '',
+      gender: '',
+      labels: '',
+      notes: ''
+    });
+  }
+
+  @ViewChild('smModal') public childModal: ModalDirective;
+
+  public showChildModal(): void {
+    this.childModal.show();
+  }
+
+  public hideChildModal(): void {
     this.childModal.hide();
   }
 
-  public createNewClient():void {
-
-    console.log("leeel");
+  public createNewClient(): void {
+    console.error("TODO submit form to create new client. Waiting for the API correct implementation");
   }
 
 }

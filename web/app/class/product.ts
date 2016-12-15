@@ -5,8 +5,9 @@ export class Product {
   salesCount: string;
   stock: string;
   availability: boolean;
-  imageUrls: string[];
-  family: string;
+  imageUrl: string;
+  category: string;
+  subCategory: string;
   vat: string;
   warehouses: string[];
 
@@ -16,8 +17,9 @@ export class Product {
     this.description = product['description'];
     this.salesCount = product['salesCount'];
     this.stock = product['quantity'];
-    this.imageUrls = product['imageUrls'];
-    this.family = product['family'];
+    this.imageUrl = product['imageURL'] || 'default.jpg';
+    this.category = product['category'];
+    this.subCategory = product['subCategory'];
     this.vat = product['vat'];
     this.warehouses = product['warehouses'];
   }

@@ -19,8 +19,7 @@ ul{
 }
 
 #product{
-  margin: 1rem;
-  margin-top: 10rem;
+  margin-top: 5rem;
 }
 
 #image-pagination{
@@ -30,12 +29,35 @@ ul{
 
 #description{
   max-height: 10rem;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
-#features{
-  max-height: 10rem;
-  overflow: scroll;
+#input-quantity {
+  width: 8rem;
+}
+
+img{
+    width: 350px; /* you can use % */
+    height: 350px;
+}
+
+.catalogue-header{
+    list-style-type: disc;
+    margin-left: 1rem;
+}
+
+.catalogue-list{
+    list-style-type: circle;
+    margin-left: 2rem;
+}
+
+th {
+  background-color: #666;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
 }
 
 #image-panel{
