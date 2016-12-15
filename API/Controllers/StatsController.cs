@@ -120,5 +120,16 @@ namespace SFA_REST.Controllers
         {
             return Lib_Primavera.PriIntegration.GetSalesTopCategories(id);
         }
+
+        /// <summary>
+        ///   GET method for the Top SalesRepresentative of the company
+        /// </summary>
+        /// <returns> List of Top SalesRepresentative </returns>
+        [Route("api/stats/salesRep/{number}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Stats.TopCategory> GetTopCategories(string number)
+        {
+            return Lib_Primavera.PriIntegration.GetTopSalesRep(id);
+        }
     }
 }
