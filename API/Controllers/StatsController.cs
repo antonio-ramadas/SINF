@@ -122,6 +122,17 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
+        ///   GET method for the Top Categories sold by the sales representative
+        /// </summary>
+        /// <returns> List of TopCategory </returns>
+        [Route("api/stats/total/category-top")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Stats.TopCategory> GetTopCategories()
+        {
+            return Lib_Primavera.PriIntegration.GetSalesTopCategories();
+        }
+
+        /// <summary>
         ///   GET method for the Top SalesRepresentative of the company
         /// </summary>
         /// <returns> List of Top SalesRepresentative </returns>

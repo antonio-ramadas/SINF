@@ -751,6 +751,12 @@
             </summary>
             <returns> List of TopCategory </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetTopCategories">
+            <summary>
+              GET method for the Top Categories sold by the sales representative
+            </summary>
+            <returns> List of TopCategory </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.StatsController.GetTopSalesRep(System.String)">
             <summary>
               GET method for the Top SalesRepresentative of the company
