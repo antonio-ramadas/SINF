@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     var regex = /^\/(login)?$/g
-    this.showNavbar = !regex.test(window.location.pathname);
+    this.showNavbar = true;//regex.test(window.location.pathname);
   }
 
   private viewContainerRef: ViewContainerRef;

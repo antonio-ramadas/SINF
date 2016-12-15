@@ -23,7 +23,7 @@ export class LoginComponent {
   submit() {
     let path = '/dashboard/';
 
-    if (this.user == "1") {
+    if (this.user == "2") {
       path += 'manager/';
       myGlobals.manager = true;
       NavbarComponent.updateType();

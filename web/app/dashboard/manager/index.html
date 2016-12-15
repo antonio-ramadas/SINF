@@ -59,7 +59,7 @@
         <div class="content">
           <ul id="reps-list" class="list">
             <li *ngFor="let rep of salesRep">
-              <div class="text" (click)="redirect('/dashboard/sales-rep' + rep.id)"> {{rep.name}} </div>
+              <div class="text" (click)="redirect('/dashboard/sales-rep/' + rep.id)"> {{rep.name}} </div>
             </li>
           </ul>
         </div>
