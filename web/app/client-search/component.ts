@@ -91,6 +91,11 @@ export class ClientSearchComponent {
       }
     }
 
+    this.list = [];
+    for (var i = 0; i < this.customersSearch.length; i++) {
+      this.list.push(i.toString());
+    }
+
     this.totalItems = this.customersSearch.length;
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.customers = this.customersSearch.slice(start, start+this.itemsPerPage);

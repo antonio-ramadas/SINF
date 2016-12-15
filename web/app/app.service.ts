@@ -72,8 +72,8 @@ export class Service {
                     .subscribe();
   }
 
-  getSalesRepresentative(id: string): Observable<JSON> {
-    return this.http.get(this.baseUrl + this.salesRepPath + '/' + id)
+  getSalesRepresentatives(): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.salesRepPath)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
@@ -118,6 +118,12 @@ export class Service {
     this.http.put(this.baseUrl + this.customerPath + this.notesPath + '/' + id, JSON.stringify({'notes' : text}), {headers: headers})
                     .catch(this.handleError)
                     .subscribe();
+  }
+
+  getSalesRepresentative (): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.customerPath)
+                    .map(this.extractData)
+                    .catch(this.handleError);
   }
 
   getCustomers (): Observable<JSON[]> {
