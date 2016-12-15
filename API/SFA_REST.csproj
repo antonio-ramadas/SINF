@@ -272,6 +272,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -285,10 +286,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\VisitsController.cs" />
-    <Compile Include="Controllers\WishlistController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Lib_Primavera\Model\Cart.cs" />
     <Compile Include="Lib_Primavera\Model\Category.cs" />
     <Compile Include="Lib_Primavera\Model\Country.cs" />
     <Compile Include="Lib_Primavera\Model\ErrorResponse.cs" />
@@ -301,7 +302,6 @@
     <Compile Include="Lib_Primavera\Model\SalesOrderHistory.cs" />
     <Compile Include="Lib_Primavera\Model\SalesRepresentative.cs" />
     <Compile Include="Lib_Primavera\Model\Visit.cs" />
-    <Compile Include="Lib_Primavera\Model\Wish.cs" />
     <Compile Include="Lib_Primavera\PriIntegration.cs" />
     <Compile Include="Lib_Primavera\Model\Customer.cs" />
     <Compile Include="Lib_Primavera\Model\DocCompra.cs" />

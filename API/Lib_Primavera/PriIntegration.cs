@@ -279,6 +279,7 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_NumContribuinte(customer.nif);
                     myCli.set_Pais(customer.nationality);
                     myCli.set_Observacoes(customer.notes);
+                    myCli.set_CondPag("2");
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
@@ -299,6 +300,7 @@ namespace SFA_REST.Lib_Primavera
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
