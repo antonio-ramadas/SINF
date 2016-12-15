@@ -26,6 +26,9 @@ export class DoughnutChartDemoComponent {
       case 0:
          this.topProductsChart(this.idSalesRep);
          break;
+      case 1:
+         this.topProductsChartManager();
+         break;
     }  
   }
 
@@ -48,6 +51,24 @@ export class DoughnutChartDemoComponent {
           .subscribe(
           chart => { this.parseTopProducts(chart); },
           error => this.errorMessage = <any>error);
+  }
+
+  topProductsChartManager(): void {
+    this.service.getTopProducts('5')
+          .subscribe(
+          chart => { this.parseTopProductsManager(chart); },
+          error => this.errorMessage = <any>error);
+  }
+
+  private parseTopProductsManager(chart: any[]):void {
+    let chartLabels = [];
+    let chartData = [];
+    for (let product of chart) {
+      chartLabels.push(product.id);
+      chartData.push(product.amountSold);
+    }
+    this.doughnutChartLabels = chartLabels;
+    this.doughnutChartData = chartData;
   }
 
   private parseTopProducts(chart: any[]):void {

@@ -225,8 +225,26 @@ export class Service {
                     .catch(this.handleError);
   }
 
+  getIncomePerSaleByYear(year: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + '/year/' + year)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getTopCategoriesBySalesRepresentative(id: string): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.statsPath + this.topCategoriesPath + '/' + id)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getTopProducts(total: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.productPath + '/top/' + total)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getTopSalesRep(total: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + '/salesRep/' + total)
                     .map(this.extractData)
                     .catch(this.handleError);
   }

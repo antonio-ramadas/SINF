@@ -23,7 +23,7 @@ export class CartComponent {
   total: number = 0;
   errorMessage: string;
   checkout: FormGroup;
-  @ViewChild('childModal') public childModal:ModalDirective;
+  @ViewChild('smModal') public childModal:ModalDirective;
 
   // Create Form
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class CartComponent {
 
   handleSalesOrder() {
     this.createSalesOrder();
-    //this.hideChildModal(); //TODO
+    this.hideChildModal();
   }
 
   createSalesOrder() {
