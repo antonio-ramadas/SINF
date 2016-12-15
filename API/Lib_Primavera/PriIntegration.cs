@@ -620,7 +620,6 @@ namespace SFA_REST.Lib_Primavera
         public static List<Model.SalesRepresentative> listSalesRepresentatives()
         {
             StdBELista obj;
-
             List<Model.SalesRepresentative> listSalesRepresentative = new List<Model.SalesRepresentative>();
 
             if (PriEngine.isOpen() == true)
@@ -772,9 +771,12 @@ namespace SFA_REST.Lib_Primavera
                         mySalesRep.set_Nome(salesRepresentative.name);
                         mySalesRep.set_Morada(salesRepresentative.address);
                         mySalesRep.set_Telefone(salesRepresentative.phoneNumber);
+                        mySalesRep.set_Comissao(6);
+                        mySalesRep.set_TipoEntidade("P");
                     
                         PriEngine.Engine.Comercial.Vendedores.Actualiza(mySalesRep);
-                       
+
+                        PriEngine.Engine.Comercial.Vendedores.ActualizaValorAtributo(salesRepresentative.id, "DisponivelEmPMS", 1);
                     }
                     catch (Exception e)
                     {
@@ -1208,21 +1210,19 @@ namespace SFA_REST.Lib_Primavera
                 {
                     // Atribui valores ao cabecalho do doc
                     myEnc.set_Entidade(dv.entity);
-
                     myEnc.set_Serie("A");
                     myEnc.set_Tipodoc("ECL");
                     myEnc.set_TipoEntidade("C");
-                    myEnc.set_Responsavel(dv.salesRep);
-                    // Linhas do documento para a lista de linhas
                     lstlindv = dv.LinhasDoc;
                     PriEngine.Engine.Comercial.Vendas.PreencheDadosRelacionados(myEnc);
+                    myEnc.set_Responsavel(dv.salesRep);
                     foreach (Model.LinhaDocVenda lin in lstlindv)
                     {
                         PriEngine.Engine.Comercial.Vendas.AdicionaLinha(myEnc, lin.CodArtigo, lin.Quantidade, "", "", lin.PrecoUnitario, lin.Desconto);
                     }
 
                     PriEngine.Engine.IniciaTransaccao();
-                    PriEngine.Engine.Comercial.Vendas.Actualiza(myEnc, "Teste");
+                    PriEngine.Engine.Comercial.Vendas.Actualiza(myEnc);
                     PriEngine.Engine.TerminaTransaccao();
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
@@ -1240,6 +1240,8 @@ namespace SFA_REST.Lib_Primavera
             catch (Exception ex)
             {
                 PriEngine.Engine.DesfazTransaccao();
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace);
                 erro.Erro = 1;
                 erro.Descricao = ex.Message;
                 return erro;

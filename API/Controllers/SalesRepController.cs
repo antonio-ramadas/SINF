@@ -71,8 +71,6 @@ namespace SFA_REST.Controllers
             if (erro.Erro == 0)
             {
                 var response = Request.CreateResponse(HttpStatusCode.Created, salesRepresentative);
-                string uri = Url.Link("SFA_API", new { id = salesRepresentative.id });
-                response.Headers.Location = new Uri(uri);
                 return response;
             }
             else return Request.CreateResponse(HttpStatusCode.BadRequest);

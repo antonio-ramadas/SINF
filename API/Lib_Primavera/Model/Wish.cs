@@ -29,6 +29,8 @@ namespace SFA_REST.Lib_Primavera.Model
         {
             public string id { get; set; }
 
+            public string customerID { get; set; }
+
             public string numberProposal { get; set; }
 
             public string numberLine { get; set; }
