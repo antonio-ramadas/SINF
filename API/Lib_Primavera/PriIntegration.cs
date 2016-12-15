@@ -1018,9 +1018,9 @@ namespace SFA_REST.Lib_Primavera
         #endregion Customervisits
 
 
-        #region WishList
+        #region Cart
 
-        public static List<Model.Cart.CartLine> ListWishesByCustomer(string customerId)
+        public static List<Model.Cart.CartLine> GetCartByCustomer(string customerId)
         {
             StdBELista obj;
 
@@ -1066,7 +1066,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.Cart GetWish(string id)
+        public static Lib_Primavera.Model.Cart GetCart(string id)
         {
             if (PriEngine.isOpen() == true)
             {
@@ -1119,7 +1119,7 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static Lib_Primavera.Model.ErrorResponse CreateWish(Model.Cart lead)
+        public static Lib_Primavera.Model.ErrorResponse CreateCart(Model.Cart lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
@@ -1196,7 +1196,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.ErrorResponse DeleteWish(Model.Cart.CartLine line)
+        public static Lib_Primavera.Model.ErrorResponse DeleteCartLine(Model.Cart.CartLine line)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
@@ -1238,7 +1238,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        #endregion WishList
+        #endregion Cart
 
 
         #region SalesOrder
