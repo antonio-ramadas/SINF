@@ -769,7 +769,7 @@
             </summary>
             <returns> Visit with the corresponding specified id </returns>
         </member>
-        <member name="M:SFA_REST.Controllers.VisitsController.Post(SFA_REST.Lib_Primavera.Model.Visits)">
+        <member name="M:SFA_REST.Controllers.VisitsController.Post(SFA_REST.Lib_Primavera.Model.Visit)">
             <summary>
               POST method to create a visit task
             </summary>

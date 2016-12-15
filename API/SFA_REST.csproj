@@ -295,13 +295,12 @@
     <Compile Include="Lib_Primavera\Model\Lead.cs" />
     <Compile Include="Lib_Primavera\Model\Stats.cs" />
     <Compile Include="Lib_Primavera\Model\User.cs" />
+    <Compile Include="Lib_Primavera\Model\Visit.cs" />
     <Compile Include="Lib_Primavera\Model\WarehouseProduct.cs" />
     <Compile Include="Lib_Primavera\Model\Product.cs" />
-    <Compile Include="Lib_Primavera\Model\Task.cs" />
     <Compile Include="Lib_Primavera\Model\SalesOrder.cs" />
     <Compile Include="Lib_Primavera\Model\SalesOrderHistory.cs" />
     <Compile Include="Lib_Primavera\Model\SalesRepresentative.cs" />
-    <Compile Include="Lib_Primavera\Model\Visits.cs" />
     <Compile Include="Lib_Primavera\Model\Wish.cs" />
     <Compile Include="Lib_Primavera\PriIntegration.cs" />
     <Compile Include="Lib_Primavera\Model\Customer.cs" />
