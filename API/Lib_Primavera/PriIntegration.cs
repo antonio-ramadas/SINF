@@ -1020,11 +1020,11 @@ namespace SFA_REST.Lib_Primavera
 
         #region WishList
 
-        public static List<Model.WishList.WishLine> ListWishesByCustomer(string customerId)
+        public static List<Model.Cart.CartLine> ListWishesByCustomer(string customerId)
         {
             StdBELista obj;
 
-            List<Model.WishList> listWishes = new List<Model.WishList>();
+            List<Model.Cart> listWishes = new List<Model.Cart>();
             try
             {
                 if (PriEngine.isOpen() == true)
@@ -1032,7 +1032,7 @@ namespace SFA_REST.Lib_Primavera
 
                     string query = "SELECT * FROM CabecOportunidadesVenda WHERE Entidade = '"+customerId+"'";
                     obj = PriEngine.Engine.Consulta(query);
-                    List<Model.WishList.WishLine> lines = new List<Model.WishList.WishLine>();
+                    List<Model.Cart.CartLine> lines = new List<Model.Cart.CartLine>();
                     while (!obj.NoFim())
                     {
                         string subQuery = "SELECT * FROM LINHASPROPOSTASOPV WHERE IdOportunidade = '" + ((obj.Valor("ID")).Replace("{", "")).Replace("}", "") + "'";
@@ -1040,8 +1040,8 @@ namespace SFA_REST.Lib_Primavera
                         
                         while (!subObj.NoFim())
                         {
-                            Model.WishList.WishLine line = new Model.WishList.WishLine();
-                            line.productID = subObj.Valor("Artigo");
+                            Model.Cart.CartLine line = new Model.Cart.CartLine();
+                            line.productId = subObj.Valor("Artigo");
                             line.numberProposal = subObj.Valor("NumProposta").ToString();
                             line.numberLine = subObj.Valor("Linha").ToString();
                             line.description = subObj.Valor("Descricao");
@@ -1066,7 +1066,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.WishList GetWish(string id)
+        public static Lib_Primavera.Model.Cart GetWish(string id)
         {
             if (PriEngine.isOpen() == true)
             {
@@ -1078,25 +1078,25 @@ namespace SFA_REST.Lib_Primavera
 
                     if (!obj.Vazia())
                     {
-                        Model.WishList wish = new Model.WishList();
+                        Model.Cart wish = new Model.Cart();
                         wish.id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", "");
-                        wish.customerID = obj.Valor("Entidade");
+                        wish.customerId = obj.Valor("Entidade");
                         wish.creationDate = obj.Valor("DataCriacao").ToString();
                         wish.expirationDate = obj.Valor("DataExpiracao").ToString();
                         wish.description = obj.Valor("Descricao");
                         wish.summary = obj.Valor("Resumo");
                         wish.value = obj.Valor("ValorTotalOV").ToString();
-                        wish.salesRepID = obj.Valor("Vendedor");
+                        wish.salesRepId = obj.Valor("Vendedor");
                         wish.type = obj.Valor("Oportunidade");
 
                         string subQuery = "SELECT * FROM LINHASPROPOSTASOPV WHERE IdOportunidade = '" + id + "'";
                         StdBELista subObj = PriEngine.Engine.Consulta(subQuery);
-                        List<Model.WishList.WishLine> lines = new List<Model.WishList.WishLine>();
+                        List<Model.Cart.CartLine> lines = new List<Model.Cart.CartLine>();
 
                         while (!subObj.NoFim())
                         {
-                            Model.WishList.WishLine line = new Model.WishList.WishLine();
-                            line.productID = subObj.Valor("Artigo");
+                            Model.Cart.CartLine line = new Model.Cart.CartLine();
+                            line.productId = subObj.Valor("Artigo");
                             line.description = subObj.Valor("Descricao");
                             line.quantity = subObj.Valor("Quantidade").ToString();
                             line.costPrice = subObj.Valor("PrecoCusto").ToString();
@@ -1119,7 +1119,7 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static Lib_Primavera.Model.ErrorResponse CreateWish(Model.WishList lead)
+        public static Lib_Primavera.Model.ErrorResponse CreateWish(Model.Cart lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
@@ -1139,9 +1139,9 @@ namespace SFA_REST.Lib_Primavera
                     } while (!check.Vazia());
                     myLead.set_Oportunidade(number.ToString());
                     myLead.set_Descricao(lead.description);
-                    myLead.set_Entidade(lead.customerID);
+                    myLead.set_Entidade(lead.customerId);
                     myLead.set_TipoEntidade("C");
-                    myLead.set_Vendedor(lead.salesRepID);
+                    myLead.set_Vendedor(lead.salesRepId);
                     myLead.set_CicloVenda("CV_HW");
                     myLead.set_DataCriacao(DateTime.Now);
                     myLead.set_DataExpiracao(new DateTime(2100, 12, 12));
@@ -1157,11 +1157,11 @@ namespace SFA_REST.Lib_Primavera
 
                     CrmBELinhasPropostaOPV linhas = new CrmBELinhasPropostaOPV();
                     Double value = 0;
-                    foreach (Model.WishList.WishLine lin in lead.lines)
+                    foreach (Model.Cart.CartLine lin in lead.lines)
                     {
                         CrmBELinhaPropostaOPV linha = new CrmBELinhaPropostaOPV();
                         linha.set_IdOportunidade(myLead.get_ID());
-                        linha.set_Artigo(lin.productID);
+                        linha.set_Artigo(lin.productId);
                         linha.set_Quantidade(Double.Parse(lin.quantity));
                         linha.set_Descricao(lin.description);
                         linha.set_PrecoCusto(Double.Parse(lin.costPrice));
@@ -1196,7 +1196,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.ErrorResponse DeleteWish(Model.WishList.WishLine line)
+        public static Lib_Primavera.Model.ErrorResponse DeleteWish(Model.Cart.CartLine line)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 

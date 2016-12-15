@@ -17,7 +17,7 @@ namespace SFA_REST.Controllers
         /// <returns> Lead with the respective specified id </returns>
         [Route("api/wishlist/{id}")]
         [HttpGet]
-        public WishList Get(string id)
+        public Cart Get(string id)
         {
             return Lib_Primavera.PriIntegration.GetWish(id);
         }
@@ -28,7 +28,7 @@ namespace SFA_REST.Controllers
         /// <returns> Lead with the respective specified id </returns>
         [Route("api/wishlist/customer/{id}")]
         [HttpGet]
-        public IEnumerable<WishList.WishLine> GetWishByCustomer(string id)
+        public IEnumerable<Cart.CartLine> GetWishByCustomer(string id)
         {
             return Lib_Primavera.PriIntegration.ListWishesByCustomer(id);
         }
@@ -39,7 +39,7 @@ namespace SFA_REST.Controllers
         /// <returns> HttpResponse with the output from the server </returns>
         [Route("api/wishlist")]
         [HttpPost]
-        public HttpResponseMessage Post(Lib_Primavera.Model.WishList lead)
+        public HttpResponseMessage Post(Lib_Primavera.Model.Cart lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.CreateWish(lead);
@@ -57,7 +57,7 @@ namespace SFA_REST.Controllers
         /// <returns> HttpResponse with the output from the server </returns>
         [Route("api/wishlist/delete")]
         [HttpPost]
-        public HttpResponseMessage Delete(Lib_Primavera.Model.WishList.WishLine line)
+        public HttpResponseMessage Delete(Lib_Primavera.Model.Cart.CartLine line)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.DeleteWish(line);
