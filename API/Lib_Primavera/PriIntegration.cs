@@ -1263,6 +1263,7 @@ namespace SFA_REST.Lib_Primavera
                     myEnc.set_Serie("A");
                     myEnc.set_Tipodoc("ECL");
                     myEnc.set_TipoEntidade("C");
+                    myEnc.set_Responsavel(dv.salesRep);
                     // Linhas do documento para a lista de linhas
                     lstlindv = dv.LinhasDoc;
                     PriEngine.Engine.Comercial.Vendas.PreencheDadosRelacionados(myEnc);

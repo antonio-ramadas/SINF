@@ -56,7 +56,7 @@ namespace SFA_REST.Controllers
         /// </summary>
         /// <returns> HttpResponse with the output from the server </returns>
         [Route("api/wishlist/delete")]
-        [HttpDelete]
+        [HttpPost]
         public HttpResponseMessage Delete(Lib_Primavera.Model.WishList.WishLine line)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
