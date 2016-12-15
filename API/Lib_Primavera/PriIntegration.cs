@@ -1218,6 +1218,7 @@ namespace SFA_REST.Lib_Primavera
                     } 
                     //CrmBELinhasPropostaOPV linhas = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal));
                     CrmBEPropostaOPV linhita = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal), true);
+                    linhita.set_EmModoEdicao(true);
                     string id = line.id.Replace("{", "").Replace("}", "");
                     short proposal = short.Parse(line.numberProposal);
                     CrmBELinhasPropostaOPV linhas = linhita.get_Linhas();
