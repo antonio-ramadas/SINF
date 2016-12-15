@@ -22,6 +22,7 @@ export class ClientComponent implements OnInit {
   clientId: number;
   public singleModel: string = '1';
   registerForm: FormGroup;
+  visitsForm: FormGroup;
   id: string;
   errorMessage: string;
   customer: Customer = new Customer(JSON.parse('{}'));
@@ -188,9 +189,14 @@ export class ClientComponent implements OnInit {
       label2: '',
       label3: ''
     });
+    // Create Form
+    this.visitsForm = this.formBuilder.group({
+      summary: ''
+    });
   }
 
   @ViewChild('smModal') public childModal: ModalDirective;
+  @ViewChild('visitModal') public visitModal: ModalDirective;
 
   public showChildModal(): void {
     this.childModal.show();
@@ -198,6 +204,10 @@ export class ClientComponent implements OnInit {
 
   public hideChildModal(): void {
     this.childModal.hide();
+  }
+
+  public hideVisitsModal(): void {
+    this.visitModal.hide();
   }
 
   public handleClient(): void {
@@ -241,8 +251,27 @@ export class ClientComponent implements OnInit {
     this.hideChildModal();
   }
 
-  public handleVisit(): void {
-
+  public handleVisit(modal): void {
+    let json;
+    let date = new Date();
+    let randomId = Math.round(Math.random()*1000);
+    json = {
+        "id": randomId,
+        "representativeID": myGlobals.idSales,
+        "customerID": myGlobals.idCustomer,
+        "date": date.toJSON(),
+        "summary": this.visitsForm.controls['summary'].value,
+        "notes": ""
+    };
+    this.service.createVisit(<JSON>json);
+    var toastOptions: ToastOptions = {
+        title: "Create Sales Visit",
+        msg: "A new sales visit was added!",
+        showClose: true,
+        timeout: 3000
+      };
+    this.toastyService.success(toastOptions);
+    this.visitModal.hide();
   }
 
   addToast() {
@@ -252,12 +281,7 @@ export class ClientComponent implements OnInit {
         showClose: true,
         timeout: 3000
     };
-    // Add see all possible types in one shot
-    //this.toastyService.info(toastOptions);
     this.toastyService.success(toastOptions);
-    /*this.toastyService.wait(toastOptions);
-    this.toastyService.error(toastOptions);
-    this.toastyService.warning(toastOptions);*/
     }
 
 }
