@@ -216,10 +216,25 @@ export class ClientComponent implements OnInit {
         ]
     };
 
-    if (this.createClient)
+    if (this.createClient) {
       this.service.createCustomer(<JSON>json);
-    else
+      var toastOptions: ToastOptions = {
+        title: "Create Customer",
+        msg: "The customer was created",
+        showClose: true,
+        timeout: 3000
+      };
+      this.toastyService.success(toastOptions);
+    } else {
       this.service.updateCustomer(id, <JSON>json);
+      var toastOptions: ToastOptions = {
+        title: "Update Customer",
+        msg: "The customer " + id + " information was updated",
+        showClose: true,
+        timeout: 3000
+      };
+      this.toastyService.success(toastOptions);
+    }
 
     this.hideChildModal();
   }
