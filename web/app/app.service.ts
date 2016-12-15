@@ -30,7 +30,7 @@ export class Service {
   addProductToCustomerCart(json: JSON) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(this.baseUrl + this.wishlistPath, json, {headers: headers})
+    this.http.post(this.baseUrl + this.wishlistPath, json, {headers: headers})
                     .map(this.extractData)
                     .catch(this.handleError)
                     .subscribe();
@@ -47,10 +47,20 @@ export class Service {
                     .map(this.extractData)
                     .catch(this.handleError);
   }
+  
   getWishlist(id: string) : Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.wishlistPath + this.customerPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
+  }
+  
+  createSalesOrder(json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.post(this.baseUrl + this.salesPath, json, {headers: headers})
+                    .map(this.extractData)
+                    .catch(this.handleError)
+                    .subscribe();
   }
 
   getSalesRepresentative(id: string): Observable<JSON> {
