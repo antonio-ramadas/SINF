@@ -5,6 +5,7 @@ import { Service } from './../app.service';
 import { Customer } from './../class/customer';
 import { Product } from './../class/product';
 import { SalesOrder } from './../class/salesorder';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import myGlobals = require('./../globals');
 
 @Component({
@@ -26,9 +27,15 @@ export class ProductComponent {
   hint = '';
   total = 1;
   errorMessage: string;
+  toastPosition = 'top-center';
 
-  constructor(private service: Service, private router: Router, private route: ActivatedRoute) {
-    
+  constructor(
+    private service: Service, 
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastyService:ToastyService,
+    private toastyConfig: ToastyConfig) {
+    this.toastyConfig.theme = 'default';
   }
 
   ngOnInit() {
@@ -56,6 +63,14 @@ export class ProductComponent {
     };
 
     this.service.addProductToCustomerCart(<JSON>json);
+
+    var toastOptions: ToastOptions = {
+        title: "Client Wishlist",
+        msg: "This product was successfully added to client " + myGlobals.idCustomer,
+        showClose: true,
+        timeout: 3000
+    };
+    this.toastyService.warning(toastOptions);
   }
 
   redirectToProductCategory(cat: string) {
