@@ -28,6 +28,15 @@ export class Customer {
       this.label2 = data['labels'][1] || "";
       this.label3 = data['labels'][2] || "";
     }
+  }
 
+  isSimilar(hint: string, categories: string[]) : boolean {
+    let sameCategories = true;
+    for (let cat of categories) {
+      if (cat != this.label1 && cat != this.label2 && cat != this.label3)
+        sameCategories = false;
+    }
+
+    return sameCategories && this.name.toLowerCase().indexOf(hint) >= 0;
   }
 }

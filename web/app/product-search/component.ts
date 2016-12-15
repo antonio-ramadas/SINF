@@ -16,6 +16,7 @@ import myGlobals = require('./../globals');
 })
 
 export class ProductSearchComponent {
+  list = ['1','2','3','4','5','6','7'];
   hint = '';
   category = '';
 
@@ -80,6 +81,11 @@ export class ProductSearchComponent {
       }
     }
 
+    this.list = [];
+    for (var i = 0; i < this.productSearch.length; i++) {
+      this.list.push(i.toString());
+    }
+
     this.totalItems = this.productSearch.length;
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.products = this.productSearch.slice(start, start+this.itemsPerPage);
@@ -102,6 +108,10 @@ export class ProductSearchComponent {
   }
 
   productsToDisplay() {
+    this.list = [];
+    for (var i = 0; i < this.productsTotal.length; i++) {
+      this.list.push(i.toString());
+    }
     this.totalItems = this.productsTotal.length;
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.products = this.productsTotal.slice(start, start+this.itemsPerPage);

@@ -6,6 +6,7 @@ import { Service } from './../app.service';
 import { Customer } from './../class/customer';
 import { Cart } from './../class/cart';
 import { CartLine } from './../class/cartline';
+import myGlobals = require('./../globals');
 
 @Component({
   selector: 'wishlist',
@@ -42,12 +43,44 @@ export class CartComponent {
   }
 
   removeLine(productId: string) {
-    console.log("TODO API call");
     for (let i = 0; i < this.carts.length; i++) {
       if (productId == this.carts[i].productID) {
         this.carts.splice(i, 1);
+        this.removeWish(i);
       }
     }
+  }
+
+  removeWish(i: number) {
+    let json;
+    json = {
+      "customerId": this.id,
+      "productId" : this.carts[i].productID
+    };
+
+    this.service.removeWish(<JSON> json);
+  }
+
+  createSalesOrder() {
+    let json;
+    let arr = [];
+    for (let cart of this.carts) {
+      if (cart.active) {
+        arr.push({
+          "CodArtigo": cart.productID,
+          "Quantidade": cart.quantity,
+          "PrecoUnitario": cart.sellingPrice,
+          "Desconto": "0"
+        });
+      }
+    }
+    json = {
+      "entity": this.id,
+      "salesRep": myGlobals.idSales,
+      "LinhasDoc" : arr
+    };
+
+    this.service.createSalesOrder(<JSON> json);
   }
 
   updateTotal() {

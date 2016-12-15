@@ -30,12 +30,13 @@ export class Service {
   addProductToCustomerCart(json: JSON) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(this.baseUrl + this.wishlistPath, json, {headers: headers})
+    this.http.post(this.baseUrl + this.wishlistPath, json, {headers: headers})
                     .map(this.extractData)
-                    .catch(this.handleError);
+                    .catch(this.handleError)
+                    .subscribe();
   }
 
-  getLabels() : Observable<JSON[]> {
+  getLabels() : Observable<string[]> {
     return this.http.get(this.baseUrl + this.customerPath + this.labelsPath)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -46,14 +47,33 @@ export class Service {
                     .map(this.extractData)
                     .catch(this.handleError);
   }
+  
   getWishlist(id: string) : Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.wishlistPath + this.customerPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
+  
+  removeWish(json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.post(this.baseUrl + this.wishlistPath + '/delete', json, {headers: headers})
+                    .map(this.extractData)
+                    .catch(this.handleError)
+                    .subscribe();
+  }
+  
+  createSalesOrder(json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.post(this.baseUrl + this.salesPath, json, {headers: headers})
+                    .map(this.extractData)
+                    .catch(this.handleError)
+                    .subscribe();
+  }
 
-  getSalesRepresentative(id: string): Observable<JSON> {
-    return this.http.get(this.baseUrl + this.salesRepPath + '/' + id)
+  getSalesRepresentatives(): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.salesRepPath)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
@@ -98,6 +118,12 @@ export class Service {
     this.http.put(this.baseUrl + this.customerPath + this.notesPath + '/' + id, JSON.stringify({'notes' : text}), {headers: headers})
                     .catch(this.handleError)
                     .subscribe();
+  }
+
+  getSalesRepresentative (): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.customerPath)
+                    .map(this.extractData)
+                    .catch(this.handleError);
   }
 
   getCustomers (): Observable<JSON[]> {

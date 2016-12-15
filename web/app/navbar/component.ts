@@ -8,5 +8,5 @@ import myGlobals = require('./../globals');
 })
 
 export class NavbarComponent {
-  id = myGlobals.id;
+  
 }

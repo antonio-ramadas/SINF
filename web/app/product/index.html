@@ -8,7 +8,7 @@
       </div>
       <div id="category-panel" class="sfa-panel">
         <div class="catalogue-header">
-          <a> All Products </a>
+          <a (click)="redirectToProductCategory('')"> All Products </a>
         </div>
         <div *ngFor="let category of categories" class="panel-body">
           <div class="catalogue-header">
@@ -50,7 +50,7 @@
                 </tr>
                 <tr>
                   <td><b>VAT:</b></td>
-                  <td>{{product.vat}}</td>
+                  <td>{{product.vat}}%</td>
                 </tr>
                 <tr>
                   <td><b>Sales Count:</b></td>

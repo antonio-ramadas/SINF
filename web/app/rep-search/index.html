@@ -8,18 +8,24 @@
       <table style="width:100%">
         <tr>
           <th>
-            representatives Name
+            Name
           </th>
           <th>
-            Representative Information
+            Address
+          </th>
+          <th>
+            Nationality
           </th>
         </tr>
         <tr *ngFor="let rep of reps">
           <td>
-            <a href="#">{{rep.name}}</a>
+            <a (click)="redirect('/dashboard/sales-rep/' + rep.id)">{{rep.name}}</a>
           </td>
           <td>
-            {{rep.info}}
+            {{rep.address}}
+          </td>
+          <td>
+            {{rep.nationality}}
           </td>
         </tr>
       </table>

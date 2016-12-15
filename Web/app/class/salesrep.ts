@@ -20,4 +20,8 @@ export class SalesRepresentative {
     this.gender = data['gender'];
     this.active = data['active'];
   }
+
+  isSimilar(hint: string): boolean {
+    return this.name.toLowerCase().indexOf(hint) >= 0;
+  }
 }
