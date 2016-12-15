@@ -1200,8 +1200,9 @@ namespace SFA_REST.Lib_Primavera
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
-            string ID = "{" + line.id + "}";
-            PriEngine.Engine.CRM.PropostasOPV.EditaLinhas(line.id, 1);
+            //string ID = "{" + line.id + "}";
+            string ID = line.id;
+            
 
             try
             {
@@ -1212,9 +1213,25 @@ namespace SFA_REST.Lib_Primavera
                         erro.Erro = 1;
                         erro.Descricao = "The Lead doesn't exist.";
                         return erro;
+                    } 
+                    //CrmBELinhasPropostaOPV linhas = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal));
+                    CrmBEPropostaOPV linhita = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal), true);
+                    string id = line.id.Replace("{", "").Replace("}", "");
+                    short proposal = short.Parse(line.numberProposal);
+                    CrmBELinhasPropostaOPV linhas = linhita.get_Linhas();
+                    int size = linhas.NumItens;
+                    int lineInt = 1;
+                    foreach (CrmBELinhaPropostaOPV lin in linhas)
+                    {
+                        int dbgLine = lin.get_Linha();
+                        string numberLine = line.numberLine;
+                        if (lin.get_Linha() == short.Parse(line.numberLine))
+                        {
+                            linhas.Remove(dbgLine);
+                        }
                     }
-                    CrmBELinhasPropostaOPV linhas = PriEngine.Engine.CRM.PropostasOPV.EditaLinhas(line.id, short.Parse(line.numberProposal));
-                    linhas.Remove(short.Parse(line.numberLine));
+                    size = linhas.NumItens;
+                    
                     CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(line.id, short.Parse(line.numberProposal), true);
                     prop.set_Linhas(linhas);
                     PriEngine.Engine.CRM.PropostasOPV.Actualiza(prop);
@@ -1232,6 +1249,7 @@ namespace SFA_REST.Lib_Primavera
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+                throw ex;
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
@@ -1252,8 +1270,8 @@ namespace SFA_REST.Lib_Primavera
                 while (!objList.Vazia())
                 {
                     id = objList.Valor("IdOportunidade");
-                    numProposta = objList.Valor("NumProposta");
-                    line = objList.Valor("Linha");
+                    numProposta = "" + objList.Valor("NumProposta");
+                    line = "" + objList.Valor("Linha");
                     cartLine = new Lib_Primavera.Model.Cart.CartLine();
                     cartLine.id = id;
                     cartLine.numberProposal = numProposta;
