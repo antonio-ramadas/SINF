@@ -22,6 +22,7 @@ export class ProductSearchComponent {
   public totalItems:number = 30;
   public currentPage:number = 1;
   public itemsPerPage:number = 6;
+  public maxSize:number = 6;
 
   public pageChanged(event:any):void {
     this.currentPage = event.page;
