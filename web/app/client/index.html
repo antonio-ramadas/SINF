@@ -81,11 +81,30 @@
               </div>
             </div>
           </div>
-                <button class="btn btn-success" type="button" (click)="redirect('/cart/' + customer.id)">Go to customer cart</button>
-                <button class="btn btn-success" type="button" (click)="signInCustomer()">Sign in as this customer</button>
+            <button class="btn btn-info" type="button" (click)="redirect('/cart/' + customer.id)">Go to customer cart</button>
+            <button class="btn btn-warning" type="button" (click)="signInCustomer()">Sign in as this customer</button>
         </div>
       </div>
 
+      <div class="sfa-panel">
+        <div class="title"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Visits History</div>
+        <div id="visits">
+          <table id="visits-table">
+            <tr>
+              <th>
+                Date
+              </th>
+              <th>
+                Summary
+              </th>
+            </tr>
+            <tr *ngFor="let visit of visits">
+              <td>{{visit.date}}</td>
+              <td>{{visit.summary}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
 
     <div class="col-xs-12 col-md-3">

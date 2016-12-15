@@ -205,3 +205,25 @@ table th {
   cursor: pointer;
   background-color: #EEEEEE;
 }
+
+#visits {
+  max-height: 20rem;
+  overflow-y: scroll;
+}
+
+#visits-table {
+  width: 100%;
+}
+
+#visits-table tr:hover td {
+  cursor: pointer;
+  background-color: #EEEEEE;
+}
+
+#visits-table th {
+    background-color: #222222;
+}
+
+#visits-table {
+  border-left: 0;
+}
