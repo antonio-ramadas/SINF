@@ -24,7 +24,7 @@ namespace SFA_REST.Controllers
         }
 
         /// <summary>
-        ///   PUT method to register an user
+        ///   GET method to register an user
         /// </summary>
         /// <returns> true if the user and password match. False if they don't match </returns>
         [Route("api/register/{user}/{email}/{password}/{password_confirmation}")]
@@ -37,6 +37,15 @@ namespace SFA_REST.Controllers
             return false;
         }
 
-        
+        /// <summary>
+        ///   PUT method to register an user
+        /// </summary>
+        /// <returns> true if the user and password match. False if they don't match </returns>
+        [Route("api/isadmin/{id}")]
+        [HttpGet]
+        public bool isAdmin(string id)
+        {
+            return Lib_Primavera.PriEngine.isAdmin(id);
+        }
     }
 }
