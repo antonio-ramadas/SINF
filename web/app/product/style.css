@@ -164,6 +164,23 @@ tr:nth-child(even) {
   border-radius: 2px;
   margin: 1rem;
   padding: 1rem;
+  color: black;
+}
+
+.order-history-item > a {
+  color: black;
+  text-decoration: none;
+}
+
+.order-history-item:hover > a{
+  cursor: pointer;
+  color: #71A4FC;
+}
+
+.order-history-item:hover {
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
 }
 
 #info-table {
