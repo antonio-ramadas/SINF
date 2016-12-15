@@ -123,7 +123,7 @@ export class ClientComponent implements OnInit {
   getLabels() {
     this.service.getLabels()
           .subscribe(
-          labels => {this.labels = labels; console.log(labels);},
+          labels => this.labels = labels,
           error => this.errorMessage = <any>error);
   }
 

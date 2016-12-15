@@ -120,8 +120,8 @@ export class Service {
                     .subscribe();
   }
 
-  getSalesRepresentative (): Observable<JSON[]> {
-    return this.http.get(this.baseUrl + this.customerPath)
+  getSalesRepresentativeById (id: string): Observable<JSON> {
+    return this.http.get(this.baseUrl + this.salesRepPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
   }

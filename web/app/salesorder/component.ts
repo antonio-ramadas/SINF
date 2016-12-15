@@ -48,7 +48,7 @@ export class SalesOrderComponent implements OnInit {
         sale => this.customer = new Customer(sale),
         error => this.errorMessage = <any>error);
 
-    this.service.getSalesRepresentative(this.salesOrder.salesRep)
+    this.service.getSalesRepresentativeById(this.salesOrder.salesRep)
         .subscribe(
         sale => this.salesRep = new SalesRepresentative(sale),
         error => this.errorMessage = <any>error);
