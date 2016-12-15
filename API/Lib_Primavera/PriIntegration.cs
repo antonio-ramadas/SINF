@@ -2204,8 +2204,6 @@ namespace SFA_REST.Lib_Primavera
 
         public static int GetTotalSalesNumByCategories(string salesRepId)
         {
-            
-
             if (PriEngine.isOpen())
             {
                 string query = "SELECT Count(Familias.Familia) as Contagem "+
@@ -2267,6 +2265,32 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
+        public static IEnumerable<Model.SalesRepresentative> GetTopSalesRep(string number)
+        {
+            StdBELista obj;
+            List<Model.SalesRepresentative> listSalesRepresentative = new List<Model.SalesRepresentative>();
+
+            if (PriEngine.isOpen() == true)
+            {
+                string query = "SELECT TOP " + number + " Vendedor, Nome, s.Number FROM VENDEDORES INNER JOIN (SELECT Responsavel, count(*) as Number FROM CabecDoc GROUP BY Responsavel) s ON s.Responsavel = Vendedor ORDER BY s.Number DESC";
+                obj = PriEngine.Engine.Consulta(query);
+
+                while (!obj.NoFim())
+                {
+                    listSalesRepresentative.Add(new Model.SalesRepresentative
+                    {
+                        id = obj.Valor("Vendedor"),
+                        name = obj.Valor("Nome")
+                    });
+                    obj.Seguinte();
+
+                }
+
+                return listSalesRepresentative;
+            }
+            else
+                return null;
+        }
 
 
         #endregion Stats
