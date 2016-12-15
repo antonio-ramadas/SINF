@@ -36,7 +36,7 @@ export class Service {
                     .subscribe();
   }
 
-  getLabels() : Observable<JSON[]> {
+  getLabels() : Observable<string[]> {
     return this.http.get(this.baseUrl + this.customerPath + this.labelsPath)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -52,6 +52,15 @@ export class Service {
     return this.http.get(this.baseUrl + this.wishlistPath + this.customerPath + '/' + id)
                     .map(this.extractData)
                     .catch(this.handleError);
+  }
+  
+  removeWish(json: JSON) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    this.http.post(this.baseUrl + this.wishlistPath + '/delete', json, {headers: headers})
+                    .map(this.extractData)
+                    .catch(this.handleError)
+                    .subscribe();
   }
   
   createSalesOrder(json: JSON) {

@@ -18,6 +18,8 @@ export class ClientSearchComponent {
 
   customers = [];
   customersTotal = [];
+  customersSearch = [];
+  categories = [];
   id: string;
   errorMessage: string;
   hint = '';
@@ -29,6 +31,24 @@ export class ClientSearchComponent {
   eventHandler(event) {
    //console.log(event, event.keyCode, event.keyIdentifier);
    //console.log(this.hint);
+   this.hint = this.hint.toLowerCase();
+   this.searchCustomer();
+  }
+
+  selectCategory(id: string) {
+    let found = false;
+    for (var i = 0; i < this.categories.length && !found; i++) {
+      if (this.categories[i] == id) {
+        this.categories.slice(i, 1);
+        found = true;
+      }
+    }
+
+    if (!found) {
+      this.categories.push(id);
+    }
+
+    this.searchCustomer();
   }
 
   public pageChanged(event:any):void {
@@ -38,7 +58,7 @@ export class ClientSearchComponent {
     this.customersToDisplay();
   };
 
-  constructor(private route: ActivatedRoute, private service: Service) {
+  constructor(private router: Router, private route: ActivatedRoute, private service: Service) {
 
   }
 
@@ -46,7 +66,34 @@ export class ClientSearchComponent {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.getCustomers();
+      this.getLabels();
     });
+  }
+
+  redirect(path: string) {
+    this.router.navigate([path]);
+  }
+
+  getLabels() {
+    this.service.getLabels()
+      .subscribe(
+        labels => this.groups = labels,
+        error => this.errorMessage = <any>error);
+  }
+
+  searchCustomer() {
+    this.customers = [];
+    this.customersSearch = [];
+
+    for (let c of this.customersTotal) {
+      if (c.isSimilar(this.hint, this.categories)) {
+        this.customersSearch.push(c);
+      }
+    }
+
+    this.totalItems = this.customersSearch.length;
+    let start = (this.currentPage-1)*this.itemsPerPage;
+    this.customers = this.customersSearch.slice(start, start+this.itemsPerPage);
   }
 
   getCustomers() {
@@ -61,7 +108,7 @@ export class ClientSearchComponent {
     for (var i = 0; i < this.customersTotal.length; i++) {
       this.list.push(i.toString());
     }
-    console.log(this.currentPage);
+    
     let start = (this.currentPage-1)*this.itemsPerPage;
     this.customers = this.customersTotal.slice(start, start+this.itemsPerPage);
   }
