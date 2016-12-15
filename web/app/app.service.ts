@@ -75,10 +75,8 @@ export class Service {
                     .catch(this.handleError);
   }
   
-  removeWish(json: JSON) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    this.http.post(this.baseUrl + this.wishlistPath + '/delete', json, {headers: headers})
+  removeWish(id: string, product: string) {
+    this.http.delete(this.baseUrl + this.wishlistPath + '/' + id + '/' + product)
                     .map(this.extractData)
                     .catch(this.handleError)
                     .subscribe();

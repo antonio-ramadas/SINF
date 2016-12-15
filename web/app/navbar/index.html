@@ -13,15 +13,15 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li id="client"> <a href="#"> Serving Client: <b> Client Id </b> </a> </li>
+        <li id="client"> <a (click)="redirect('/client/' + customerId)"> Serving Client: <b> Client {{customerId}} </b> </a> </li>
         <li class="dropdown" dropdown>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle>Go To! <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Search Products</a></li>
-            <li><a href="#">Search Clients</a></li>
-            <li><a href="#">Search Sales Representative</a></li>
+            <li><a (click)="redirect('/product-search')">Search Products</a></li>
+            <li><a (click)="redirect('/client-search')">Search Clients</a></li>
+            <li *ngIf="manager"><a (click)="redirect('/rep-search')">Search Sales Representative</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="dashboard/manager/{{id}}">My Dashboard</a></li>
+            <li><a *ngIf="manager" (click)="redirect('dashboard/manager/' + id)">My Dashboard</a><a *ngIf="!manager" (click)="redirect('dashboard/sales-rep/' + id)">My Dashboard</a></li>
           </ul>
         </li>
       </ul>

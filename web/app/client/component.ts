@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Service } from './../app.service';
 import { SalesOrder } from './../class/salesorder';
 import { Customer } from './../class/customer';
+import { NavbarComponent } from './../navbar/component';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import myGlobals = require('./../globals');
 
@@ -155,6 +156,7 @@ export class ClientComponent implements OnInit {
 
   signInCustomer() {
     myGlobals.idCustomer = this.id;
+    NavbarComponent.updateCustomer();
     var toastOptions: ToastOptions = {
         title: "Sign In",
         msg: "You signed in as the costumer " + this.id,

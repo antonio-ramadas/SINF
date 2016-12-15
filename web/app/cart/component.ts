@@ -49,13 +49,7 @@ export class CartComponent {
   }
 
   removeWish(i: number) {
-    let json;
-    json = {
-      "customerId": this.id,
-      "productId" : this.carts[i].productID
-    };
-
-    this.service.removeWish(<JSON> json);
+    this.service.removeWish(this.id, this.carts[i].productID);
   }
 
   handleSalesOrder() {
