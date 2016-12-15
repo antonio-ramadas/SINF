@@ -439,7 +439,7 @@ namespace SFA_REST.Lib_Primavera
             GcpBEArtigo objArtigo = new GcpBEArtigo();
             GcpBEArtigoMoeda objArtigoMoeda = new GcpBEArtigoMoeda();
             Model.Product myProd = new Model.Product();
-            double iva;
+            double discount;
             if (PriEngine.isOpen())
             {
                 if (PriEngine.Engine.Comercial.Artigos.Existe(productId) == false)
@@ -466,8 +466,10 @@ namespace SFA_REST.Lib_Primavera
                     else
                     {
                         objArtigoMoeda = PriEngine.Engine.Comercial.ArtigosPrecos.Edita(productId, CURRENCY, UNIT);
-                        myProd.price = objArtigoMoeda.get_PVP1();
+                        discount = (1 - objArtigo.get_Desconto() / 100);
+                        myProd.price = objArtigoMoeda.get_PVP1()*discount;
                         myProd.priceWithVat = objArtigoMoeda.get_PVP1IvaIncluido() ? objArtigoMoeda.get_PVP1() : (objArtigoMoeda.get_PVP1() * (1 + myProd.vat/100 ) );
+                        myProd.priceWithVat *= discount;
                     }
 
                     myProd.quantity = PriEngine.Engine.Comercial.ArtigosArmazens.DaStockArtigo(productId);
@@ -854,11 +856,11 @@ namespace SFA_REST.Lib_Primavera
 
         #region Customervisits
 
-        public static List<Model.Visits> ListVisits()
+        public static List<Model.Visit> ListVisits()
         {
             StdBELista obj;
 
-            List<Model.Visits> listvisits = new List<Model.Visits>();
+            List<Model.Visit> listvisits = new List<Model.Visit>();
             try
             {
                 if (PriEngine.isOpen())
@@ -869,14 +871,17 @@ namespace SFA_REST.Lib_Primavera
 
                     while (!obj.NoFim())
                     {
-                        listvisits.Add(new Model.Visits
+                        listvisits.Add(new Model.Visit
                         {
                             id = obj.Valor("Id"),
-                            customerID = obj.Valor("EntidadePrincipal"),
-                            representativeID = obj.Valor("Utilizador"),
-                            date = obj.Valor("DataInicio").tostring(),
+                            customerId = obj.Valor("EntidadePrincipal"),
+                            representativeId = obj.Valor("Utilizador"),
+                            beginDate = obj.Valor("DataInicio"),
+                            endDate = obj.Valor("DataFim"),
                             summary = obj.Valor("Resumo"),
-                            notes = obj.Valor("Descricao")
+                            description = obj.Valor("Descricao"),
+                            location = obj.Valor("LocalRealizacao"),
+                            priority = obj.Valor("Prioridade")
                         });
                         obj.Seguinte();
                     }
@@ -892,37 +897,43 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.Visits GetVisit(string id)
+        public static Lib_Primavera.Model.Visit GetVisit(string id)
         {
             if (PriEngine.isOpen() == true)
             {
-                if (PriEngine.Engine.Comercial.Clientes.Existe(id))
-                {
-                    string query = "select * from Tarefas where Id = '" + id + "'";
-                    StdBELista obj = PriEngine.Engine.Consulta(query);
+                
+                string query = "select * from Tarefas where Id = '" + id + "'";
+                StdBELista obj = PriEngine.Engine.Consulta(query);
 
-                    if (!obj.Vazia())
-                    {
-                        Model.Visits myVisits;
-                        myVisits = new Model.Visits
-                        {
-                            id = obj.Valor("Id"),
-                            customerID = obj.Valor("EntidadePrincipal"),
-                            representativeID = obj.Valor("Utilizador"),
-                            date = obj.Valor("DataInicio").tostring(),
-                            summary = obj.Valor("Resumo"),
-                            notes = obj.Valor("Descricao")
-                        };
-                        return myVisits;
-                    }
+                if (obj.Vazia())
+                {
                     return null;
                 }
+
+                if (!obj.Vazia())
+                {
+                    Model.Visit myVisits;
+                    myVisits = new Model.Visit
+                    {
+                        id = obj.Valor("Id"),
+                        customerId = obj.Valor("EntidadePrincipal"),
+                        representativeId = obj.Valor("Utilizador"),
+                        beginDate = obj.Valor("DataInicio"),
+                        endDate = obj.Valor("DataFim"),
+                        summary = obj.Valor("Resumo"),
+                        description = obj.Valor("Descricao"),
+                        location = obj.Valor("LocalRealizacao"),
+                        priority = obj.Valor("Prioridade")
+                    };
+                    return myVisits;
+                }
                 return null;
+                
             }
             return null;
         }
 
-        public static Lib_Primavera.Model.ErrorResponse CreateVisit(Model.Visits visit)
+        public static Lib_Primavera.Model.ErrorResponse CreateVisit(Model.Visit visit)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
@@ -934,11 +945,14 @@ namespace SFA_REST.Lib_Primavera
                 {
                     myVisit.set_ID(visit.id);
                     myVisit.set_IDTipoActividade("9f832b71-08cf-4b4d-a31a-aa9c834e058e");
-                    myVisit.set_EntidadePrincipal(visit.customerID);
-                    myVisit.set_Utilizador(visit.representativeID);
-                    myVisit.set_DataInicio(Convert.ToDateTime(visit.date));
-                    myVisit.set_DataFim(Convert.ToDateTime(visit.date));
+                    myVisit.set_EntidadePrincipal(visit.customerId);
+                    myVisit.set_Utilizador(visit.representativeId);
+                    myVisit.set_DataInicio(visit.beginDate);
+                    myVisit.set_DataFim(visit.endDate);
                     myVisit.set_Resumo(visit.summary);
+                    myVisit.set_Descricao(visit.description);
+                    myVisit.set_Prioridade(visit.priority+"");
+                    myVisit.set_LocalRealizacao(visit.location);
 
                     PriEngine.Engine.CRM.Actividades.Actualiza(myVisit);
                     erro.Erro = 0;
@@ -960,6 +974,43 @@ namespace SFA_REST.Lib_Primavera
                 return erro;
             }
 
+        }
+
+        public static IEnumerable<Model.Visit> GetVisitsToClient(string clientId)
+        {
+            List<Model.Visit> list = new List<Model.Visit>();
+             Model.Visit myVisits;
+
+            if (PriEngine.isOpen())
+            {
+                if (PriEngine.Engine.Comercial.Clientes.Existe(clientId))
+                {
+                    string query = "SELECT * FROM Tarefas WHERE EntidadePrincipal = '" + clientId + "'";
+                    StdBELista obj = PriEngine.Engine.Consulta(query);
+
+                    while (!obj.Vazia())
+                    {
+                        myVisits = new Model.Visit
+                        {
+                            id = obj.Valor("Id"),
+                            customerId = obj.Valor("EntidadePrincipal"),
+                            representativeId = obj.Valor("Utilizador"),
+                            beginDate = obj.Valor("DataInicio"),
+                            endDate = obj.Valor("DataFim"),
+                            summary = obj.Valor("Resumo"),
+                            description = obj.Valor("Descricao")
+                        };
+                        list.Add(myVisits);
+                    }
+                    return list;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         #endregion Customervisits
@@ -1316,6 +1367,8 @@ namespace SFA_REST.Lib_Primavera
                 dv.numDoc = objListCab.Valor("NumDoc");
                 dv.date = objListCab.Valor("Data");
                 dv.totalMerc = objListCab.Valor("TotalMerc");
+                dv.totalVat = objListCab.Valor("TotalIva");
+                dv.totalWithVat = dv.totalMerc + dv.totalVat;
                 dv.serie = objListCab.Valor("Serie");
                 dv.salesRep = objListCab.Valor("Responsavel");
                 objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
@@ -1494,12 +1547,12 @@ namespace SFA_REST.Lib_Primavera
 
         #region RoutesCalendar
 
-        public static IEnumerable<Model.Task> ListRoutes(string salesRepId)
+        public static IEnumerable<Model.Visit> ListRoutes(string salesRepId)
         {
-            
 
-            List<Model.Task> list = new List<Model.Task>();
-            Model.Task task;
+
+            List<Model.Visit> list = new List<Model.Visit>();
+            Model.Visit visit;
 
 
             if (Lib_Primavera.PriEngine.isOpen())
@@ -1509,18 +1562,18 @@ namespace SFA_REST.Lib_Primavera
 
                 while (!objList.NoFim())
                 {
-                    task = new Model.Task();
-                    task.id = objList.Valor("Id");
-                    task.priority = objList.Valor("Prioridade");
-                    task.summary = objList.Valor("Resumo");
-                    task.description = objList.Valor("Descricao");
-                    task.clientId = objList.Valor("EntidadePrincipal");
-                    task.beginDate = objList.Valor("DataInicio");
-                    task.endDate = objList.Valor("DataFim");
-                    task.location = objList.Valor("LocalRealizacao");
-                    task.salesmanId = objList.Valor("ResponsavelPor");
+                    visit = new Model.Visit();
+                    visit.id = objList.Valor("Id");
+                    visit.priority = objList.Valor("Prioridade");
+                    visit.summary = objList.Valor("Resumo");
+                    visit.description = objList.Valor("Descricao");
+                    visit.customerId = objList.Valor("EntidadePrincipal");
+                    visit.beginDate = objList.Valor("DataInicio");
+                    visit.endDate = objList.Valor("DataFim");
+                    visit.location = objList.Valor("LocalRealizacao");
+                    visit.representativeId = objList.Valor("ResponsavelPor");
 
-                    list.Add(task);
+                    list.Add(visit);
                                                 
                     objList.Seguinte();
                 }
@@ -1534,10 +1587,10 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
-        public static IEnumerable<Model.Task> ListRoutesAfterDate(string salesRepId, DateTime date)
+        public static IEnumerable<Model.Visit> ListRoutesAfterDate(string salesRepId, DateTime date)
         {
-            List<Model.Task> list = new List<Model.Task>();
-            Model.Task task;
+            List<Model.Visit> list = new List<Model.Visit>();
+            Model.Visit visit;
 
 
             if (Lib_Primavera.PriEngine.isOpen())
@@ -1547,18 +1600,18 @@ namespace SFA_REST.Lib_Primavera
 
                 while (!objList.NoFim())
                 {
-                    task = new Model.Task();
-                    task.id = objList.Valor("Id");
-                    task.priority = objList.Valor("Prioridade");
-                    task.summary = objList.Valor("Resumo");
-                    task.description = objList.Valor("Descricao");
-                    task.clientId = objList.Valor("EntidadePrincipal");
-                    task.beginDate = objList.Valor("DataInicio");
-                    task.endDate = objList.Valor("DataFim");
-                    task.location = objList.Valor("LocalRealizacao");
-                    task.salesmanId = objList.Valor("ResponsavelPor");
+                    visit = new Model.Visit();
+                    visit.id = objList.Valor("Id");
+                    visit.priority = objList.Valor("Prioridade");
+                    visit.summary = objList.Valor("Resumo");
+                    visit.description = objList.Valor("Descricao");
+                    visit.customerId = objList.Valor("EntidadePrincipal");
+                    visit.beginDate = objList.Valor("DataInicio");
+                    visit.endDate = objList.Valor("DataFim");
+                    visit.location = objList.Valor("LocalRealizacao");
+                    visit.representativeId = objList.Valor("ResponsavelPor");
 
-                    list.Add(task);
+                    list.Add(visit);
 
                     objList.Seguinte();
                 }
