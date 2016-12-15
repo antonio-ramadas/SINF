@@ -751,6 +751,12 @@
             </summary>
             <returns> List of TopCategory </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetTopSalesRep(System.String)">
+            <summary>
+              GET method for the Top SalesRepresentative of the company
+            </summary>
+            <returns> List of Top SalesRepresentative </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.RouteController.Get(System.String)">
             <summary>
               GET method for an ordered list of tasks registered in the ERP for a given sales representative.
