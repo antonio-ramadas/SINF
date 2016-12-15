@@ -127,9 +127,9 @@ namespace SFA_REST.Controllers
         /// <returns> List of Top SalesRepresentative </returns>
         [Route("api/stats/salesRep/{number}")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Stats.TopCategory> GetTopCategories(string number)
+        public IEnumerable<Lib_Primavera.Model.SalesRepresentative> GetTopSalesRep(string number)
         {
-            return Lib_Primavera.PriIntegration.GetTopSalesRep(id);
+            return Lib_Primavera.PriIntegration.GetTopSalesRep(number);
         }
     }
 }
