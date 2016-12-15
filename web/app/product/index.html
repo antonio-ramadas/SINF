@@ -84,7 +84,7 @@
             </div>
             <form id="wishlist-form" class="form-inline" (ngSubmit)="addToCustomerCart()">
               <div class="form-group">
-                <button class="form-control" class="btn btn-primary" type="submit">Add to the wishlist</button>
+                <button class="form-control" class="btn btn-primary" type="submit">Add to customer cart</button>
                 <input class="form-control" id="input-quantity" [(ngModel)]="total" type="number" name="quantity" min="0" max="{{product.stock}}" placeholder="Quantity"/>
                 <span> Total: €{{total * product.price}} </span>
               </div>
