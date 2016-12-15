@@ -44,6 +44,10 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
+        public double totalVat { get; set; }
+
+        public double totalWithVat { get; set; }
+
         public string serie
         {
             get;
@@ -57,12 +61,11 @@ namespace SFA_REST.Lib_Primavera.Model
         }
 
         public List<Model.LinhaDocVenda> LinhasDoc
-
         {
             get;
             set;
         }
- 
+
 
     }
 }

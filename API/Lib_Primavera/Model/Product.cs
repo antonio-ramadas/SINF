@@ -32,6 +32,8 @@ namespace SFA_REST.Lib_Primavera.Model
             set;
         }
 
+        public double priceWithVat { get; set; }
+
         public string description
         {
             get;

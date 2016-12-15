@@ -5,8 +5,12 @@ using System.Web;
 
 namespace SFA_REST.Lib_Primavera.Model
 {
-    public class RoutesCalendar
+    public class Lead
     {
+        public string id { get; set; }
+
+        public string observations { get; set; }
+
 
     }
 }

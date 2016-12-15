@@ -10,17 +10,6 @@ namespace SFA_REST.Controllers
 {
     public class WishlistController : ApiController
     {
-        /// <summary>
-        ///   GET method for the all the leads registered in the ERP  
-        /// </summary>
-        /// <returns> List of Leads </returns>
-        [Route("api/wishlist")]
-        [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.WishList> Get()
-        {
-            return Lib_Primavera.PriIntegration.ListWishes();
-        }
-
 
         /// <summary>
         ///   GET method for a lead in the ERP, with a given id represented as a String
@@ -39,7 +28,7 @@ namespace SFA_REST.Controllers
         /// <returns> Lead with the respective specified id </returns>
         [Route("api/wishlist/customer/{id}")]
         [HttpGet]
-        public IEnumerable<WishList> GetWishByCustomer(string id)
+        public IEnumerable<WishList.WishLine> GetWishByCustomer(string id)
         {
             return Lib_Primavera.PriIntegration.ListWishesByCustomer(id);
         }
@@ -53,7 +42,7 @@ namespace SFA_REST.Controllers
         public HttpResponseMessage Post(Lib_Primavera.Model.WishList lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-            erro = Lib_Primavera.PriIntegration.CreateLead(lead);
+            erro = Lib_Primavera.PriIntegration.CreateWish(lead);
 
             if (erro.Erro == 0)
                 return Request.CreateResponse(HttpStatusCode.Created, lead);
@@ -66,15 +55,15 @@ namespace SFA_REST.Controllers
         ///   DELETE method to erase a certain lead
         /// </summary>
         /// <returns> HttpResponse with the output from the server </returns>
-        [Route("api/wishlist/{id}")]
-        [HttpDelete]
-        public HttpResponseMessage Delete(string id)
+        [Route("api/wishlist/delete")]
+        [HttpPost]
+        public HttpResponseMessage Delete(Lib_Primavera.Model.WishList.WishLine line)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-            erro = Lib_Primavera.PriIntegration.DeleteLead(id);
+            erro = Lib_Primavera.PriIntegration.DeleteWish(line);
 
             if (erro.Erro == 0)
-                return Request.CreateResponse(HttpStatusCode.Created, id);
+                return Request.CreateResponse(HttpStatusCode.Created);
             else return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
     }

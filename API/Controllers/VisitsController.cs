@@ -17,10 +17,12 @@ namespace SFA_REST.Controllers
         /// <returns> List containing the visits' information </returns>
         [Route("api/visits")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Visits> Get()
+        public IEnumerable<Lib_Primavera.Model.Visit> Get()
         {
             return Lib_Primavera.PriIntegration.ListVisits();
         }
+
+
 
 
         /// <summary>
@@ -29,7 +31,7 @@ namespace SFA_REST.Controllers
         /// <returns> Visit with the corresponding specified id </returns>
         [Route("api/visits/{id}")]
         [HttpGet]
-        public Visits Get(string id)
+        public Visit Get(string id)
         {
             return Lib_Primavera.PriIntegration.GetVisit(id);
         }
@@ -41,7 +43,7 @@ namespace SFA_REST.Controllers
         /// <returns> HttpResponse with the output from the server </returns>
         [Route("api/visits")]
         [HttpPost]
-        public HttpResponseMessage Post(Lib_Primavera.Model.Visits visit)
+        public HttpResponseMessage Post(Lib_Primavera.Model.Visit visit)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
             erro = Lib_Primavera.PriIntegration.CreateVisit(visit);
