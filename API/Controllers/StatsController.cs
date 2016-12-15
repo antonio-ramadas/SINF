@@ -138,7 +138,7 @@ namespace SFA_REST.Controllers
         /// <returns> Money made in a year </returns>
         [Route("api/stats/year/{year}")]
         [HttpGet]
-        public int getYearTotalMerc(string year)
+        public Lib_Primavera.Model.Stats.IncomePerYear getYearTotalMerc(string year)
         {
             return Lib_Primavera.PriIntegration.getYearTotalMerc(year);
         }
