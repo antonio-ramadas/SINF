@@ -131,5 +131,16 @@ namespace SFA_REST.Controllers
         {
             return Lib_Primavera.PriIntegration.GetTopSalesRep(number);
         }
+
+        /// <summary>
+        ///   GET method for the the profits of a year
+        /// </summary>
+        /// <returns> Money made in a year </returns>
+        [Route("api/stats/year/{year}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.IncomePerYear getYearTotalMerc(string year)
+        {
+            return Lib_Primavera.PriIntegration.getYearTotalMerc(year);
+        }
     }
 }
