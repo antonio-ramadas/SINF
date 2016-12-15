@@ -15,17 +15,9 @@
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <form accept-charset="UTF-8" role="form" class="form-signin">
-                                    <fieldset>
-                                        <label class="panel-login">
-                                            <div class="login_result"></div>
-                                        </label>
-                                        <input class="form-control" placeholder="Username" id="username" type="text">
-                                        <input class="form-control" placeholder="Password" id="password" type="password">
-                                        <br>
-                                        <input class="btn btn-lg btn-success btn-block" type="submit" id="login" value="Login »">
-                                    </fieldset>
-                                </form>
+                                <input class="form-control" [(ngModel)]="user" placeholder="Username" id="username" type="text">
+                                <input class="form-control" [(ngModel)]="pass" placeholder="Password" id="password" type="password">
+                                <input class="btn btn-lg btn-success btn-block" id="login" value="Login »" (click)="submit()">
                             </div>
                         </div>
                     </div>

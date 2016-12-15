@@ -19,29 +19,29 @@
         <div class="content">
           <div class="row" id="performance-graphs">
             <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-4">
-              <doughnut-chart-demo></doughnut-chart-demo>
+              <doughnut-chart-demo [method]="1" [idSalesRep]="id"></doughnut-chart-demo>
             </div>
             <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-4">
-              <line-chart-demo></line-chart-demo>
+              <line-chart-demo [method]="1" [idSalesRep]="id"></line-chart-demo>
             </div>
             <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-offset-0 col-md-4">
-              <bar-chart-demo></bar-chart-demo>
+              <bar-chart-demo [method]="1" [idSalesRep]="id"></bar-chart-demo>
             </div>
           </div>
           <div class="row" id="performance-statistics">
             <div class="col-xs-4 lol">
               <div class="background-color-6">
-                Statistic #1
+                Top 5 Products Sold
               </div>
             </div>
             <div class="col-xs-4 lol ">
               <div class="background-color-7">
-                Statistic #2
+                Total Performance
               </div>
             </div>
             <div class="col-xs-4 lol">
               <div class="background-color-8">
-                Statistic #3
+                Total Sales flow by year
               </div>
             </div>
           </div>
@@ -57,22 +57,9 @@
           <div> Top Representatives </div>
         </div>
         <div class="content">
-          <ul class="list">
-            <li>
-              <div class="text"> Representative Name </div>
-              <div class="time"> Rating </div>
-            </li>
-            <li>
-              <div class="text"> Representative Name </div>
-              <div class="time"> Rating </div>
-            </li>
-            <li>
-              <div class="text"> Representative Name </div>
-              <div class="time"> Rating </div>
-            </li>
-            <li>
-              <div class="text"> Representative Name </div>
-              <div class="time"> Rating </div>
+          <ul id="reps-list" class="list">
+            <li *ngFor="let rep of salesRep">
+              <div class="text" (click)="redirect('/dashboard/sales-rep' + rep.id)"> {{rep.name}} </div>
             </li>
           </ul>
         </div>
@@ -80,25 +67,13 @@
 
       <div>
         <div id="products" class="title color-4">
-          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <div> Top Products </div>
+          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <div> Top Products Sold </div>
         </div>
         <div class="content">
-          <ul class="list">
-            <li>
-              <div class="text"> Product </div>
-              <div class="time"> Category </div>
-            </li>
-            <li>
-              <div class="text"> Product </div>
-              <div class="time"> Category </div>
-            </li>
-            <li>
-              <div class="text"> Product </div>
-              <div class="time"> Category </div>
-            </li>
-            <li>
-              <div class="text"> Product </div>
-              <div class="time"> Category </div>
+          <ul id="products-list" class="list">
+            <li *ngFor="let product of products">
+              <div class="text" (click)="redirect('/product/' + product.id)"> {{product.description}} </div>
+              <div class="time"> {{product.category}} </div>
             </li>
           </ul>
         </div>

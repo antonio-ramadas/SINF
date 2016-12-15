@@ -7,119 +7,76 @@
         <div id="top-information">
           <div id="header">
             <h1> Sales Order <span class="label label-success">Open</span> </h1>
+            <h5> {{salesOrder.id}} </h5>
           </div>
           <div id="client-information">
             <div class="property">
-              From:
+              From: SportZone
             </div>
             <div class="property">
-              To:
+              To: <a (click)="redirect('/client/' + customer.id)"> {{customer.name}} </a>
             </div>
             <div class="property">
-              Ship To:
+              Vendor: <a (click)="redirect('/dashboard/sales-rep/' + salesRep.id)"> {{salesRep.name}} </a>
+            </div>
+            <div class="property">
+              Ship To: {{salesOrder.address}}
             </div>
           </div>
         </div>
 
         <!-- Product Table -->
-        <div class="item-list">
-          <ul>
-            <li class="table-header">
-              <div class="row">
-                <div class="col-xs-3 product-name">
-                  Product name
-                </div>
-                <div class="col-xs-2">
-                  Product ID
-                </div>
-                <div class="col-xs-2">
-                  Price/Unit
-                </div>
-                <div class="col-xs-1">
-                  Quantity
-                </div>
-                <div class="col-xs-2">
-                  Total price
-                </div>
-                <div class="col-xs-2">
-                  Edit Buttons
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="row">
-                <div class="col-xs-3 product-name">
-                  Mac Book
-                </div>
-                <div class="col-xs-2">
-                  123
-                </div>
-                <div class="col-xs-2">
-                  1300
-                </div>
-                <div class="col-xs-1">
-                  2
-                </div>
-                <div class="col-xs-2">
-                  2600
-                </div>
-                <div class="col-xs-2">
-                  Edit
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="row">
-                <div class="col-xs-3 product-name">
-                  Mac Book
-                </div>
-                <div class="col-xs-2">
-                  123
-                </div>
-                <div class="col-xs-2">
-                  1300
-                </div>
-                <div class="col-xs-1">
-                  2
-                </div>
-                <div class="col-xs-2">
-                  2600
-                </div>
-                <div class="col-xs-2">
-                  Edit
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="row">
-                <div class="col-xs-3 product-name">
-                  Mac Book
-                </div>
-                <div class="col-xs-2">
-                  123
-                </div>
-                <div class="col-xs-2">
-                  1300
-                </div>
-                <div class="col-xs-1">
-                  2
-                </div>
-                <div class="col-xs-2">
-                  2600
-                </div>
-                <div class="col-xs-2">
-                  Edit
-                </div>
-              </div>
-            </li>
-          </ul>
+        <div id="table">
+          <table style="width:100%">
+            <tr>
+              <th>
+                Product Name
+              </th>
+              <th>
+                Source
+              </th>
+              <th>
+                Product ID
+              </th>
+              <th>
+                Price/Unit
+              </th>
+              <th>
+                Quantity
+              </th>
+              <th>
+                Total Price
+              </th>
+            </tr>
+            <tr *ngFor=" let line of salesOrder.lines">
+              <td>
+                {{line.descArtigo}}
+              </td>
+              <td>
+                <div class="label label-primary sfa-label"> client </div>
+                <div class="label label-success sfa-label"> admin </div>
+                <div class="label label-danger sfa-label"> vendor </div>
+              </td>
+              <td>
+                <a (click)="redirect('/product/' + line.codArtigo)">{{line.codArtigo}}</a>
+              </td>
+              <td>
+                {{line.precoUnitario}}
+              </td>
+              <td>
+                {{line.quantidade}}
+              </td>
+              <td>
+                {{line.precoUnitario * line.quantidade}}
+              </td>
+            </tr>
+          </table>
         </div>
 
         <!-- Sales Order Footer -->
         <div id="footer">
-          <button type="button" name="button" class="btn btn-primary">Checkout</button>
           <div id="total">
-            <strong> Total: 7800 </strong>
+            <strong> Total: €{{salesOrder.total}} </strong>
           </div>
         </div>
 

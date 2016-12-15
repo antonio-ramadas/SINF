@@ -121,3 +121,15 @@
 #performance-statistics {
   padding: 2rem;
 }
+
+#reps-list > li:hover {
+  cursor: pointer;
+  color: #51C552;
+  background-color: #EEEEEE;
+}
+
+#products-list > li:hover {
+  cursor: pointer;
+  color: #FFC479;
+  background-color: #EEEEEE;
+}

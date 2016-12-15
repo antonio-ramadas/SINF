@@ -6,3 +6,11 @@ nav {
   z-index: 1;
   border-radius: 0;
 }
+
+#navbar {
+  z-index: 10;
+}
+
+#client:hover {
+  background-color: #EEEEEE;
+}

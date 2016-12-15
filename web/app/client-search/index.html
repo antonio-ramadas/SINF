@@ -1,0 +1,43 @@
+<div class="main container">
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="sfa-panel">
+        <div class="">
+          <h3>Client Subgroups</h3>
+          <div *ngFor="let group of groups" class="checkbox group">
+            <label><input type="checkbox" (click)="selectCategory(group)" value="">{{group}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-9">
+      <div id="search-bar-group" class="input-group input-group-md">
+        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+        <input type="text" [(ngModel)]="hint" (keyup)="eventHandler($event)" class="form-control" placeholder="Search for Client" aria-describedby="sizing-addon1">
+      </div>
+      <div id="table">
+        <table style="width:100%">
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Nationality
+            </th>
+          </tr>
+          <tr *ngFor="let customer of customers">
+            <td>
+              <a (click)="redirect('/client/' + customer.id)">{{customer.name}}</a>
+            </td>
+            <td>
+              {{customer.nationality}}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="pagination">
+        <pagination class="pagination-lg" [maxSize]="maxSize" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

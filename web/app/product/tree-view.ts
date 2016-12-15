@@ -1,12 +1,15 @@
 import { Component, Input} from '@angular/core';
-import { Item } from './Item';
+import { Item } from './item';
 
 @Component({
   selector: 'tree-view',
   template: `
   <ul class="catalogue-list">
+    <li>
+      <a> {{root.description}} </a>
+    </li>
     <li *ngFor="let item of root.children">
-      <a> {{item.name}} </a>
+      <a> {{item.description}} </a>
       <span *ngIf="item.children.length != 0">
         <tree-view [root]="item"> </tree-view>
       </span>
@@ -22,5 +25,9 @@ import { Item } from './Item';
 })
 export class TreeViewComponent{
   @Input()
-  root: Item;
+  public root: Item;
+  
+  constructor(){
+    console.log(this.root);
+  }
 }

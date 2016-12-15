@@ -1,0 +1,46 @@
+<div class="main container">
+  <div class="row">
+    <div class="col-xs-3">
+      <div id="category-panel" class="sfa-panel">
+        <div class="catalogue-header">
+          <a (click)="selectCategory('')"> All Products </a>
+        </div>
+        <div *ngFor="let category of categories" class="panel-body">
+          <div class="catalogue-header">
+            <a (click)="selectCategory(category.family)"> {{category.description}} </a>
+          </div>
+          <ul>
+            <li *ngFor="let item of category.children" class="catalogue-list">
+              <a (click)="selectCategory(item.family)"> {{item.description}} </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-9">
+      <div id="search-bar-group" class="input-group input-group-md">
+        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+        <input type="text" [(ngModel)]="hint" (keyup)="eventHandler($event)" class="form-control" placeholder="Search for Product" aria-describedby="sizing-addon1">
+      </div>
+      <div class="row">
+        <div id="category-title" class="col-xs-12">
+          <h3>Category</h3>
+        </div>
+        <div *ngFor="let product of products" class="col-md-4 col-xs-6">
+          <div class="product-panel sfa-panel" (click)="redirect('/product/' + product.id)">
+            <a class="product-image"><img class="img" src="./app/img/{{product.imageUrl}}" alt=""></a>
+            <div class="product-name">
+              <div>{{product.description}}</div>
+            </div>
+            <div class="price">
+              € {{product.price}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="pagination">
+        <pagination class="pagination-lg" [totalItems]="totalItems" [maxSize]="maxSize" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Item } from './Item';
 import { Service } from './../app.service';
 import { Customer } from './../class/customer';
 import { Product } from './../class/product';
+import { SalesOrder } from './../class/salesorder';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import myGlobals = require('./../globals');
 
 @Component({
   selector: 'product',
@@ -11,7 +14,7 @@ import { Product } from './../class/product';
   templateUrl: 'index.html',
   styleUrls: ['style.css'],
   providers: [Service],
-  inputs: ['hint']
+  inputs: ['hint', 'total']
 })
 
 export class ProductComponent {
@@ -20,12 +23,19 @@ export class ProductComponent {
   categories = [];
   history = [];
   search = [];
-  product = {};
+  product: Product = new Product(JSON.parse("{}"));
   hint = '';
+  total = 1;
   errorMessage: string;
-  images = ["https://www.google.com","image2","image3","image4"];
+  toastPosition = 'top-center';
 
-  constructor(private service: Service, private route: ActivatedRoute){
+  constructor(
+    private service: Service, 
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastyService:ToastyService,
+    private toastyConfig: ToastyConfig) {
+    this.toastyConfig.theme = 'default';
   }
 
   ngOnInit() {
@@ -37,13 +47,36 @@ export class ProductComponent {
     });
   }
 
-  eventHandler(event) {
-   //console.log(event, event.keyCode, event.keyIdentifier);
-   this.service.getCustomerByName(this.hint + event.key)
-                    .subscribe(
-                       suggestions => this.search = suggestions,
-                       error =>  this.errorMessage = <any>error);
-} 
+  addToCustomerCart() {
+    let json;
+    json = {
+      "customerID": myGlobals.idCustomer,
+      "description": this.product.description,
+      "salesRepID": myGlobals.idSales,
+      "lines": [{
+        "productID": this.product.id,
+        "description": this.product.description,
+        "quantity": this.total.toString(),
+        "costPrice": this.product.price.toString(),
+        "sellingPrice": this.product.price.toString()
+      }]
+    };
+
+    this.service.addProductToCustomerCart(<JSON>json);
+
+    var toastOptions: ToastOptions = {
+        title: "Client Wishlist",
+        msg: "This product was successfully added to client " + myGlobals.idCustomer,
+        showClose: true,
+        timeout: 3000
+    };
+    this.toastyService.warning(toastOptions);
+  }
+
+  redirectToProductCategory(cat: string) {
+    myGlobals.productCategory = cat;
+    this.router.navigate(["/product-search"]);
+  }
 
   getHistory() {
     this.service.getSalesHistoryByProduct(this.id, '30')
@@ -64,5 +97,9 @@ export class ProductComponent {
                     .subscribe(
                        product => {this.product = new Product(product);},
                        error =>  this.errorMessage = <any>error);
+  }
+
+  goToSalesOrder(salesId) {
+    this.router.navigate(["/salesorder/" + salesId]);
   }
 }
