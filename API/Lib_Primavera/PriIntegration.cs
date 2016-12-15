@@ -279,6 +279,7 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_NumContribuinte(customer.nif);
                     myCli.set_Pais(customer.nationality);
                     myCli.set_Observacoes(customer.notes);
+                    myCli.set_CondPag("2");
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
@@ -299,6 +300,7 @@ namespace SFA_REST.Lib_Primavera
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
@@ -1419,43 +1421,52 @@ namespace SFA_REST.Lib_Primavera
             Model.LinhaDocVenda lindv = new Model.LinhaDocVenda();
             List<Model.LinhaDocVenda> listlindv = new List<Model.LinhaDocVenda>();
 
-            if (PriEngine.isOpen())
+            try
             {
-                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel, Morada From CabecDoc where TipoDoc='ECL' and Id='" + idCabecDoc + "'";
-                objListCab = PriEngine.Engine.Consulta(st);
-                dv = new Model.SalesOrder();
-                dv.id = objListCab.Valor("id");
-                dv.entity = objListCab.Valor("Entidade");
-                dv.address = objListCab.Valor("Morada");
-                dv.numDoc = objListCab.Valor("NumDoc");
-                dv.date = objListCab.Valor("Data");
-                dv.totalMerc = objListCab.Valor("TotalMerc");
-                dv.totalVat = objListCab.Valor("TotalIva");
-                dv.totalWithVat = dv.totalMerc + dv.totalVat;
-                dv.serie = objListCab.Valor("Serie");
-                dv.salesRep = objListCab.Valor("Responsavel");
-                objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
-                listlindv = new List<Model.LinhaDocVenda>();
-
-                while (!objListLin.NoFim())
+                if (PriEngine.isOpen())
                 {
-                    lindv = new Model.LinhaDocVenda();
-                    lindv.IdCabecDoc = objListLin.Valor("idCabecDoc");
-                    lindv.CodArtigo = objListLin.Valor("Artigo");
-                    lindv.DescArtigo = objListLin.Valor("Descricao");
-                    lindv.Quantidade = objListLin.Valor("Quantidade");
-                    lindv.Unidade = objListLin.Valor("Unidade");
-                    lindv.Desconto = objListLin.Valor("Desconto1");
-                    lindv.PrecoUnitario = objListLin.Valor("PrecUnit");
-                    lindv.TotalILiquido = objListLin.Valor("TotalILiquido");
-                    lindv.TotalLiquido = objListLin.Valor("PrecoLiquido");
-                    listlindv.Add(lindv);
-                    objListLin.Seguinte();
-                }
+                    string st = "SELECT * From CabecDoc where TipoDoc='ECL' and Id='" + idCabecDoc + "'";
+                    objListCab = PriEngine.Engine.Consulta(st);
+                    dv = new Model.SalesOrder();
+                    dv.id = objListCab.Valor("id");
+                    dv.entity = objListCab.Valor("Entidade");
+                    dv.address = objListCab.Valor("Morada");
+                    dv.numDoc = objListCab.Valor("NumDoc");
+                    dv.date = objListCab.Valor("Data");
+                    dv.totalMerc = objListCab.Valor("TotalMerc");
+                    dv.totalVat = objListCab.Valor("TotalIva");
+                    dv.totalWithVat = dv.totalMerc + dv.totalVat;
+                    dv.serie = objListCab.Valor("Serie");
+                    dv.salesRep = objListCab.Valor("Responsavel");
+                    objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
+                    listlindv = new List<Model.LinhaDocVenda>();
 
-                dv.LinhasDoc = listlindv;
-                return dv;
+                    while (!objListLin.NoFim())
+                    {
+                        lindv = new Model.LinhaDocVenda();
+                        lindv.IdCabecDoc = objListLin.Valor("idCabecDoc");
+                        lindv.CodArtigo = objListLin.Valor("Artigo");
+                        lindv.DescArtigo = objListLin.Valor("Descricao");
+                        lindv.Quantidade = objListLin.Valor("Quantidade");
+                        lindv.Unidade = objListLin.Valor("Unidade");
+                        lindv.Desconto = objListLin.Valor("Desconto1");
+                        lindv.PrecoUnitario = objListLin.Valor("PrecUnit");
+                        lindv.TotalILiquido = objListLin.Valor("TotalILiquido");
+                        lindv.TotalLiquido = objListLin.Valor("PrecoLiquido");
+                        listlindv.Add(lindv);
+                        objListLin.Seguinte();
+                    }
+
+                    dv.LinhasDoc = listlindv;
+                    return dv;
+                }
             }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine(e.StackTrace);
+            }
+            
             return null;
         }
 
