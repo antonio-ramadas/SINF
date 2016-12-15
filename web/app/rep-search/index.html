@@ -31,7 +31,7 @@
       </table>
     </div>
     <div id="pagination">
-      <pagination class="pagination-lg" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+      <pagination class="pagination-lg" [maxSize]="maxSize" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
     </div>
   </div>
 </div>

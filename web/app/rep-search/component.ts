@@ -23,6 +23,7 @@ export class RepSearchComponent {
   public totalItems:number = 30;
   public currentPage:number = 1;
   public itemsPerPage:number = 7;
+  public maxSize:number = 6;
 
   constructor(private router: Router, private route: ActivatedRoute, private service: Service) {
 
