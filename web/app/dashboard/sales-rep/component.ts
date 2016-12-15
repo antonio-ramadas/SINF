@@ -68,9 +68,9 @@ export class SalesRepComponent {
     obj.map = new google.maps.Map(document.getElementById('map'), { center: {lat: obj.srcLat, lng: obj.srcLng}, zoom: 15 });
 	}
 
-  updateRoute() {
+  updateRoute(coord) {
     var request = {
-      origin: this.srcLat + "," + this.srcLng,
+      origin: coord,
       destination: "Valongo",
       travelMode: 'DRIVING'
     };
