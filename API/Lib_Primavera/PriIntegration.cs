@@ -1124,7 +1124,7 @@ namespace SFA_REST.Lib_Primavera
         public static Lib_Primavera.Model.ErrorResponse CreateCart(Model.Cart lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
-
+            PriEngine.Engine.IniciaTransaccao();
             try 
             {
                 if (PriEngine.isOpen() == true)
@@ -1178,6 +1178,7 @@ namespace SFA_REST.Lib_Primavera
                     PriEngine.Engine.CRM.PropostasOPV.Actualiza(proposta);
 
                     PriEngine.Engine.CRM.OportunidadesVenda.ActualizaValorAtributo(myLead.get_ID(), "ValorTotalOV", value);
+                    PriEngine.Engine.TerminaTransaccao();
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -1187,6 +1188,7 @@ namespace SFA_REST.Lib_Primavera
                     erro.Erro = 1;
                     erro.Descricao = "Error Accessing the Company";
                     return erro;
+                    PriEngine.Engine.DesfazTransaccao();
                 }
             }
             catch (Exception ex)
@@ -1195,6 +1197,7 @@ namespace SFA_REST.Lib_Primavera
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
+                PriEngine.Engine.DesfazTransaccao();
             }
         }
 
@@ -1218,6 +1221,7 @@ namespace SFA_REST.Lib_Primavera
                     } 
                     //CrmBELinhasPropostaOPV linhas = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal));
                     CrmBEPropostaOPV linhita = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal), true);
+                    linhita.set_EmModoEdicao(true);
                     string id = line.id.Replace("{", "").Replace("}", "");
                     short proposal = short.Parse(line.numberProposal);
                     CrmBELinhasPropostaOPV linhas = linhita.get_Linhas();
@@ -1233,10 +1237,10 @@ namespace SFA_REST.Lib_Primavera
                         }
                     }
                     size = linhas.NumItens;
+                    linhita.set_Linhas(linhas);
+                    //CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal), true);
                     
-                    CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(line.id, short.Parse(line.numberProposal), true);
-                    prop.set_Linhas(linhas);
-                    PriEngine.Engine.CRM.PropostasOPV.Actualiza(prop);
+                    PriEngine.Engine.CRM.PropostasOPV.Actualiza(linhita);
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -1278,6 +1282,8 @@ namespace SFA_REST.Lib_Primavera
                     cartLine.id = id;
                     cartLine.numberProposal = numProposta;
                     cartLine.numberLine = line;
+
+                    //query = "DELETE FROM PRIDEMOSINF.dbo.LinhasPropostas WHERE IdOportunidade ='"+id+"' AND NumProposta = '"+numProposta+"' AND Linha = '"+line+"'";
 
                     erro = DeleteCartLine(cartLine);
 

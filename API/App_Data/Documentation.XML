@@ -777,6 +777,12 @@
         </member>
         <member name="M:SFA_REST.Controllers.UserController.Register(System.String,System.String,System.String,System.String)">
             <summary>
+              GET method to register an user
+            </summary>
+            <returns> true if the user and password match. False if they don't match </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.UserController.isAdmin(System.String)">
+            <summary>
               PUT method to register an user
             </summary>
             <returns> true if the user and password match. False if they don't match </returns>
