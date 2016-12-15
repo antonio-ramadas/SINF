@@ -239,6 +239,10 @@ export class ClientComponent implements OnInit {
     this.hideChildModal();
   }
 
+  public handleVisit(): void {
+
+  }
+
   addToast() {
     var toastOptions: ToastOptions = {
         title: "My title",
