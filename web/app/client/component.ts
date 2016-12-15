@@ -31,6 +31,26 @@ export class ClientComponent implements OnInit {
   createClient: boolean = false;
   hint = '';
   toastPosition = 'top-center';
+  visits: {date: string, summary: string}[] = [
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"},
+    {date: "11-12-2016", summary: "Summary of the visit"}
+  ]
 
   constructor(
     private router: Router, 
@@ -40,7 +60,7 @@ export class ClientComponent implements OnInit {
     private location: Location,
     private toastyService:ToastyService,
     private toastyConfig: ToastyConfig) {
-      this.toastyConfig.theme = 'default';
+    this.toastyConfig.theme = 'default';
   }
 
   eventHandler(event) {
@@ -103,7 +123,7 @@ export class ClientComponent implements OnInit {
   getLabels() {
     this.service.getLabels()
           .subscribe(
-          labels => this.labels = labels,
+          labels => {this.labels = labels; console.log(labels);},
           error => this.errorMessage = <any>error);
   }
 
@@ -124,11 +144,24 @@ export class ClientComponent implements OnInit {
 
   updateNotes() {
     this.service.updateCustomerNotes(this.customer.id, this.customer.notes);
-    this.addToast();
+    var toastOptions: ToastOptions = {
+        title: "Edit Notes",
+        msg: "Your notes have been successfuly changed!",
+        showClose: true,
+        timeout: 3000
+    };
+    this.toastyService.success(toastOptions);
   }
 
   signInCustomer() {
     myGlobals.idCustomer = this.id;
+    var toastOptions: ToastOptions = {
+        title: "Sign In",
+        msg: "You signed in as the costumer " + this.id,
+        showClose: true,
+        timeout: 3000
+    };
+    this.toastyService.warning(toastOptions);
   }
 
   ngOnInit(): void {
