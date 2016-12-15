@@ -7,6 +7,10 @@ nav {
   border-radius: 0;
 }
 
+#navbar {
+  z-index: 10;
+}
+
 #client:hover {
   background-color: #EEEEEE;
 }

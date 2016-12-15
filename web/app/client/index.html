@@ -88,8 +88,9 @@
         </div>
       </div>
 
+      <!-- Visits History -->
       <div class="sfa-panel">
-        <div class="title"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Visits History</div>
+        <div class="title"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Visits History <button class="btn btn-success" type="button" (click)="visitModal.show()">+</button></div>
         <div id="visits">
           <table id="visits-table">
             <tr>
@@ -192,4 +193,29 @@
       </div>
     </div>
   </div>
+
+  <div bsModal #visitModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div id="visits-modal" class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="visitModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          <h4 class="modal-title">Client Details</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="handleVisit()">
+            <div class="form-group">
+              <label class="control-label col-sm-2">Summary:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="nif" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="visitModal.hide()">Create Visit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
