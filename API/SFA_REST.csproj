@@ -286,7 +286,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\VisitsController.cs" />
-    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -303,7 +302,6 @@
     <Compile Include="Lib_Primavera\Model\SalesOrderHistory.cs" />
     <Compile Include="Lib_Primavera\Model\SalesRepresentative.cs" />
     <Compile Include="Lib_Primavera\Model\Visit.cs" />
-    <Compile Include="Lib_Primavera\Model\Cart.cs" />
     <Compile Include="Lib_Primavera\PriIntegration.cs" />
     <Compile Include="Lib_Primavera\Model\Customer.cs" />
     <Compile Include="Lib_Primavera\Model\DocCompra.cs" />
