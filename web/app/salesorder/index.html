@@ -47,9 +47,6 @@
               <th>
                 Total Price
               </th>
-              <th>
-                Edit Buttons
-              </th>
             </tr>
             <tr *ngFor=" let line of salesOrder.lines">
               <td>
@@ -67,13 +64,10 @@
                 {{line.precoUnitario}}
               </td>
               <td>
-                <input class="form-control" type="number" name="" [(ngModel)]="line.quantidade" value="{{line.quantidade}}">
+                {{line.quantidade}}
               </td>
               <td>
                 {{line.precoUnitario * line.quantidade}}
-              </td>
-              <td>
-                <button type="button" class="btn btn-danger" name="button"> X </button>
               </td>
             </tr>
           </table>
@@ -81,7 +75,6 @@
 
         <!-- Sales Order Footer -->
         <div id="footer">
-          <button type="button" name="button" class="btn btn-primary">Checkout</button>
           <div id="total">
             <strong> Total: €{{salesOrder.total}} </strong>
           </div>
