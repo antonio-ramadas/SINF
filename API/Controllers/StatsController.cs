@@ -136,11 +136,67 @@ namespace SFA_REST.Controllers
         ///   GET method for the the profits of a year
         /// </summary>
         /// <returns> Money made in a year </returns>
-        [Route("api/stats/year/{year}")]
+        [Route("api/stats/total/income/{year}")]
         [HttpGet]
-        public Lib_Primavera.Model.Stats.IncomeYear getYearTotalMerc(string year)
+        public Lib_Primavera.Model.Stats.IncomeYear getYearTotalMerc(int year)
         {
-            return Lib_Primavera.PriIntegration.getYearTotalMerc(year);
+            return Lib_Primavera.PriIntegration.GetIncomeStatByYear(year);
         }
+
+        /// <summary>
+        ///   GET method for the the profits of a month
+        /// </summary>
+        /// <returns> Money made in a year </returns>
+        [Route("api/stats/total/income/{year}/{month}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.IncomeMonth getYearTotalMerc(int year,int month)
+        {
+            return Lib_Primavera.PriIntegration.GetIncomeStatByMonth(year, month);
+        }
+
+        /// <summary>
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2015
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/stats/total/sales/{year}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.SalesYear GetSalesByYear(int year)
+        {
+            return Lib_Primavera.PriIntegration.GetSalesStatByYear(year);
+        }
+
+        /// <summary>
+        ///   GET method for the all the sales states registered in the ERP for a given sales representative since 2015
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/stats/total/sales/{year}/{month}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.SalesMonth GetSalesByMonth(int year, int month)
+        {
+            return Lib_Primavera.PriIntegration.GetSalesStatByMonth(year, month);
+        }
+
+        /// <summary>
+        ///   GET method for the average income for each sale in given year
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/stats/total/income-per-sale/{year}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.IncomePerSaleYear GetIncomePerSalesByYear(int year)
+        {
+            return Lib_Primavera.PriIntegration.GetIncomePerYear(year);
+        }
+
+        /// <summary>
+        ///   GET method for the average income for each sale in given month.
+        /// </summary>
+        /// <returns> List of Leads </returns>
+        [Route("api/stats/total/income-per-sale/{year}/{month}")]
+        [HttpGet]
+        public Lib_Primavera.Model.Stats.IncomePerSaleMonth GetIncomePerSalesByMonth(int year, int month)
+        {
+            return Lib_Primavera.PriIntegration.GetIncomePerMonth(year, month);
+        }
+
     }
 }

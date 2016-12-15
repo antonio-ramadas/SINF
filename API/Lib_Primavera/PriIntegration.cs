@@ -1252,7 +1252,6 @@ namespace SFA_REST.Lib_Primavera
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                throw ex;
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
@@ -2026,6 +2025,60 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static Model.Stats.IncomeMonth GetIncomeStatByMonth(int year, int month)
+        {
+            Model.Stats.IncomeMonth monthStat = new Model.Stats.IncomeMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                string query = "SELECT SUM(TotalMerc) as Total FROM CabecDoc WHERE TipoDoc='ECL' AND Month(Data)=" + month + " AND Year(Data)=" + year;
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                if (objList.Valor("Total") is DBNull || "".Equals(objList.Valor("Total")))
+                {
+                    monthStat.income = 0;
+                }
+                else
+                {
+                    monthStat.income = objList.Valor("Total");
+                }
+
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.IncomeYear GetIncomeStatByYear(int year)
+        {
+            Model.Stats.IncomeYear yearStat = new Model.Stats.IncomeYear();
+            Model.Stats.IncomeMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.sales = new List<Model.Stats.IncomeMonth>();
+                yearStat.totalIncome = 0;
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetIncomeStatByMonth(year, i);
+                    yearStat.totalIncome += monthStat.income;
+                    yearStat.sales.Add(monthStat);
+                }
+
+
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static IEnumerable<Model.Stats.SalesYear> GetSalesStatBySalesRep(string salesRepId)
         {
             int initYear = 2015;
@@ -2104,6 +2157,61 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static Model.Stats.SalesMonth GetSalesStatByMonth(int year, int month)
+        {
+            Model.Stats.SalesMonth monthStat = new Model.Stats.SalesMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                string query = "SELECT count(*) as Total FROM CabecDoc WHERE TipoDoc='ECL' AND Month(Data)=" + month + " AND Year(Data)=" + year;
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                if (objList.Valor("Total") is DBNull || "".Equals(objList.Valor("Total")))
+                {
+                    monthStat.salesNumber = 0;
+                }
+                else
+                {
+                    monthStat.salesNumber = objList.Valor("Total");
+                }
+
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.SalesYear GetSalesStatByYear(int year)
+        {
+            Model.Stats.SalesYear yearStat = new Model.Stats.SalesYear();
+            Model.Stats.SalesMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.sales = new List<Model.Stats.SalesMonth>();
+                yearStat.salesNumber = 0;
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetSalesStatByMonth(year, i);
+                    yearStat.salesNumber += monthStat.salesNumber;
+                    yearStat.sales.Add(monthStat);
+                }
+
+
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static IEnumerable<Model.Stats.IncomePerSaleYear> GetIncomePerYearBySalesRep(string salesRepId)
         {
             int initYear = 2015;
@@ -2152,6 +2260,32 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static Model.Stats.IncomePerSaleYear GetIncomePerYear(int year)
+        {
+            Model.Stats.IncomePerSaleYear yearStat = new Model.Stats.IncomePerSaleYear();
+            Model.Stats.IncomePerSaleMonth monthStat;
+            if (PriEngine.isOpen())
+            {
+                yearStat.year = year;
+                yearStat.monthRates = new List<Model.Stats.IncomePerSaleMonth>();
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    monthStat = GetIncomePerMonth(year, i);
+                    yearStat.incomePerYear = GetIncomeStatByYear(year).totalIncome / GetSalesStatByYear(year).salesNumber;
+                    yearStat.monthRates.Add(monthStat);
+                }
+
+
+
+                return yearStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static Model.Stats.IncomePerSaleMonth GetIncomePerMonth(string salesRepId, int year, int month)
         {
             Model.Stats.IncomePerSaleMonth monthStat = new Model.Stats.IncomePerSaleMonth();
@@ -2160,6 +2294,24 @@ namespace SFA_REST.Lib_Primavera
             {
 
                 double rate = GetIncomeStatByMonth(salesRepId, year, month).income / GetSalesStatByMonth(salesRepId, year, month).salesNumber;
+                monthStat.incomePerMonth = rate;
+                monthStat.month = month;
+                return monthStat;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Model.Stats.IncomePerSaleMonth GetIncomePerMonth(int year, int month)
+        {
+            Model.Stats.IncomePerSaleMonth monthStat = new Model.Stats.IncomePerSaleMonth();
+
+            if (PriEngine.isOpen())
+            {
+
+                double rate = GetIncomeStatByMonth(year, month).income / GetSalesStatByMonth(year, month).salesNumber;
                 monthStat.incomePerMonth = rate;
                 monthStat.month = month;
                 return monthStat;
@@ -2180,7 +2332,7 @@ namespace SFA_REST.Lib_Primavera
 		                                "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc "+
 		                                "AND LinhasDoc.Artigo = Artigo.Artigo "+
 		                                "AND Artigo.Familia = Familias.Familia "+
-		                                "AND CabecDoc.Responsavel = '1' ";
+		                                "AND CabecDoc.Responsavel = '"+salesRepId+"' ";
                 StdBELista objList = PriEngine.Engine.Consulta(query);
                 return objList.Valor("Contagem");
                 
@@ -2206,7 +2358,7 @@ namespace SFA_REST.Lib_Primavera
                                         "AND	CabecDoc.Id = LinhasDoc.IdCabecDoc " +
                                         "AND LinhasDoc.Artigo = Artigo.Artigo " +
                                         "AND Artigo.Familia = Familias.Familia " +
-                                        "AND CabecDoc.Responsavel = '1' " +
+                                        "AND CabecDoc.Responsavel = '"+ salesRepId +"' " +
                                 "GROUP BY Familias.Familia, Familias.Descricao " +
                                 "ORDER BY Contagem DESC";
                 StdBELista objList = PriEngine.Engine.Consulta(query);
