@@ -83,7 +83,7 @@ namespace SFA_REST.Controllers
         /// <returns> List of Leads </returns>
         [Route("api/stats/income-per-sale/{id}")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Stats.IncomePerYear> GetIncomePerSalesByRep(string id)
+        public IEnumerable<Lib_Primavera.Model.Stats.IncomePerSaleYear> GetIncomePerSalesByRep(string id)
         {
             return Lib_Primavera.PriIntegration.GetIncomePerYearBySalesRep(id);
         }
@@ -94,7 +94,7 @@ namespace SFA_REST.Controllers
         /// <returns> List of Leads </returns>
         [Route("api/stats/income-per-sale/{id}/{year}")]
         [HttpGet]
-        public Lib_Primavera.Model.Stats.IncomePerYear GetIncomePerSalesByYear(string id, int year)
+        public Lib_Primavera.Model.Stats.IncomePerSaleYear GetIncomePerSalesByYear(string id, int year)
         {
             return Lib_Primavera.PriIntegration.GetIncomePerYear(id, year);
         }
@@ -105,7 +105,7 @@ namespace SFA_REST.Controllers
         /// <returns> List of Leads </returns>
         [Route("api/stats/income-per-sale/{id}/{year}/{month}")]
         [HttpGet]
-        public Lib_Primavera.Model.Stats.IncomePerMonth GetIncomePerSalesByMonth(string id, int year, int month)
+        public Lib_Primavera.Model.Stats.IncomePerSaleMonth GetIncomePerSalesByMonth(string id, int year, int month)
         {
             return Lib_Primavera.PriIntegration.GetIncomePerMonth(id, year, month);
         }
@@ -138,7 +138,7 @@ namespace SFA_REST.Controllers
         /// <returns> Money made in a year </returns>
         [Route("api/stats/year/{year}")]
         [HttpGet]
-        public Lib_Primavera.Model.Stats.IncomePerYear getYearTotalMerc(string year)
+        public Lib_Primavera.Model.Stats.IncomeYear getYearTotalMerc(string year)
         {
             return Lib_Primavera.PriIntegration.getYearTotalMerc(year);
         }

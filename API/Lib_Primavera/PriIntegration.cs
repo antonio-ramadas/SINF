@@ -1234,10 +1234,10 @@ namespace SFA_REST.Lib_Primavera
                         }
                     }
                     size = linhas.NumItens;
+
+                    linhita.set_Linhas(linhas);
+                    PriEngine.Engine.CRM.PropostasOPV.Actualiza(linhita);
                     
-                    CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(line.id, short.Parse(line.numberProposal), true);
-                    prop.set_Linhas(linhas);
-                    PriEngine.Engine.CRM.PropostasOPV.Actualiza(prop);
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -2104,11 +2104,11 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static IEnumerable<Model.Stats.IncomePerYear> GetIncomePerYearBySalesRep(string salesRepId)
+        public static IEnumerable<Model.Stats.IncomePerSaleYear> GetIncomePerYearBySalesRep(string salesRepId)
         {
             int initYear = 2015;
-            List<Model.Stats.IncomePerYear> list = new List<Model.Stats.IncomePerYear>();
-            Model.Stats.IncomePerYear year;
+            List<Model.Stats.IncomePerSaleYear> list = new List<Model.Stats.IncomePerSaleYear>();
+            Model.Stats.IncomePerSaleYear year;
 
             if (PriEngine.isOpen())
             {
@@ -2126,14 +2126,14 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Model.Stats.IncomePerYear GetIncomePerYear(string salesRepId, int year)
+        public static Model.Stats.IncomePerSaleYear GetIncomePerYear(string salesRepId, int year)
         {
-            Model.Stats.IncomePerYear yearStat = new Model.Stats.IncomePerYear();
-            Model.Stats.IncomePerMonth monthStat;
+            Model.Stats.IncomePerSaleYear yearStat = new Model.Stats.IncomePerSaleYear();
+            Model.Stats.IncomePerSaleMonth monthStat;
             if (PriEngine.isOpen())
             {
                 yearStat.year = year;
-                yearStat.monthRates = new List<Model.Stats.IncomePerMonth>();
+                yearStat.monthRates = new List<Model.Stats.IncomePerSaleMonth>();
 
                 for (int i = 1; i <= 12; i++)
                 {
@@ -2152,9 +2152,9 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Model.Stats.IncomePerMonth GetIncomePerMonth(string salesRepId, int year, int month)
+        public static Model.Stats.IncomePerSaleMonth GetIncomePerMonth(string salesRepId, int year, int month)
         {
-            Model.Stats.IncomePerMonth monthStat = new Model.Stats.IncomePerMonth();
+            Model.Stats.IncomePerSaleMonth monthStat = new Model.Stats.IncomePerSaleMonth();
 
             if (PriEngine.isOpen())
             {
@@ -2260,7 +2260,7 @@ namespace SFA_REST.Lib_Primavera
                 return null;
         }
 
-        public static Model.Stats.IncomePerYear getYearTotalMerc(string yearString)
+        public static Model.Stats.IncomeYear getYearTotalMerc(string yearString)
         {
             try
             {
@@ -2269,17 +2269,17 @@ namespace SFA_REST.Lib_Primavera
                     string query = "SELECT SUM(TotalMerc) AS SOMA FROM (SELECT TotalMerc FROM CabecDOC WHERE year(Data) = '" + yearString + "') As SUP";
                     StdBELista objList = PriEngine.Engine.Consulta(query);
                     double soma = objList.Valor("SOMA");
-                    return new Model.Stats.IncomePerYear { year = Int32.Parse(yearString), incomePerYear = soma };
+                    return new Model.Stats.IncomeYear { year = Int32.Parse(yearString), totalIncome = soma };
                 }
                 else
                 {
-                    return new Model.Stats.IncomePerYear { year = Int32.Parse(yearString), incomePerYear = 0 };
+                    return new Model.Stats.IncomeYear { year = Int32.Parse(yearString), totalIncome = 0 };
                 }
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
-                return new Model.Stats.IncomePerYear { year = Int32.Parse(yearString), incomePerYear = 0 };
+                return new Model.Stats.IncomeYear { year = Int32.Parse(yearString), totalIncome = 0 };
             }
         }
 
