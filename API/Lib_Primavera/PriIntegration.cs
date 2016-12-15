@@ -279,6 +279,7 @@ namespace SFA_REST.Lib_Primavera
                     myCli.set_NumContribuinte(customer.nif);
                     myCli.set_Pais(customer.nationality);
                     myCli.set_Observacoes(customer.notes);
+                    myCli.set_CondPag("2");
                     myCli.set_Moeda("EUR");
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
@@ -299,6 +300,7 @@ namespace SFA_REST.Lib_Primavera
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
@@ -1018,13 +1020,13 @@ namespace SFA_REST.Lib_Primavera
         #endregion Customervisits
 
 
-        #region WishList
+        #region Cart
 
-        public static List<Model.WishList.WishLine> ListWishesByCustomer(string customerId)
+        public static List<Model.Cart.CartLine> GetCartByCustomer(string customerId)
         {
             StdBELista obj;
 
-            List<Model.WishList> listWishes = new List<Model.WishList>();
+            List<Model.Cart> listWishes = new List<Model.Cart>();
             try
             {
                 if (PriEngine.isOpen() == true)
@@ -1032,7 +1034,7 @@ namespace SFA_REST.Lib_Primavera
 
                     string query = "SELECT * FROM CabecOportunidadesVenda WHERE Entidade = '"+customerId+"'";
                     obj = PriEngine.Engine.Consulta(query);
-                    List<Model.WishList.WishLine> lines = new List<Model.WishList.WishLine>();
+                    List<Model.Cart.CartLine> lines = new List<Model.Cart.CartLine>();
                     while (!obj.NoFim())
                     {
                         string subQuery = "SELECT * FROM LINHASPROPOSTASOPV WHERE IdOportunidade = '" + ((obj.Valor("ID")).Replace("{", "")).Replace("}", "") + "'";
@@ -1040,8 +1042,8 @@ namespace SFA_REST.Lib_Primavera
                         
                         while (!subObj.NoFim())
                         {
-                            Model.WishList.WishLine line = new Model.WishList.WishLine();
-                            line.productID = subObj.Valor("Artigo");
+                            Model.Cart.CartLine line = new Model.Cart.CartLine();
+                            line.productId = subObj.Valor("Artigo");
                             line.numberProposal = subObj.Valor("NumProposta").ToString();
                             line.numberLine = subObj.Valor("Linha").ToString();
                             line.description = subObj.Valor("Descricao");
@@ -1066,7 +1068,7 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
-        public static Lib_Primavera.Model.WishList GetWish(string id)
+        public static Lib_Primavera.Model.Cart GetCart(string id)
         {
             if (PriEngine.isOpen() == true)
             {
@@ -1078,25 +1080,25 @@ namespace SFA_REST.Lib_Primavera
 
                     if (!obj.Vazia())
                     {
-                        Model.WishList wish = new Model.WishList();
+                        Model.Cart wish = new Model.Cart();
                         wish.id = ((obj.Valor("ID")).Replace("{", "")).Replace("}", "");
-                        wish.customerID = obj.Valor("Entidade");
+                        wish.customerId = obj.Valor("Entidade");
                         wish.creationDate = obj.Valor("DataCriacao").ToString();
                         wish.expirationDate = obj.Valor("DataExpiracao").ToString();
                         wish.description = obj.Valor("Descricao");
                         wish.summary = obj.Valor("Resumo");
                         wish.value = obj.Valor("ValorTotalOV").ToString();
-                        wish.salesRepID = obj.Valor("Vendedor");
+                        wish.salesRepId = obj.Valor("Vendedor");
                         wish.type = obj.Valor("Oportunidade");
 
                         string subQuery = "SELECT * FROM LINHASPROPOSTASOPV WHERE IdOportunidade = '" + id + "'";
                         StdBELista subObj = PriEngine.Engine.Consulta(subQuery);
-                        List<Model.WishList.WishLine> lines = new List<Model.WishList.WishLine>();
+                        List<Model.Cart.CartLine> lines = new List<Model.Cart.CartLine>();
 
                         while (!subObj.NoFim())
                         {
-                            Model.WishList.WishLine line = new Model.WishList.WishLine();
-                            line.productID = subObj.Valor("Artigo");
+                            Model.Cart.CartLine line = new Model.Cart.CartLine();
+                            line.productId = subObj.Valor("Artigo");
                             line.description = subObj.Valor("Descricao");
                             line.quantity = subObj.Valor("Quantidade").ToString();
                             line.costPrice = subObj.Valor("PrecoCusto").ToString();
@@ -1119,10 +1121,10 @@ namespace SFA_REST.Lib_Primavera
             return null;
         }
 
-        public static Lib_Primavera.Model.ErrorResponse CreateWish(Model.WishList lead)
+        public static Lib_Primavera.Model.ErrorResponse CreateCart(Model.Cart lead)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
-
+            PriEngine.Engine.IniciaTransaccao();
             try 
             {
                 if (PriEngine.isOpen() == true)
@@ -1139,9 +1141,9 @@ namespace SFA_REST.Lib_Primavera
                     } while (!check.Vazia());
                     myLead.set_Oportunidade(number.ToString());
                     myLead.set_Descricao(lead.description);
-                    myLead.set_Entidade(lead.customerID);
+                    myLead.set_Entidade(lead.customerId);
                     myLead.set_TipoEntidade("C");
-                    myLead.set_Vendedor(lead.salesRepID);
+                    myLead.set_Vendedor(lead.salesRepId);
                     myLead.set_CicloVenda("CV_HW");
                     myLead.set_DataCriacao(DateTime.Now);
                     myLead.set_DataExpiracao(new DateTime(2100, 12, 12));
@@ -1157,11 +1159,11 @@ namespace SFA_REST.Lib_Primavera
 
                     CrmBELinhasPropostaOPV linhas = new CrmBELinhasPropostaOPV();
                     Double value = 0;
-                    foreach (Model.WishList.WishLine lin in lead.lines)
+                    foreach (Model.Cart.CartLine lin in lead.lines)
                     {
                         CrmBELinhaPropostaOPV linha = new CrmBELinhaPropostaOPV();
                         linha.set_IdOportunidade(myLead.get_ID());
-                        linha.set_Artigo(lin.productID);
+                        linha.set_Artigo(lin.productId);
                         linha.set_Quantidade(Double.Parse(lin.quantity));
                         linha.set_Descricao(lin.description);
                         linha.set_PrecoCusto(Double.Parse(lin.costPrice));
@@ -1176,6 +1178,7 @@ namespace SFA_REST.Lib_Primavera
                     PriEngine.Engine.CRM.PropostasOPV.Actualiza(proposta);
 
                     PriEngine.Engine.CRM.OportunidadesVenda.ActualizaValorAtributo(myLead.get_ID(), "ValorTotalOV", value);
+                    PriEngine.Engine.TerminaTransaccao();
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -1185,6 +1188,7 @@ namespace SFA_REST.Lib_Primavera
                     erro.Erro = 1;
                     erro.Descricao = "Error Accessing the Company";
                     return erro;
+                    PriEngine.Engine.DesfazTransaccao();
                 }
             }
             catch (Exception ex)
@@ -1193,15 +1197,17 @@ namespace SFA_REST.Lib_Primavera
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
+                PriEngine.Engine.DesfazTransaccao();
             }
         }
 
-        public static Lib_Primavera.Model.ErrorResponse DeleteWish(Model.WishList.WishLine line)
+        public static Lib_Primavera.Model.ErrorResponse DeleteCartLine(Model.Cart.CartLine line)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
 
-            string ID = "{" + line.id + "}";
-            PriEngine.Engine.CRM.PropostasOPV.EditaLinhas(line.id, 1);
+            //string ID = "{" + line.id + "}";
+            string ID = line.id;
+            
 
             try
             {
@@ -1212,12 +1218,29 @@ namespace SFA_REST.Lib_Primavera
                         erro.Erro = 1;
                         erro.Descricao = "The Lead doesn't exist.";
                         return erro;
+                    } 
+                    //CrmBELinhasPropostaOPV linhas = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal));
+                    CrmBEPropostaOPV linhita = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal), true);
+                    linhita.set_EmModoEdicao(true);
+                    string id = line.id.Replace("{", "").Replace("}", "");
+                    short proposal = short.Parse(line.numberProposal);
+                    CrmBELinhasPropostaOPV linhas = linhita.get_Linhas();
+                    int size = linhas.NumItens;
+                    int lineInt = 1;
+                    foreach (CrmBELinhaPropostaOPV lin in linhas)
+                    {
+                        int dbgLine = lin.get_Linha();
+                        string numberLine = line.numberLine;
+                        if (lin.get_Linha() == short.Parse(line.numberLine))
+                        {
+                            linhas.Remove(dbgLine);
+                        }
                     }
-                    CrmBELinhasPropostaOPV linhas = PriEngine.Engine.CRM.PropostasOPV.EditaLinhas(line.id, short.Parse(line.numberProposal));
-                    linhas.Remove(short.Parse(line.numberLine));
-                    CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(line.id, short.Parse(line.numberProposal), true);
-                    prop.set_Linhas(linhas);
-                    PriEngine.Engine.CRM.PropostasOPV.Actualiza(prop);
+                    size = linhas.NumItens;
+                    linhita.set_Linhas(linhas);
+                    //CrmBEPropostaOPV prop = PriEngine.Engine.CRM.PropostasOPV.Edita(ID, short.Parse(line.numberProposal), true);
+                    
+                    PriEngine.Engine.CRM.PropostasOPV.Actualiza(linhita);
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -1232,13 +1255,58 @@ namespace SFA_REST.Lib_Primavera
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+                throw ex;
                 erro.Erro = 1;
                 erro.Descricao = "Missing or Incorrect field";
                 return erro;
             }
         }
 
-        #endregion WishList
+        public static Model.ErrorResponse DeleteProductFromCart(string customerId, string productId)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            string id, numProposta, line;
+            Lib_Primavera.Model.Cart.CartLine cartLine;
+
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT IdOportunidade, NumProposta, Linha FROM PRIDEMOSINF.dbo.CabecOportunidadesVenda,PRIDEMOSINF.dbo.LinhasPropostasOPV WHERE IdOportunidade = ID AND Artigo = '"+productId+"' AND Entidade = '"+customerId+"'";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.Vazia())
+                {
+                    id = objList.Valor("IdOportunidade");
+                    numProposta = "" + objList.Valor("NumProposta");
+                    line = "" + objList.Valor("Linha");
+                    cartLine = new Lib_Primavera.Model.Cart.CartLine();
+                    cartLine.id = id;
+                    cartLine.numberProposal = numProposta;
+                    cartLine.numberLine = line;
+
+                    //query = "DELETE FROM PRIDEMOSINF.dbo.LinhasPropostas WHERE IdOportunidade ='"+id+"' AND NumProposta = '"+numProposta+"' AND Linha = '"+line+"'";
+
+                    erro = DeleteCartLine(cartLine);
+
+                    if (erro.Erro == 1)
+                    {
+                        return erro;
+                    }
+
+                    objList.Seguinte();
+                }
+                erro.Erro = 0;
+                erro.Descricao = "Sucesso";
+                return erro;
+            }
+            else
+            {
+                erro.Erro = 1;
+                erro.Descricao = "Missing or Incorrect field";
+                return erro;
+            }
+        }
+
+        #endregion Cart
 
 
         #region SalesOrder
@@ -1359,43 +1427,52 @@ namespace SFA_REST.Lib_Primavera
             Model.LinhaDocVenda lindv = new Model.LinhaDocVenda();
             List<Model.LinhaDocVenda> listlindv = new List<Model.LinhaDocVenda>();
 
-            if (PriEngine.isOpen())
+            try
             {
-                string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie, Responsavel, Morada From CabecDoc where TipoDoc='ECL' and Id='" + idCabecDoc + "'";
-                objListCab = PriEngine.Engine.Consulta(st);
-                dv = new Model.SalesOrder();
-                dv.id = objListCab.Valor("id");
-                dv.entity = objListCab.Valor("Entidade");
-                dv.address = objListCab.Valor("Morada");
-                dv.numDoc = objListCab.Valor("NumDoc");
-                dv.date = objListCab.Valor("Data");
-                dv.totalMerc = objListCab.Valor("TotalMerc");
-                dv.totalVat = objListCab.Valor("TotalIva");
-                dv.totalWithVat = dv.totalMerc + dv.totalVat;
-                dv.serie = objListCab.Valor("Serie");
-                dv.salesRep = objListCab.Valor("Responsavel");
-                objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
-                listlindv = new List<Model.LinhaDocVenda>();
-
-                while (!objListLin.NoFim())
+                if (PriEngine.isOpen())
                 {
-                    lindv = new Model.LinhaDocVenda();
-                    lindv.IdCabecDoc = objListLin.Valor("idCabecDoc");
-                    lindv.CodArtigo = objListLin.Valor("Artigo");
-                    lindv.DescArtigo = objListLin.Valor("Descricao");
-                    lindv.Quantidade = objListLin.Valor("Quantidade");
-                    lindv.Unidade = objListLin.Valor("Unidade");
-                    lindv.Desconto = objListLin.Valor("Desconto1");
-                    lindv.PrecoUnitario = objListLin.Valor("PrecUnit");
-                    lindv.TotalILiquido = objListLin.Valor("TotalILiquido");
-                    lindv.TotalLiquido = objListLin.Valor("PrecoLiquido");
-                    listlindv.Add(lindv);
-                    objListLin.Seguinte();
-                }
+                    string st = "SELECT * From CabecDoc where TipoDoc='ECL' and Id='" + idCabecDoc + "'";
+                    objListCab = PriEngine.Engine.Consulta(st);
+                    dv = new Model.SalesOrder();
+                    dv.id = objListCab.Valor("id");
+                    dv.entity = objListCab.Valor("Entidade");
+                    dv.address = objListCab.Valor("Morada");
+                    dv.numDoc = objListCab.Valor("NumDoc");
+                    dv.date = objListCab.Valor("Data");
+                    dv.totalMerc = objListCab.Valor("TotalMerc");
+                    dv.totalVat = objListCab.Valor("TotalIva");
+                    dv.totalWithVat = dv.totalMerc + dv.totalVat;
+                    dv.serie = objListCab.Valor("Serie");
+                    dv.salesRep = objListCab.Valor("Responsavel");
+                    objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
+                    listlindv = new List<Model.LinhaDocVenda>();
 
-                dv.LinhasDoc = listlindv;
-                return dv;
+                    while (!objListLin.NoFim())
+                    {
+                        lindv = new Model.LinhaDocVenda();
+                        lindv.IdCabecDoc = objListLin.Valor("idCabecDoc");
+                        lindv.CodArtigo = objListLin.Valor("Artigo");
+                        lindv.DescArtigo = objListLin.Valor("Descricao");
+                        lindv.Quantidade = objListLin.Valor("Quantidade");
+                        lindv.Unidade = objListLin.Valor("Unidade");
+                        lindv.Desconto = objListLin.Valor("Desconto1");
+                        lindv.PrecoUnitario = objListLin.Valor("PrecUnit");
+                        lindv.TotalILiquido = objListLin.Valor("TotalILiquido");
+                        lindv.TotalLiquido = objListLin.Valor("PrecoLiquido");
+                        listlindv.Add(lindv);
+                        objListLin.Seguinte();
+                    }
+
+                    dv.LinhasDoc = listlindv;
+                    return dv;
+                }
             }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine(e.StackTrace);
+            }
+            
             return null;
         }
 
@@ -2127,8 +2204,6 @@ namespace SFA_REST.Lib_Primavera
 
         public static int GetTotalSalesNumByCategories(string salesRepId)
         {
-            
-
             if (PriEngine.isOpen())
             {
                 string query = "SELECT Count(Familias.Familia) as Contagem "+
@@ -2190,10 +2265,52 @@ namespace SFA_REST.Lib_Primavera
 
         }
 
+        public static IEnumerable<Model.SalesRepresentative> GetTopSalesRep(string number)
+        {
+            StdBELista obj;
+            List<Model.SalesRepresentative> listSalesRepresentative = new List<Model.SalesRepresentative>();
 
+            if (PriEngine.isOpen() == true)
+            {
+                string query = "SELECT TOP " + number + " Vendedor, Nome, s.Number FROM VENDEDORES INNER JOIN (SELECT Responsavel, count(*) as Number FROM CabecDoc GROUP BY Responsavel) s ON s.Responsavel = Vendedor ORDER BY s.Number DESC";
+                obj = PriEngine.Engine.Consulta(query);
+
+                while (!obj.NoFim())
+                {
+                    listSalesRepresentative.Add(new Model.SalesRepresentative
+                    {
+                        id = obj.Valor("Vendedor"),
+                        name = obj.Valor("Nome")
+                    });
+                    obj.Seguinte();
+
+                }
+
+                return listSalesRepresentative;
+            }
+            else
+                return null;
+        }
+
+        public static int getYearTotalMerc(string year)
+        {
+            if(PriEngine.isOpen())
+            {
+                string query = "SELECT SUM(TotalMerc) AS Soma FROM (SELECT TotalMerc FROM CabecDOC WHERE year(Data) = '" + year + "') As SUP";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                return objList.Valor("Soma");
+                
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         #endregion Stats
 
 
+
+        
     }
 }

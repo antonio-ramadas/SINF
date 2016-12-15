@@ -120,5 +120,27 @@ namespace SFA_REST.Controllers
         {
             return Lib_Primavera.PriIntegration.GetSalesTopCategories(id);
         }
+
+        /// <summary>
+        ///   GET method for the Top SalesRepresentative of the company
+        /// </summary>
+        /// <returns> List of Top SalesRepresentative </returns>
+        [Route("api/stats/salesRep/{number}")]
+        [HttpGet]
+        public IEnumerable<Lib_Primavera.Model.SalesRepresentative> GetTopSalesRep(string number)
+        {
+            return Lib_Primavera.PriIntegration.GetTopSalesRep(number);
+        }
+
+        /// <summary>
+        ///   GET method for the the profits of a year
+        /// </summary>
+        /// <returns> Money made in a year </returns>
+        [Route("api/stats/year/{year}")]
+        [HttpGet]
+        public int getYearTotalMerc(string year)
+        {
+            return Lib_Primavera.PriIntegration.getYearTotalMerc(year);
+        }
     }
 }

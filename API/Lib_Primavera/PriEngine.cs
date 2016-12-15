@@ -116,6 +116,11 @@ namespace SFA_REST.Lib_Primavera
             return false;
         }
 
+        public static bool isAdmin(string id)
+        {
+            return id == "3";            
+        }
+
     }
 
 }

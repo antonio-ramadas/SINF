@@ -24,7 +24,5 @@ namespace SFA_REST.Lib_Primavera.Model
         public DateTime endDate { get; set; }
 
         public int priority { get; set; }
-
-
     }
 }

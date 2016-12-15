@@ -481,6 +481,30 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:SFA_REST.Controllers.CartController.Get(System.String)">
+            <summary>
+              GET method for a lead in the ERP, with a given id represented as a String
+            </summary>
+            <returns> Lead with the respective specified id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.CartController.GetCartByCustomer(System.String)">
+            <summary>
+              GET method for a lead in the ERP, with a given id represented as a String
+            </summary>
+            <returns> Lead with the respective specified id </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.CartController.Post(SFA_REST.Lib_Primavera.Model.Cart)">
+            <summary>
+              POST method for the creation of a given lead
+            </summary>
+            <returns> HttpResponse with the output from the server </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.CartController.Delete(System.String,System.String)">
+            <summary>
+              DELETE method to erase a certain lead
+            </summary>
+            <returns> HttpResponse with the output from the server </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.CategoryController.Get">
             <summary>
                 GET method for all the categories and respective subCategories of the ERP
@@ -727,6 +751,18 @@
             </summary>
             <returns> List of TopCategory </returns>
         </member>
+        <member name="M:SFA_REST.Controllers.StatsController.GetTopSalesRep(System.String)">
+            <summary>
+              GET method for the Top SalesRepresentative of the company
+            </summary>
+            <returns> List of Top SalesRepresentative </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.StatsController.getYearTotalMerc(System.String)">
+            <summary>
+              GET method for the the profits of a year
+            </summary>
+            <returns> Money made in a year </returns>
+        </member>
         <member name="M:SFA_REST.Controllers.RouteController.Get(System.String)">
             <summary>
               GET method for an ordered list of tasks registered in the ERP for a given sales representative.
@@ -753,6 +789,12 @@
         </member>
         <member name="M:SFA_REST.Controllers.UserController.Register(System.String,System.String,System.String,System.String)">
             <summary>
+              GET method to register an user
+            </summary>
+            <returns> true if the user and password match. False if they don't match </returns>
+        </member>
+        <member name="M:SFA_REST.Controllers.UserController.isAdmin(System.String)">
+            <summary>
               PUT method to register an user
             </summary>
             <returns> true if the user and password match. False if they don't match </returns>
@@ -772,30 +814,6 @@
         <member name="M:SFA_REST.Controllers.VisitsController.Post(SFA_REST.Lib_Primavera.Model.Visit)">
             <summary>
               POST method to create a visit task
-            </summary>
-            <returns> HttpResponse with the output from the server </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.Get(System.String)">
-            <summary>
-              GET method for a lead in the ERP, with a given id represented as a String
-            </summary>
-            <returns> Lead with the respective specified id </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.GetWishByCustomer(System.String)">
-            <summary>
-              GET method for a lead in the ERP, with a given id represented as a String
-            </summary>
-            <returns> Lead with the respective specified id </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.Post(SFA_REST.Lib_Primavera.Model.WishList)">
-            <summary>
-              POST method for the creation of a given lead
-            </summary>
-            <returns> HttpResponse with the output from the server </returns>
-        </member>
-        <member name="M:SFA_REST.Controllers.WishlistController.Delete(SFA_REST.Lib_Primavera.Model.WishList.WishLine)">
-            <summary>
-              DELETE method to erase a certain lead
             </summary>
             <returns> HttpResponse with the output from the server </returns>
         </member>
