@@ -2286,6 +2286,20 @@ namespace SFA_REST.Lib_Primavera
                 return null;
         }
 
+        public static int getYearTotalMerc(string year)
+        {
+            if(PriEngine.isOpen())
+            {
+                string query = "SELECT SUM(TotalMerc) AS Soma FROM (SELECT TotalMerc FROM CabecDOC WHERE year(Data) = '" + year + "') As SUP";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+                return objList.Valor("Soma");
+                
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         #endregion Stats
 

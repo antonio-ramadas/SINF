@@ -131,5 +131,10 @@ namespace SFA_REST.Controllers
         {
             return Lib_Primavera.PriIntegration.GetTopSalesRep(id);
         }
+
+        public int getYearTotalMerc(string year)
+        {
+            return Lib_Primavera.PriIntegration.getYearTotalMerc(year);
+        }
     }
 }
