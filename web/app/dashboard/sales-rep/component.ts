@@ -65,7 +65,11 @@ export class SalesRepComponent {
 		obj.srcLat = geo.coords.latitude;
 		obj.srcLng = geo.coords.longitude;
 		obj.zoom = 15;
-    obj.map = new google.maps.Map(document.getElementById('map'), { center: {lat: obj.srcLat, lng: obj.srcLng}, zoom: 15 });
+    obj.map = new google.maps.Map(document.getElementById('map'), { 
+      center: { lat: obj.srcLat, lng: obj.srcLng },
+      zoom: 15,
+      scrollwheel: false, 
+    });
 	}
 
   updateRoute(coord) {
