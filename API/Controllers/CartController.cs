@@ -15,7 +15,7 @@ namespace SFA_REST.Controllers
         ///   GET method for a lead in the ERP, with a given id represented as a String
         /// </summary>
         /// <returns> Lead with the respective specified id </returns>
-        [Route("api/wishlist/{id}")]
+        [Route("api/cart/{id}")]
         [HttpGet]
         public Cart Get(string id)
         {
@@ -26,7 +26,7 @@ namespace SFA_REST.Controllers
         ///   GET method for a lead in the ERP, with a given id represented as a String
         /// </summary>
         /// <returns> Lead with the respective specified id </returns>
-        [Route("api/wishlist/customer/{id}")]
+        [Route("api/cart/customer/{id}")]
         [HttpGet]
         public IEnumerable<Cart.CartLine> GetCartByCustomer(string id)
         {
@@ -37,7 +37,7 @@ namespace SFA_REST.Controllers
         ///   POST method for the creation of a given lead
         /// </summary>
         /// <returns> HttpResponse with the output from the server </returns>
-        [Route("api/wishlist")]
+        [Route("api/cart")]
         [HttpPost]
         public HttpResponseMessage Post(Lib_Primavera.Model.Cart lead)
         {
@@ -55,12 +55,13 @@ namespace SFA_REST.Controllers
         ///   DELETE method to erase a certain lead
         /// </summary>
         /// <returns> HttpResponse with the output from the server </returns>
-        [Route("api/wishlist/delete")]
-        [HttpPost]
-        public HttpResponseMessage Delete(Lib_Primavera.Model.Cart.CartLine line)
+        [Route("api/cart/{customerId}/{productId}")]
+        [HttpDelete]
+        public HttpResponseMessage Delete(string customerId, string productId)
         {
             Lib_Primavera.Model.ErrorResponse erro = new Lib_Primavera.Model.ErrorResponse();
-            erro = Lib_Primavera.PriIntegration.DeleteCartLine(line);
+            //erro = Lib_Primavera.PriIntegration.DeleteCartLine(line);
+            erro = Lib_Primavera.PriIntegration.DeleteProductFromCart(customerId, productId);
 
             if (erro.Erro == 0)
                 return Request.CreateResponse(HttpStatusCode.Created);

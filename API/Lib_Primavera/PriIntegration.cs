@@ -1238,6 +1238,48 @@ namespace SFA_REST.Lib_Primavera
             }
         }
 
+        public static Model.ErrorResponse DeleteProductFromCart(string customerId, string productId)
+        {
+            Lib_Primavera.Model.ErrorResponse erro = new Model.ErrorResponse();
+            string id, numProposta, line;
+            Lib_Primavera.Model.Cart.CartLine cartLine;
+
+            if (PriEngine.isOpen())
+            {
+                string query = "SELECT IdOportunidade, NumProposta, Linha FROM PRIDEMOSINF.dbo.CabecOportunidadesVenda,PRIDEMOSINF.dbo.LinhasPropostasOPV WHERE IdOportunidade = ID AND Artigo = '"+productId+"' AND Entidade = '"+customerId+"'";
+                StdBELista objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.Vazia())
+                {
+                    id = objList.Valor("IdOportunidade");
+                    numProposta = objList.Valor("NumProposta");
+                    line = objList.Valor("Linha");
+                    cartLine = new Lib_Primavera.Model.Cart.CartLine();
+                    cartLine.id = id;
+                    cartLine.numberProposal = numProposta;
+                    cartLine.numberLine = line;
+
+                    erro = DeleteCartLine(cartLine);
+
+                    if (erro.Erro == 1)
+                    {
+                        return erro;
+                    }
+
+                    objList.Seguinte();
+                }
+                erro.Erro = 0;
+                erro.Descricao = "Sucesso";
+                return erro;
+            }
+            else
+            {
+                erro.Erro = 1;
+                erro.Descricao = "Missing or Incorrect field";
+                return erro;
+            }
+        }
+
         #endregion Cart
 
 
@@ -2195,5 +2237,7 @@ namespace SFA_REST.Lib_Primavera
         #endregion Stats
 
 
+
+        
     }
 }
