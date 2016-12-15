@@ -77,7 +77,9 @@
               <div id="notes">
                 <strong> Notes: </strong>
                 <textarea id="note-area" [(ngModel)]="customer.notes"></textarea>
-                <button class="btn btn-success" type="button" (click)="updateNotes()">Update notes</button>
+                <div>
+                  <button class="btn btn-success" type="button" (click)="updateNotes()">Update notes</button>
+                </div>
               </div>
             </div>
           </div>

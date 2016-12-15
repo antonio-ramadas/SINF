@@ -136,6 +136,11 @@ ul {
   padding: 1rem;
 }
 
+#notes > div {
+  margin-top: 1rem;
+  text-align: right;
+}
+
 #note-area {
   border-radius: 0.5rem;
   border: solid 1px;
