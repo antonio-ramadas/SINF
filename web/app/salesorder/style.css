@@ -20,7 +20,7 @@ th:first-child {
   border-top-left-radius: 0.5rem;
 }
 
-td:nth-child(3), td:nth-child(4), td:nth-child(6) {
+td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child(6), td:nth-child(7) {
   text-align: right;
 }
 
@@ -32,7 +32,6 @@ td {
 
 td:last-child {
   border-right: solid 0.2rem #CCCCCC;
-  text-align: center;
 }
 
 tr:last-child > td:last-child {

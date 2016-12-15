@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class Service {
-  private baseUrl = 'http://localhost:49822/api';
+  private baseUrl = 'http://localhost:49899/api';
   private customerPath = '/customer';  // Path to web API
   private productPath = '/product';
   private categoryPath = '/category';
