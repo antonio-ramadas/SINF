@@ -18,7 +18,7 @@ namespace SFA_REST.Controllers
         /// <returns> List of Task </returns>
         [Route("api/route/{salesRepId}")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Task> Get(string salesRepId)
+        public IEnumerable<Lib_Primavera.Model.Visit> Get(string salesRepId)
         {
             return Lib_Primavera.PriIntegration.ListRoutes(salesRepId);
         }
@@ -29,7 +29,7 @@ namespace SFA_REST.Controllers
         /// <returns> List of Task </returns>
         [Route("api/route/{salesRepId}/date/{year}/{month}/{day}")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Task> Get(string salesRepId, int year, int month, int day)
+        public IEnumerable<Lib_Primavera.Model.Visit> Get(string salesRepId, int year, int month, int day)
         {
             DateTime date = new DateTime(year, month, day);
 
@@ -41,7 +41,7 @@ namespace SFA_REST.Controllers
         /// <returns> List of Task </returns>
         [Route("api/route/{salesRepId}/today")]
         [HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Task> GetTDailyRoute(string salesRepId)
+        public IEnumerable<Lib_Primavera.Model.Visit> GetTDailyRoute(string salesRepId)
         {
             DateTime date = DateTime.Now;
 
