@@ -105,10 +105,6 @@ ul {
   overflow-y: scroll;
 }
 
-#input-quantity {
-  width: 8rem;
-}
-
 .thumbnail {
     width: 100%;
 }
@@ -214,4 +210,9 @@ tr:nth-child(even) {
 
 #warehouse-table tr:hover {
   background-color: #EEEEEE;
+}
+
+#wishlist-form span{
+  font-size: 2rem;
+  font-weight: bold;
 }
