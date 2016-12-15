@@ -3,7 +3,7 @@
     <div class="col-xs-3">
       <div id="category-panel" class="sfa-panel">
         <div class="catalogue-header">
-          <a> All Products </a>
+          <a (click)="selectCategory('')"> All Products </a>
         </div>
         <div *ngFor="let category of categories" class="panel-body">
           <div class="catalogue-header">
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div id="pagination">
-        <pagination class="pagination-lg" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+        <pagination class="pagination-lg" [totalItems]="totalItems" [maxSize]="maxSize" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
       </div>
     </div>
   </div>

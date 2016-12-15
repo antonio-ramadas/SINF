@@ -24,6 +24,7 @@ export class RepSearchComponent {
   public totalItems:number = 30;
   public currentPage:number = 1;
   public itemsPerPage:number = 7;
+  public maxSize:number = 6;
 
   public pageChanged(event:any):void {
     console.log('Page changed to: ' + event.page);

@@ -27,6 +27,7 @@ export class ClientSearchComponent {
   public totalItems:number = 30;
   public currentPage:number = 1;
   public itemsPerPage:number = 7;
+  public maxSize:number = 6;
 
   eventHandler(event) {
    //console.log(event, event.keyCode, event.keyIdentifier);

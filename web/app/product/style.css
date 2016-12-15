@@ -169,3 +169,49 @@ tr:nth-child(even) {
   margin: 1rem;
   padding: 1rem;
 }
+
+#info-table {
+  width: 100%;
+}
+
+#info-table tr {
+  background-color: white;
+}
+
+#info-table td:last-child{
+  text-align: right;
+}
+
+#info-table tr:hover {
+  background-color: #EEEEEE;
+}
+
+#warehouse-table {
+  width: 100%;
+}
+
+#warehouse-table tr {
+  background-color: white;
+}
+
+#warehouse-table tr:first-child {
+  border-bottom: solid 0.2rem #EEEEEE;
+}
+
+#warehouse-table tr:first-child th {
+  font-weight: bold;
+  background-color: white;
+  color: black;
+}
+
+#warehouse-table th:last-child {
+  text-align: right;
+}
+
+#warehouse-table td:last-child{
+  text-align: right;
+}
+
+#warehouse-table tr:hover {
+  background-color: #EEEEEE;
+}

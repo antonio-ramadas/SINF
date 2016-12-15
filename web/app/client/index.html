@@ -77,15 +77,36 @@
               <div id="notes">
                 <strong> Notes: </strong>
                 <textarea id="note-area" [(ngModel)]="customer.notes"></textarea>
-                <button class="btn btn-success" type="button" (click)="updateNotes()">Update notes</button>
+                <div>
+                  <button class="btn btn-success" type="button" (click)="updateNotes()">Update notes</button>
+                </div>
               </div>
             </div>
           </div>
-                <button class="btn btn-success" type="button" (click)="redirect('/cart/' + customer.id)">Go to customer cart</button>
-                <button class="btn btn-success" type="button" (click)="signInCustomer()">Sign in as this customer</button>
+            <button class="btn btn-info" type="button" (click)="redirect('/cart/' + customer.id)">Go to customer cart</button>
+            <button class="btn btn-warning" type="button" (click)="signInCustomer()">Sign in as this customer</button>
         </div>
       </div>
 
+      <div class="sfa-panel">
+        <div class="title"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Visits History</div>
+        <div id="visits">
+          <table id="visits-table">
+            <tr>
+              <th>
+                Date
+              </th>
+              <th>
+                Summary
+              </th>
+            </tr>
+            <tr *ngFor="let visit of visits">
+              <td>{{visit.date}}</td>
+              <td>{{visit.summary}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
 
     <div class="col-xs-12 col-md-3">
@@ -95,7 +116,7 @@
           <div class="title"> <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Order History </div>
           <div id="table-wrapper">
             <div id="table-scroll">
-              <table>
+              <table id="order-table">
                 <tr>
                   <th><span class="text">Date</span></th>
                   <th><span class="text">Total (€)</span></th>
