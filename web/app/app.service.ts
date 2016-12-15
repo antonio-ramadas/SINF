@@ -23,6 +23,7 @@ export class Service {
   private countriesPath = '/country';
   private labelsPath = '/label';
   private routePath = '/route';
+  private totalPath = '/total';
   private topCustomersPath = '/topCustomers';
   private topProductsPath = '/topProducts';
   private incomePerSalesPath = '/income-per-sale';
@@ -199,6 +200,12 @@ export class Service {
                     .catch(this.handleError);
   }
 
+  getIncomeBySalesRepresentativeManager(total: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.totalPath + this.incomePath + '/' + total)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getIncomeBySalesRepresentative(id: string): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.statsPath + this.incomePath + '/' + id)
                     .map(this.extractData)
@@ -211,8 +218,20 @@ export class Service {
                     .catch(this.handleError);
   }
 
+  getIncomeBySalesRepresentativeByYearManager(year: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.totalPath + this.incomePath + '/' + year)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
   getIncomeBySalesRepresentativeByYear(id: string, year: string): Observable<JSON[]> {
     return this.http.get(this.baseUrl + this.statsPath + this.incomePath + '/' + id + '/' + year)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getIncomePerSaleBySalesRepresentativeByYearManager(year: string): Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.statsPath + this.totalPath + this.incomePerSalesPath + '/' + year)
                     .map(this.extractData)
                     .catch(this.handleError);
   }

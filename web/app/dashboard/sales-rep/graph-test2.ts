@@ -20,7 +20,25 @@ export class LineChartDemoComponent {
       case 0:
          this.incomeChart(this.idSalesRep);
          break;
+      case 1:
+         this.incomeChartManager();
+         break;
     }  
+  }
+
+  incomeChartManager():void {
+    this.lineChartLabels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.service.getIncomeBySalesRepresentativeByYearManager('2016')
+      .subscribe(
+      chart => { this.getIncomePerSalesManager(chart); },
+      error => this.errorMessage = <any>error);
+  }
+
+  private getIncomePerSalesManager(incomeChart: any[]):void {
+    this.service.getIncomePerSaleBySalesRepresentativeByYearManager('2016')
+      .subscribe(
+      chart => { this.parseIncome(incomeChart, chart); },
+      error => this.errorMessage = <any>error);
   }
 
   incomeChart(id: string):void {

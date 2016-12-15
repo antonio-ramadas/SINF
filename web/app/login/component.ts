@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Service } from './../app.service';
+import { NavbarComponent } from './../navbar/component';
+import myGlobals = require('./../globals');
 
 @Component({
   selector: 'login',
@@ -19,11 +21,23 @@ export class LoginComponent {
   }
 
   submit() {
-    let json;
-    json = {
-      "username": this.user,
-      "password": this.pass
-    };
+    let path = '/dashboard/';
+
+    if (this.user == "1") {
+      path += 'manager/';
+      myGlobals.manager = true;
+      NavbarComponent.updateType();
+    } else {
+      path += 'sales-rep/';
+      myGlobals.manager = false;
+      NavbarComponent.updateType();
+    }
+      myGlobals.idSales = this.user;
+
+      myGlobals.idCustomer = "";
+      NavbarComponent.updateCustomer();
+
+      this.redirect(path + myGlobals.idSales);
   }
 
   redirect(path: string) {

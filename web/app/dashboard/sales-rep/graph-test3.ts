@@ -22,6 +22,10 @@ export class BarChartDemoComponent {
       case 0:
          this.salesFlowChart(this.idSalesRep);
          break;
+      case 1:
+         this.salesFlowChart(this.idSalesRep);
+         //this.salesFlowChartManager();
+         break;
     }  
   }
 
@@ -38,6 +42,17 @@ export class BarChartDemoComponent {
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
     {data: [28, 48, 40, 19, 86, 270, 0], label: 'Series C'}
   ];
+
+  salesFlowChartManager():void {
+    this.barChartLabels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let salesFlow;
+    this.service.getIncomeBySalesRepresentativeManager("2016")
+      .subscribe(
+      chart => { this.parseSalesFlow(chart); },
+      error => this.errorMessage = <any>error);
+  }
+
+
 
   salesFlowChart(id: string):void {
     this.barChartLabels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
