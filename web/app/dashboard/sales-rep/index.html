@@ -53,14 +53,14 @@
     <div class="col-xs-12 col-md-4 section">
       <div>
         <div id="calendar" class="title color-5">
-          <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <div> My Clients </div>
+          <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <div> My Top Customers </div>
         </div>
         <div id="clients-content" class="content">
           <div id="clients-panel">
             <ul class="sfa-list">
               <li class="clients-list-item" *ngFor="let client of clients">
-                <div class="name"> {{client.name}} </div>
-                <div class="info"> {{client.info}} </div>
+                <div class="name" (click)="redirect('/client/' + client.id)"> {{client.name}} </div>
+                <div class="info"> {{client.email}} </div>
               </li>
             </ul>
           </div>
@@ -93,9 +93,9 @@
         </div>
         <div id="tasks-content" class="content">
           <ul class="sfa-list">
-            <li class="tasks-list-item" *ngFor="let task of tasks" (click)="updateRoute()">
-              <div class="text"> {{task.title}} </div>
-              <div class="time"> {{task.date}} </div>
+            <li class="tasks-list-item" *ngFor="let task of tasks" (click)="updateRoute(task.location)">
+              <div class="text"> {{task.summary}} </div>
+              <div class="time"> {{task.beginDate}} </div>
             </li>
           </ul>
         </div>

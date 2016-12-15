@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Service } from './../../app.service';
+import { Customer } from './../../class/customer';
 
 declare var google: any;
 
@@ -24,41 +25,42 @@ export class SalesRepComponent {
   map: any;
   directionsService: any;
   directionsDisplay: any;
-  tasks: { title: string, date: string }[] = [
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" },
-    { title: "Task Title", date: "11:23 4/7/2017" }
-  ]
-  clients: { name: string, info: string }[] = [
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-    { name: "Client Name", info: "Client information" },
-  ]
+  tasks = [];
+  clients: Customer[] = [];
+  errorMessage: string;
 
-  constructor(private route: ActivatedRoute, private service: Service) {
+  constructor(private router: Router, private route: ActivatedRoute, private service: Service) {
 
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
+      this.getCustomers();
+      this.getRoutes();
     });
     this.directionsService = new google.maps.DirectionsService();
     this.directionsDisplay = new google.maps.DirectionsRenderer();
 		navigator.geolocation.getCurrentPosition(this.updateCoord);
     obj = this;
+  }
+
+  getRoutes() {
+    this.service.getRoutes(this.id)
+      .subscribe(
+        routes => this.tasks = routes,
+        error => this.errorMessage = <any>error);
+  }
+
+  getCustomers() {
+    this.service.getTopCustomersBySalesRep(this.id, '50')
+      .subscribe(
+        customers => {this.clients = []; for (let customer of customers) this.clients.push(new Customer(customer));},
+        error => this.errorMessage = <any>error);
+  }
+
+  redirect(path: string) {
+    this.router.navigate([path]);
   }
 
   updateCoord(geo) {
@@ -74,8 +76,8 @@ export class SalesRepComponent {
 
   updateRoute(coord) {
     var request = {
-      origin: coord,
-      destination: "Valongo",
+      origin: this.srcLat + ',' + this.srcLng,
+      destination: coord,
       travelMode: 'DRIVING'
     };
     this.directionsService.route(request, function(result, status) {

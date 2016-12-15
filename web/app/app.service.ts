@@ -22,6 +22,9 @@ export class Service {
   private wishlistPath = '/cart';
   private countriesPath = '/country';
   private labelsPath = '/label';
+  private routePath = '/route';
+  private topCustomersPath = '/topCustomers';
+  private topProductsPath = '/topProducts';
   private incomePerSalesPath = '/income-per-sale';
   private topCategoriesPath = '/category-top';
 
@@ -34,6 +37,24 @@ export class Service {
                     .map(this.extractData)
                     .catch(this.handleError)
                     .subscribe();
+  }
+
+  getTopProductsBySalesRep(id: string, total: string) {
+    return this.http.get(this.baseUrl + this.salesRepPath + this.topCustomersPath + '/' + id + '/' + total)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getTopCustomersBySalesRep(id: string, total: string) : Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.salesRepPath + this.topCustomersPath + '/' + id + '/' + total)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getRoutes(salesRepId: string) : Observable<JSON[]> {
+    return this.http.get(this.baseUrl + this.routePath + '/' + salesRepId)
+                    .map(this.extractData)
+                    .catch(this.handleError);
   }
 
   getLabels() : Observable<string[]> {
