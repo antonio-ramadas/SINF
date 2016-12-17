@@ -19,6 +19,4 @@ Again, using npm from the command line on the web folder directory, run the comm
 
 If it doesn't automatically opens a tab on your browser, then manually enter http://localhost:3000/ on a browser of your choice.
 
-**Note**: If in debug mode an exception is thrown, then edit your local repository on *zone.js/dist/zone.js* from `fetchPromise = global['fetch']();` to `fetchPromise = global['fetch']('');`
-This is a known issue discussed [here](https://github.com/angular/zone.js/issues/436) and the solution shown is a workaround. Notice that this only happens when debugging. Normal use of the website does not require any changes.
 ### 3. Enterprise Resource Planner
