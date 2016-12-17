@@ -15,6 +15,7 @@ import myGlobals = require('./../globals');
 export class LoginComponent {
   user: string = "";
   pass: string = "";
+  success: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private service: Service) {
 
@@ -22,7 +23,12 @@ export class LoginComponent {
 
   submit() {
     let path = '/dashboard/';
+    
+    //this.service.login(this.user, this.pass)
+    //  .subscribe(response => {this.success = "success" === response;}});
 
+    //Only for debug purposes
+    //Delete and uncomment the previous code to use Primavera for login
     if (this.user == "2") {
       path += 'manager/';
       myGlobals.manager = true;
