@@ -1,4 +1,5 @@
 import { Injectable, Component } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 
 import { Product } from './class/product';
@@ -29,7 +30,11 @@ export class Service {
   private incomePerSalesPath = '/income-per-sale';
   private topCategoriesPath = '/category-top';
 
-  constructor (private http: Http) {}
+  constructor (private router: Router, private http: Http) {}
+
+  redirect(path: string) {
+    this.router.navigate([path]);
+  }
 
   addProductToCustomerCart(json: JSON) {
     let headers = new Headers();
@@ -86,10 +91,9 @@ export class Service {
   createSalesOrder(json: JSON) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    this.http.post(this.baseUrl + this.salesPath, json, {headers: headers})
+    return this.http.post(this.baseUrl + this.salesPath, json, {headers: headers})
                     .map(this.extractData)
-                    .catch(this.handleError)
-                    .subscribe();
+                    .catch(this.handleError);
   }
 
   getSalesRepresentatives(): Observable<JSON[]> {

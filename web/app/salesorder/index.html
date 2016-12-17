@@ -33,9 +33,6 @@
                 Product Name
               </th>
               <th>
-                Source
-              </th>
-              <th>
                 Product ID
               </th>
               <th>
@@ -51,11 +48,6 @@
             <tr *ngFor=" let line of salesOrder.lines">
               <td>
                 {{line.descArtigo}}
-              </td>
-              <td>
-                <div class="label label-primary sfa-label"> client </div>
-                <div class="label label-success sfa-label"> admin </div>
-                <div class="label label-danger sfa-label"> vendor </div>
               </td>
               <td>
                 <a (click)="redirect('/product/' + line.codArtigo)">{{line.codArtigo}}</a>

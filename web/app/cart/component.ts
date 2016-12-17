@@ -42,10 +42,14 @@ export class CartComponent {
   removeLine(productId: string) {
     for (let i = 0; i < this.carts.length; i++) {
       if (productId == this.carts[i].productID) {
-        this.carts.splice(i, 1);
         this.removeWish(i);
+        this.carts.splice(i, 1);
       }
     }
+  }
+
+  redirect(path: string) {
+    this.router.navigate([path]);
   }
 
   removeWish(i: number) {
@@ -76,7 +80,8 @@ export class CartComponent {
       "LinhasDoc": arr
     };
 
-    this.service.createSalesOrder(JSON.parse(JSON.stringify(json)));
+    this.service.createSalesOrder(JSON.parse(JSON.stringify(json)))
+      .subscribe(temp => {this.redirect('/client/' + this.customer.id);}, temp => temp);
   }
 
   updateTotal() {

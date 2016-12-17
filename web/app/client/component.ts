@@ -263,14 +263,14 @@ export class ClientComponent implements OnInit {
         "summary": this.visitsForm.controls['summary'].value,
         "notes": ""
     };
-    this.service.createVisit(<JSON>json);
+    /*this.service.createVisit(<JSON>json);
     var toastOptions: ToastOptions = {
         title: "Create Sales Visit",
         msg: "A new sales visit was added!",
         showClose: true,
         timeout: 3000
       };
-    this.toastyService.success(toastOptions);
+    this.toastyService.success(toastOptions);*/
     this.visitModal.hide();
   }
 

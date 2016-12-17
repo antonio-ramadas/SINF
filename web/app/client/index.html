@@ -83,13 +83,13 @@
               </div>
             </div>
           </div>
-            <button class="btn btn-info" type="button" (click)="redirect('/cart/' + customer.id)">Go to customer cart</button>
-            <button class="btn btn-warning" type="button" (click)="signInCustomer()">Sign in as this customer</button>
+          <button class="btn btn-info" type="button" (click)="redirect('/cart/' + customer.id)">Go to customer cart</button>
+          <button class="btn btn-warning" type="button" (click)="signInCustomer()">Sign in as this customer</button>
         </div>
       </div>
 
       <!-- Visits History -->
-      <div class="sfa-panel">
+      <!--<div class="sfa-panel">
         <div class="title"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Visits History <button class="btn btn-success" type="button" (click)="visitModal.show()">+</button></div>
         <div id="visits">
           <table id="visits-table">
@@ -107,7 +107,7 @@
             </tr>
           </table>
         </div>
-      </div>
+      </div>-->
     </div>
 
     <div class="col-xs-12 col-md-3">
@@ -122,7 +122,7 @@
                   <th><span class="text">Date</span></th>
                   <th><span class="text">Total (€)</span></th>
                 </tr>
-                <tr class="sales-line" (click)="goToSalesOrder(sale.numDoc)" *ngFor="let sale of salesHistory">
+                <tr class="sales-line" (click)="goToSalesOrder(sale.id)" *ngFor="let sale of salesHistory">
                   <td> {{sale.date | date}} </td>
                   <td> {{sale.total}} </td>
                 </tr>
